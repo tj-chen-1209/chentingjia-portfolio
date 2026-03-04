@@ -1,0 +1,83 @@
+/* Custom styling for portfolio documentation */
+
+/* Table styling for better readability */
+.md-typeset table:not([class]) {
+    display: table;
+    border-collapse: collapse;
+    width: 100%;
+    margin: 1.5em 0;
+}
+
+.md-typeset table:not([class]) th {
+    background-color: var(--md-primary-fg-color--light);
+    font-weight: 600;
+    padding: 0.8em 1em;
+}
+
+.md-typeset table:not([class]) td {
+    padding: 0.6em 1em;
+}
+
+/* Code block improvements */
+.md-typeset code {
+    padding: 0.15em 0.4em;
+    font-size: 0.9em;
+}
+
+/* Placeholder highlighting */
+.md-typeset code:has-text("{{") {
+    background-color: var(--md-code-bg-color);
+    color: var(--md-accent-fg-color);
+}
+
+/* Admonition styling */
+.md-typeset .admonition {
+    margin: 1.5em 0;
+}
+
+/* Grid cards spacing */
+.md-typeset .grid.cards {
+    margin: 2em 0;
+}
+
+/* Figure captions */
+.md-typeset figure figcaption,
+.md-typeset img + em {
+    display: block;
+    text-align: center;
+    font-style: italic;
+    color: var(--md-default-fg-color--light);
+    margin-top: 0.5em;
+    font-size: 0.9em;
+}
+
+/* Math formula spacing */
+.md-typeset .arithmatex {
+    margin: 1em 0;
+}
+
+/* Responsive images */
+.md-typeset img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 1.5em auto;
+}
+
+/* Mermaid diagram styling */
+.mermaid {
+    text-align: center;
+    margin: 2em 0;
+}
+
+/* Better list spacing */
+.md-typeset ul li,
+.md-typeset ol li {
+    margin: 0.5em 0;
+}
+
+/* Highlight checkboxes */
+.md-typeset ul li:has(> :first-child:is(input[type="checkbox"])) {
+    list-style-type: none;
+    margin-left: -1.5em;
+}

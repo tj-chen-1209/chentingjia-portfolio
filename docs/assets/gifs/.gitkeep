@@ -1,0 +1,10 @@
+# Placeholder for demo videos/GIFs
+
+Replace these placeholders with actual demo recordings:
+
+- optitrack_demo.gif - Real-time 6DoF pose streaming visualization (RViz)
+
+Recommended workflow:
+1. Screen record RViz showing rigid body pose updates at 120Hz
+2. Convert to GIF using ffmpeg: `ffmpeg -i demo.mp4 -vf "fps=10,scale=800:-1" -loop 0 optitrack_demo.gif`
+3. Optimize file size: `gifsicle -O3 --colors 256 optitrack_demo.gif -o optitrack_demo_optimized.gif`

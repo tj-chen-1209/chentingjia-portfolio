@@ -1,0 +1,83 @@
+PLACEHOLDER: resmerge_residual_field_consistency.png
+
+Create a visualization showing residual correction field properties:
+
+**Layout: Multi-panel figure**
+
+**Panel A: Direction Similarity Heatmap**
+
+- Heatmap showing pairwise cosine similarity between residuals
+- Rows/Cols: Residuals Δ_1, Δ_2, ..., Δ_k
+- Color scale: -1 (opposite) to +1 (aligned)
+- Diagonal: 1.0 (self-similarity)
+- Annotations: Cluster similar tasks (high similarity regions)
+
+**Panel B: Magnitude Distribution**
+
+- Bar chart or box plot showing ||Δ_i|| for each residual
+- X-axis: Residual index i
+- Y-axis: L2 norm
+- Horizontal line: Mean magnitude
+- Check: Similar magnitudes → balanced merging
+
+**Panel C: Action Dimension Sparsity**
+
+- Heatmap showing which action dimensions each residual modifies
+- Rows: Residuals Δ_1, Δ_2, ..., Δ_k
+- Cols: Action dimensions (0 to action_dim)
+- Color: Magnitude of correction per dimension
+- Pattern: Check if residuals specialize (sparse columns)
+
+**Panel D: Merged Residual Stability**
+
+- Line plot showing merged residual norm over different merging weight configurations
+- X-axis: Merging configuration (different w vectors)
+- Y-axis: ||Σ w_i·Δ_i||
+- Show bounded norm → stability
+
+**Python Code Example:**
+
+```python
+import matplotlib.pyplot as plt
+import seaborn as sns
+import numpy as np
+
+fig, axes = plt.subplots(2, 2, figsize=(14, 12), dpi=150)
+
+# Panel A: Similarity heatmap
+residuals = [...]  # List of residual tensors
+k = len(residuals)
+similarity_matrix = np.zeros((k, k))
+for i in range(k):
+    for j in range(k):
+        similarity_matrix[i, j] = cosine_similarity(residuals[i], residuals[j])
+
+sns.heatmap(similarity_matrix, annot=True, fmt='.2f', cmap='RdBu_r',
+            vmin=-1, vmax=1, ax=axes[0, 0], cbar_kws={'label': 'Cosine Similarity'})
+axes[0, 0].set_title('A: Residual Direction Similarity', fontsize=12)
+axes[0, 0].set_xlabel('Residual Index')
+axes[0, 0].set_ylabel('Residual Index')
+
+# Panel B: Magnitude distribution
+norms = [np.linalg.norm(res) for res in residuals]
+axes[0, 1].bar(range(k), norms, color='steelblue', alpha=0.7)
+axes[0, 1].axhline(np.mean(norms), color='red', linestyle='--', label='Mean')
+axes[0, 1].set_title('B: Residual Magnitude Distribution', fontsize=12)
+axes[0, 1].set_xlabel('Residual Index')
+axes[0, 1].set_ylabel('L2 Norm')
+axes[0, 1].legend()
+
+# Panel C: Action dimension sparsity
+# (implementation omitted for brevity)
+
+# Panel D: Merged stability
+# (implementation omitted for brevity)
+
+plt.suptitle('Residual Correction Field Consistency Analysis', fontsize=16, y=0.995)
+plt.tight_layout()
+plt.savefig('resmerge_residual_field_consistency.png', dpi=150, bbox_inches='tight')
+```
+
+**Resolution:** 2100×1800 px (4-panel layout)  
+**Format:** PNG  
+**File size:** <800KB

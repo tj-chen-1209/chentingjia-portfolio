@@ -1,0 +1,85 @@
+PLACEHOLDER: groot_results_table.png
+
+Create a professional bar chart showing GR00T-N1.6 success rates across LIBERO task suites:
+
+**Chart Type:** Horizontal bar chart with value labels
+
+**Data to Plot:**
+
+| Task Suite | Success Rate | Color |
+|------------|--------------|-------|
+| LIBERO-Spatial | 98.5% | Blue |
+| LIBERO-Goal | 97.0% | Green |
+| LIBERO-Object | 100.0% | Orange (highlight as perfect) |
+| LIBERO-10 | 95.5% | Purple |
+| **Overall Average** | **97.8%** | Bold dark gray |
+
+**Chart Elements:**
+
+1. **Y-axis:** Task suite names (left-aligned text)
+2. **X-axis:** Success Rate (%) from 0 to 100, gridlines every 10%
+3. **Bars:** Horizontal bars with rounded corners
+4. **Value Labels:** Display percentage at end of each bar (e.g., "98.5%")
+5. **Target Line:** Vertical dashed line at 95% (goal threshold)
+6. **Annotations:**
+   - "Target: 95%" near dashed line
+   - "Perfect Score" arrow pointing to LIBERO-Object 100% bar
+
+**Comparison (Optional Second Chart):**
+
+Side-by-side comparison with official GR00T benchmark:
+
+- Left bar: My reproduction (colored)
+- Right bar: Official published (gray outline)
+- Show ±1.6% maximum difference
+
+**Python Code Example:**
+
+```python
+import matplotlib.pyplot as plt
+import seaborn as sns
+import numpy as np
+
+# Data
+suites = ['LIBERO-Spatial', 'LIBERO-Goal', 'LIBERO-Object', 'LIBERO-10', 'Overall']
+success_rates = [98.5, 97.0, 100.0, 95.5, 97.8]
+colors = ['#3498db', '#2ecc71', '#e74c3c', '#9b59b6', '#34495e']
+
+# Create figure
+fig, ax = plt.subplots(figsize=(10, 6), dpi=150)
+
+# Horizontal bars
+bars = ax.barh(suites, success_rates, color=colors, height=0.6, alpha=0.8)
+
+# Target line at 95%
+ax.axvline(x=95, color='red', linestyle='--', linewidth=2, alpha=0.6, label='Target: 95%')
+
+# Value labels
+for i, (suite, rate) in enumerate(zip(suites, success_rates)):
+    ax.text(rate + 0.5, i, f'{rate:.1f}%', va='center', fontsize=11, fontweight='bold')
+
+# Styling
+ax.set_xlabel('Success Rate (%)', fontsize=12)
+ax.set_title('GR00T-N1.6 Fine-tuning Results on LIBERO Benchmark', fontsize=14, pad=20)
+ax.set_xlim(90, 102)
+ax.grid(axis='x', alpha=0.3, linestyle=':')
+ax.legend(loc='lower right', fontsize=10)
+
+# Highlight perfect score
+ax.text(100, 2, '← Perfect', ha='right', va='center', fontsize=9, 
+        color='#e74c3c', fontweight='bold', style='italic')
+
+plt.tight_layout()
+plt.savefig('groot_results_table.png', dpi=150, bbox_inches='tight', facecolor='white')
+```
+
+**Style:**
+- Clean, publication-quality
+- Colorblind-friendly palette
+- Clear value labels (no need to read axis)
+- Professional font (Roboto or Helvetica)
+
+**Resolution:** 1500×900 px (10×6 inches at 150 DPI)  
+**Format:** PNG with white background  
+**File size:** <300KB
+

@@ -1,0 +1,59 @@
+PLACEHOLDER: resmerge_teaser.png
+
+Create a conceptual comparison figure (digitized version of teaser_csq.pdf):
+
+**Layout: Side-by-side comparison with curves**
+
+**Left Panel: "Traditional Continual Learning"**
+
+Graph showing parameter/data scaling:
+- X-axis: Number of Tasks (k)
+- Y-axis: Parameters / Data Required
+- Two curves:
+  1. "Multi-head": Linear growth O(k·θ) - steep slope
+  2. "Full Fine-tuning": Linear growth O(k·θ) - steep slope
+- Shaded region showing resource requirement growth
+- Label: "Linear scaling → expensive"
+
+**Right Panel: "ResMerge"**
+
+Graph showing parameter/data scaling:
+- X-axis: Number of Tasks (k)
+- Y-axis: Parameters / Data Required
+- Two curves:
+  1. "Parameters": Sublinear growth O(θ + k·r), r << θ - gentle slope
+  2. "Data": Reduced via knowledge transfer - gentle slope
+- Shaded region much smaller than left panel
+- Label: "Sublinear scaling → efficient"
+
+**Center: "vs." with arrows showing comparison**
+
+**Bottom: Key Metrics Table (Conceptual)**
+
+| Method | Parameters at k=10 | Data per Task | Consistency |
+|--------|-------------------|---------------|-------------|
+| Multi-head | 10×θ | D | ❌ Catastrophic forgetting |
+| Full Fine-tune | 10×θ | D | ❌ High cost |
+| ResMerge | θ + 10r | D/{{DATA_REDUCTION}} | ✅ Guaranteed |
+
+**Visual Elements:**
+- Use contrasting colors: Red/gray for traditional (inefficient), Green/blue for ResMerge (efficient)
+- Arrows pointing to shaded area difference with "{{PARAM_REDUCTION}}× fewer parameters"
+- Icons: Stacked boxes for parameter growth, data symbols for data requirement
+
+**Alternative Simpler Version (Bar Chart):**
+
+Show parameter count at k=10 tasks:
+- Multi-head: 10 stacked bars (each = θ)
+- ResMerge: 1 large bar (θ) + 10 small bars (r each)
+- Visual shows dramatic size difference
+
+**Style:**
+- Clean, publication-quality
+- Emphasize visual contrast (big vs. small)
+- Use icons and colors for quick understanding
+
+**Tools:** Matplotlib/Seaborn (for curves), PowerPoint/Figma (for layout)  
+**Resolution:** 1600×800 px  
+**Format:** PNG  
+**File size:** <500KB

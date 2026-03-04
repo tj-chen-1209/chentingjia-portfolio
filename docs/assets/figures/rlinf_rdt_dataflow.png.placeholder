@@ -1,0 +1,90 @@
+PLACEHOLDER: rlinf_rdt_dataflow.png
+
+Create a detailed sequence diagram showing data flow with joint_states extension:
+
+**Sequence Diagram Format (vertical timeline)**
+
+**Participants (left to right):**
+1. LIBERO Env
+2. Worker Process
+3. Experience Buffer
+4. Learner Process
+5. RDT Model
+
+**Sequence Flow:**
+
+```
+1. Env.reset()
+   └─> Returns obs_dict with keys:
+       - images: (2, 128, 128, 3)
+       - robot0_eef_pos: (7,)
+       - robot0_joint_pos: (7,)  ← EXTRACTED
+       - robot0_gripper_qpos: (2,)  ← EXTRACTED
+       - language: str
+
+2. Worker._extract_image_and_state()
+   └─> Constructs observation:
+       - images: (2, 128, 128, 3)
+       - eef_state: (7,)
+       - joint_states: (9,)  ← NEW: [joint_pos(7) + gripper(2)]
+       - language: str
+
+3. Worker → Buffer
+   └─> Experience(
+       images=...,
+       eef_state=...,
+       joint_states=...,  ← NEW FIELD
+       language=...,
+       actions=...,
+       rewards=...,
+       dones=...
+   )
+
+4. Buffer → Learner
+   └─> Batch experiences:
+       - images: (batch, 2, 128, 128, 3)
+       - joint_states: (batch, 9)  ← NEW DIMENSION
+       - ...
+
+5. Learner → RDT
+   └─> RDT.predict_action_batch():
+       - Apply 180° rotation to images
+       - Process joint_states (required for RDT)
+       - Run diffusion inference
+       - Return actions: (batch, action_dim)
+
+6. RDT → Worker → Env
+   └─> Env.step(actions)
+       └─> Returns next obs_dict (loop to step 2)
+```
+
+**Highlighting:**
+- Green boxes around joint_states at each step showing NEW data path
+- Red dashed box around step 5→6 with note: "Training update BLOCKED (no log_prob)"
+- Blue arrows for successful data flow
+- Dimensions labeled on all data structures
+
+**Alternative Format: Flowchart**
+
+If sequence diagram too complex, use flowchart with boxes for each transformation:
+
+```
+[LIBERO Obs Dict]
+    ↓ Extract joint_states (7+2=9)
+[Worker Observation]
+    ↓ Package into Experience.joint_states
+[Experience Struct]
+    ↓ Batch (N experiences)
+[Batched Data (B, 9)]
+    ↓ Feed to RDT
+[RDT Inference]
+    ↓ Generate actions
+[Actions (B, action_dim)]
+    ↓ Execute
+[LIBERO Env Step]
+```
+
+**Tools:** draw.io (sequence diagram), or PlantUML  
+**Resolution:** 1400×1200 px  
+**Format:** PNG  
+**File size:** <500KB

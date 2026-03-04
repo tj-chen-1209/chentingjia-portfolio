@@ -1,0 +1,56 @@
+PLACEHOLDER: libero_curve.png
+
+Create learning curve plots with Matplotlib/Seaborn:
+
+**Plot Type:** Line plot with confidence intervals
+
+**X-axis:** Training Steps (0 to {{TOTAL_STEPS}})
+**Y-axis:** Success Rate (%) on LIBERO tasks (0-100%)
+
+**Lines to plot:**
+1. "Full Fine-tuning" (solid blue line, filled confidence interval)
+2. "LoRA Fine-tuning" (solid orange line, filled confidence interval)
+3. "Pretrained (0-shot)" (dashed gray horizontal line at {{SUCCESS_AVG_PRETRAIN}}%)
+
+**Confidence Intervals:** ±1 standard deviation across {{NUM_SEEDS}} seeds
+
+**Style Guidelines:**
+- Use seaborn "whitegrid" style
+- Colorblind-friendly palette
+- Legend in upper left
+- Grid lines for readability
+- Font size: 12pt for labels, 10pt for ticks
+
+**Example Python code:**
+
+```python
+import matplotlib.pyplot as plt
+import seaborn as sns
+import numpy as np
+
+sns.set_style("whitegrid")
+fig, ax = plt.subplots(figsize=(10, 6), dpi=150)
+
+# Plot learning curves with confidence intervals
+steps = np.array([...])  # Training steps
+success_full = np.array([...])  # Mean success rate
+success_full_std = np.array([...])  # Std across seeds
+
+ax.plot(steps, success_full, label='Full Fine-tuning', color='#1f77b4', linewidth=2)
+ax.fill_between(steps, success_full - success_full_std, 
+                 success_full + success_full_std, alpha=0.3, color='#1f77b4')
+
+# Similar for LoRA and pretrained baseline
+
+ax.set_xlabel('Training Steps', fontsize=12)
+ax.set_ylabel('Success Rate (%)', fontsize=12)
+ax.set_title('LIBERO Fine-tuning Learning Curves', fontsize=14)
+ax.legend(fontsize=10)
+ax.grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.savefig('libero_curve.png', dpi=150, bbox_inches='tight')
+```
+
+Resolution: 1500×900 px (10×6 inches at 150 DPI)
+Format: PNG

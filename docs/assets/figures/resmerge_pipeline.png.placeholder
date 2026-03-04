@@ -1,0 +1,50 @@
+PLACEHOLDER: resmerge_pipeline.png
+
+Create a method pipeline diagram for ResMerge (digitized version of method.pdf):
+
+**Horizontal flow from left to right:**
+
+**Stage 1: Base Policy Pretraining (Left)**
+- Box: "Source Tasks" (multiple task icons)
+- Arrow down to: "Base Policy π_base" (large box)
+- Label: "Pretrained on diverse tasks"
+
+**Stage 2: Residual Learning (Center-Left)**
+- Box: "New Task 1" → Residual Δ_1 (small box, LoRA icon)
+- Box: "New Task 2" → Residual Δ_2 (small box, LoRA icon)
+- Box: "New Task k" → Residual Δ_k (small box, LoRA icon)
+- All residuals feed into: "Residual Policy Pool" (container box)
+- Label: "Lightweight LoRA adapters"
+
+**Stage 3: Dynamic Merging (Center-Right)**
+- Input 1: "Task Context" (state, language) → "Merge Module"
+- Input 2: "Residual Pool" → "Merge Module"
+- Merge Module outputs: "Merging Weights w_1, w_2, ..., w_k"
+- Formula box: π_merged = π_base + Σ w_i·Δ_i
+
+**Stage 4: Execution (Right)**
+- Box: "Merged Policy π_merged"
+- Arrow to: "Robot Environment"
+- Arrow back: "Observations"
+- Feedback loop arrow
+
+**Bottom: Consistency Validation (Dashed Box)**
+- "Validate on all pool tasks"
+- "Check: performance degradation < ε"
+- Green checkmark if passed
+
+**Annotations:**
+- Color coding: Blue (base), Green (residuals), Orange (merging), Purple (execution)
+- Size indication: Large box for base policy, small boxes for residuals (visual parameter efficiency)
+- Mathematical notation in formula box
+
+**Style:**
+- Clean, professional flow diagram
+- Consistent box styling with rounded corners
+- Clear arrows with labels
+- Color legend at bottom
+
+**Tools:** draw.io, Figma, or Adobe Illustrator  
+**Resolution:** 2000×800 px (wide horizontal layout)  
+**Format:** PNG  
+**File size:** <600KB

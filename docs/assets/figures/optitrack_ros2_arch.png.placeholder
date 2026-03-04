@@ -1,0 +1,15 @@
+PLACEHOLDER: optitrack_ros2_arch.png
+
+Create a system architecture diagram showing:
+- Motive software box (left)
+- UDP connection (1511) labeled "NatNet Protocol"
+- NatNet Client box (middle)
+- Async callback arrow to DataHandler
+- MotiveStreamer ROS2 Node box
+- ROS2 publishers to PoseStamped and MotiveRigidBodyList topics
+- Downstream control box (MoveIt2, Planning) subscribing to topics
+- DataDescriptions metadata flow for ID↔Name mapping
+
+Style: Clean boxes and arrows, professional color scheme (blues/grays)
+Tools: draw.io, Lucidchart, or Excalidraw
+Resolution: 1400px width, PNG format

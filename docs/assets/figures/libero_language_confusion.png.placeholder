@@ -1,0 +1,58 @@
+PLACEHOLDER: libero_language_confusion.png
+
+Create a visualization explaining Task 8 language ambiguity failure:
+
+**Layout:** 2-column comparison showing confusion source
+
+**Left Column: "Task Instruction"**
+```
+Task 8: "Place the block next to the plate"
+
+Objects in scene:
+- Red block (source object)
+- Blue plate (target reference)
+- Green plate (distractor)
+
+Ambiguity: Which plate?
+```
+
+**Right Column: "Policy Confusion"**
+
+Show robot attempting both interpretations:
+- Attempt 1: Place block next to blue plate → failure
+- Attempt 2: Place block next to green plate → failure
+- Root cause: Both "plate" objects mentioned; insufficient context
+
+**Bottom Section: "Language Grounding Challenge"**
+
+Side-by-side examples:
+
+| Unambiguous (✅) | Ambiguous (❌) |
+|------------------|----------------|
+| "Place the red block next to the blue plate" | "Place the block next to the plate" |
+| Success: 100% | Success: 0% (Task 8) |
+
+**Visual Elements:**
+- Top-down scene diagram showing objects with labels
+- Multiple robot arm configurations (dotted lines) showing confusion
+- Red X marks on failed attempts
+- Green checkmark on successful unambiguous instruction
+
+**Alternative Simpler Version:**
+
+Just show a table with text:
+
+```markdown
+| Task | Instruction | Objects in Scene | Success Rate | Issue |
+|------|-------------|------------------|--------------|-------|
+| 7 | "Place red block on blue plate" | red_block, blue_plate | 100% | Clear ✅ |
+| 8 | "Place block next to plate" | block, plate_1, plate_2 | 0% | Ambiguous ❌ |
+| 9 | "Place the small cube between the red bowl and the blue ramekin" | cube, red_bowl, blue_ramekin | 80% | Mostly clear |
+```
+
+**Tools:** draw.io for scene diagram, or simple table in Markdown  
+**Resolution:** 1400×800 px if diagram, N/A if table  
+**Format:** PNG if diagram  
+**File size:** <400KB
+
+**Note:** If creating diagram is too complex, a well-formatted table with the example may be sufficient to convey the point.

@@ -1,0 +1,40 @@
+# MkDocs
+site/
+.cache/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# OS
+Thumbs.db
+Desktop.ini
+
+# Logs
+*.log
+
+# Environment variables (DO NOT COMMIT)
+.env
+.env.local
+credentials.json
+secrets.yaml
+
+# Temporary files
+*.tmp
+*.bak
+.tmp/

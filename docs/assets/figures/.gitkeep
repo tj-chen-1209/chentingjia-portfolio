@@ -1,0 +1,14 @@
+# Placeholder for figure assets
+
+Replace these placeholders with actual system diagrams and results:
+
+- optitrack_ros2_arch.png - System architecture diagram (NatNet SDK → ROS2 node)
+- id_mapping_flow.png - Asset ID↔Name mapping workflow diagram
+- ik_discontinuity.png - Illustration of IK solution discontinuity issue
+- libero_pipeline.png - LIBERO training/evaluation pipeline diagram
+- libero_curve.png - Learning curves (success rate vs. training steps)
+
+Recommended tools:
+- draw.io, Excalidraw, or Mermaid for system diagrams
+- Matplotlib/Seaborn for learning curves and metrics plots
+- Inkscape or Figma for publication-quality figures

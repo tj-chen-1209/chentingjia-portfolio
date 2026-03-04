@@ -1,0 +1,23 @@
+PLACEHOLDER: ik_discontinuity.png
+
+Create a diagram illustrating the IK discontinuity problem:
+
+**Left panel:** "Small Pose Change"
+- Show end-effector moving 1cm (small arrow)
+- Target pose: Position A → Position B (nearby)
+
+**Right panel:** "Large Joint Jump"
+- Show robot arm configuration change
+- Joint angles: θ1, θ2, ..., θ7
+- Highlight one joint changing >30° (use red color)
+- Label: "Different IK solution branch"
+
+**Bottom:** "Root Cause: No continuity constraint in IK solver"
+
+**Annotations:**
+- Show multiple IK solutions (dotted arm configurations) for same end-effector pose
+- Highlight that solver picks different solution without considering previous state
+
+Style: Side-by-side comparison, robot arm schematic (Franka Panda 7-DOF)
+Tools: draw.io, Inkscape, or Matplotlib for robot visualization
+Resolution: 1400px width, PNG format

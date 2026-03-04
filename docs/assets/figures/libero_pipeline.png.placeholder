@@ -1,0 +1,26 @@
+PLACEHOLDER: libero_pipeline.png
+
+Create a pipeline architecture diagram showing:
+
+**Top Flow (Main Pipeline):**
+1. Pretrained Checkpoint (box) → Fine-tuning Module (box)
+2. Fine-tuning Module → LIBERO Environment (box)
+3. LIBERO Environment → Evaluation Loop (box)
+4. Evaluation Loop → Metrics & Logging (box)
+5. Metrics & Logging → Result Aggregation (box)
+
+**Branch 1 (Fine-tuning Options):**
+- From Fine-tuning Module → "Full-param Fine-tuning" (branch)
+- From Fine-tuning Module → "LoRA Fine-tuning" (branch)
+
+**Branch 2 (RL Integration):**
+- From LIBERO Environment → RLinf Integration (box)
+- RLinf Integration → Post-RL Training (box)
+
+**Labels:**
+- Data flow arrows with labels: "weights", "observations/actions", "success rates"
+- Color coding: Blue for data flow, Orange for training, Green for evaluation
+
+Style: Clean flowchart with rounded boxes, professional color scheme
+Tools: draw.io, Lucidchart, or use the Mermaid diagram already in the Markdown
+Resolution: 1600px width, PNG format (if replacing Mermaid)
