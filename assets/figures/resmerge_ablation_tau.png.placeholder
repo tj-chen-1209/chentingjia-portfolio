@@ -1,0 +1,73 @@
+PLACEHOLDER: resmerge_ablation_tau.png
+
+Create an ablation study plot showing performance vs. merging threshold τ:
+
+**Chart Type:** Line plot with dual Y-axes
+
+**X-axis:** Merging Threshold τ (0.0 to 1.0)
+
+**Left Y-axis:** Success Rate (%)
+- Line 1: "Average Success Rate" (blue, solid)
+- Line 2: "Worst-Case Task Success" (red, dashed)
+- Shaded confidence intervals if multiple seeds
+
+**Right Y-axis:** Number of Active Residuals
+- Line 3: "Active Residuals (w_i > τ)" (green, dotted)
+
+**Expected Patterns:**
+- Success rate: Increases then plateaus or decreases (inverted U-shape or monotonic)
+- Active residuals: Decreases as τ increases (fewer residuals pass threshold)
+- Optimal τ* marked with vertical dashed line
+
+**Annotations:**
+- "Optimal τ*={{TAU_OPTIMAL}}" with vertical line and arrow
+- "Too low: interference" annotation on left
+- "Too high: limited capacity" annotation on right
+- "Sweet spot" region highlighted
+
+**Python Code Example:**
+
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+
+tau_values = np.array([0.0, 0.1, 0.3, 0.5, 0.7, 1.0])
+success_rate = np.array([{{TAU_0.0}}, {{TAU_0.1}}, {{TAU_0.3}}, {{TAU_0.5}}, {{TAU_0.7}}, {{TAU_1.0}}])
+worst_case = success_rate * 0.9  # Placeholder: ~10% lower than average
+active_residuals = np.array([16, 12, 8, 5, 3, 1])  # Decreases with τ
+
+fig, ax1 = plt.subplots(figsize=(10, 6), dpi=150)
+
+# Success rate (left Y-axis)
+ax1.plot(tau_values, success_rate, 'b-', linewidth=2, label='Average Success', marker='o')
+ax1.plot(tau_values, worst_case, 'r--', linewidth=2, label='Worst-Case Task', marker='s')
+ax1.set_xlabel('Merging Threshold τ', fontsize=12)
+ax1.set_ylabel('Success Rate (%)', fontsize=12, color='b')
+ax1.tick_params(axis='y', labelcolor='b')
+ax1.set_ylim(0, 100)
+ax1.grid(alpha=0.3)
+
+# Active residuals (right Y-axis)
+ax2 = ax1.twinx()
+ax2.plot(tau_values, active_residuals, 'g:', linewidth=2, label='Active Residuals', marker='^')
+ax2.set_ylabel('Number of Active Residuals', fontsize=12, color='g')
+ax2.tick_params(axis='y', labelcolor='g')
+
+# Mark optimal τ
+optimal_idx = np.argmax(success_rate)
+optimal_tau = tau_values[optimal_idx]
+ax1.axvline(optimal_tau, color='gray', linestyle='--', alpha=0.7)
+ax1.text(optimal_tau, 95, f'Optimal τ*={optimal_tau:.1f}', ha='center', fontsize=10)
+
+# Legends
+ax1.legend(loc='upper left', fontsize=10)
+ax2.legend(loc='upper right', fontsize=10)
+
+plt.title('Ablation: Merging Threshold τ Impact on Performance', fontsize=14, pad=20)
+plt.tight_layout()
+plt.savefig('resmerge_ablation_tau.png', dpi=150, bbox_inches='tight')
+```
+
+**Resolution:** 1500×900 px  
+**Format:** PNG  
+**File size:** <400KB

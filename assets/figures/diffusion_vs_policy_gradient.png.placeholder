@@ -1,0 +1,91 @@
+PLACEHOLDER: diffusion_vs_policy_gradient.png
+
+Create a conceptual comparison diagram showing why diffusion policies don't fit standard RL:
+
+**Layout: 2-column comparison with central "Mismatch" indicator**
+
+**Left Column: "Standard Policy Gradient RL"**
+
+```
+Stochastic Policy: π_θ(a|s)
+    ↓
+Sample action: a ~ π_θ(·|s)
+    ↓
+Execute in environment
+    ↓
+Compute log π_θ(a|s) ← REQUIRED for gradient
+    ↓
+Policy Gradient:
+∇_θ J = 𝔼[∇_θ log π_θ(a|s) · A]
+    ↓
+Update policy parameters θ
+```
+
+Annotations:
+- Green checkmark on "log π_θ(a|s)" with note "Available for Gaussian/Categorical"
+- Equation box showing policy gradient theorem
+
+**Right Column: "Diffusion Policy (RDT)"**
+
+```
+Diffusion Model: x_T ~ N(0,I)
+    ↓
+Iterative Denoising (H steps):
+x_{t-1} = Denoise(x_t, condition=s)
+    ↓
+Final action: a = x_0 (deterministic)
+    ↓
+Execute in environment
+    ↓
+Compute log p(a|s) ← NOT AVAILABLE
+    ↓
+Policy Gradient:
+∇_θ J = ??? (undefined)
+    ↓
+Cannot update with standard RL ✗
+```
+
+Annotations:
+- Red X on "log p(a|s)" with note "Requires ELBO or score matching"
+- Question marks on gradient computation
+
+**Center: "Mismatch"**
+
+Large red box between columns:
+```
+⚠ INTERFACE MISMATCH ⚠
+
+RL Training Needs:
+✓ Sample a ~ π(·|s)
+✓ Compute log π(a|s)
+✓ Backprop through policy
+
+Diffusion Provides:
+✓ Generate a = f(s)
+✗ No explicit log p(a|s)
+⚠ Deterministic denoising
+```
+
+**Bottom: "Possible Solutions"**
+
+Small boxes with arrows:
+1. "Add stochastic head" → surrogate distribution
+2. "Distill to Gaussian" → separate RL policy
+3. "Off-policy RL" → Q-learning (no log_prob needed)
+4. "Score-based gradients" → research approach
+
+**Mathematical Annotations:**
+
+Include key equations:
+- Policy gradient: \( \nabla_\theta J = \mathbb{E}[\nabla_\theta \log \pi_\theta(a|s) \cdot A] \)
+- Diffusion denoising: \( x_{t-1} = \mu_\theta(x_t, t) + \sigma_t z \)
+
+**Style:**
+- Professional diagram with clear visual hierarchy
+- Color coding: Green (works), Red (blocked), Blue (solution paths)
+- Mathematical typography (use LaTeX-style equations)
+
+**Tools:** draw.io, PowerPoint, or Figma  
+**Resolution:** 1600×1000 px  
+**Format:** PNG  
+**File size:** <500KB

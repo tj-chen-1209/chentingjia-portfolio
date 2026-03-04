@@ -1,0 +1,1856 @@
+<!DOCTYPE html><html lang="en" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Technical documentation for research projects in Embodied AI, robot learning, and vision-language-action models">
+      
+      
+        <meta name="author" content="Tingjia Chen">
+      
+      
+        <link rel="canonical" href="https://chentingjia.github.io/chentingjia-portfolio/projects/teleop-mocap/">
+      
+      
+        <link rel="prev" href="../..">
+      
+      
+        <link rel="next" href="../groot-libero-reproduction/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.4">
+    
+    
+      
+        <title>OptiTrack ROS2 Streaming Node - Tingjia Chen - Embodied AI Portfolio</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#optitrack-ros2-streaming-node-for-high-precision-pose-feedback" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Tingjia Chen - Embodied AI Portfolio" class="md-header__button md-logo" aria-label="Tingjia Chen - Embodied AI Portfolio" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Tingjia Chen - Embodied AI Portfolio
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              OptiTrack ROS2 Streaming Node
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo" aria-label="Switch to dark mode" type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo" aria-label="Switch to light mode" type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/chentingjia/chentingjia-portfolio" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    chentingjia/chentingjia-portfolio
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
+          
+  
+  
+  Projects
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Tingjia Chen - Embodied AI Portfolio" class="md-nav__button md-logo" aria-label="Tingjia Chen - Embodied AI Portfolio" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+
+    </a>
+    Tingjia Chen - Embodied AI Portfolio
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/chentingjia/chentingjia-portfolio" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    chentingjia/chentingjia-portfolio
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Projects
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Projects
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OptiTrack ROS2 Streaming Node
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OptiTrack ROS2 Streaming Node
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#context-goal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Context &amp; Goal
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#system-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        System Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#system-interfaces-timing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        System Interfaces &amp; Timing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="System Interfaces &amp; Timing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#inputs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Inputs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#network-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Network Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#outputs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Outputs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#latency-budget" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Latency Budget
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-challenges" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Challenges
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Key Challenges">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-asynchronous-callback-synchronous-publish-bridging" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Asynchronous Callback → Synchronous Publish Bridging
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-dynamic-rigidbody-idname-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Dynamic RigidBody ID↔Name Mapping
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#my-contributions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        My Contributions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Results">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#performance-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Performance Metrics
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stability-reliability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stability &amp; Reliability
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#failure-modes-fixes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Failure Modes &amp; Fixes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Failure Modes &amp; Fixes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#observed-issues-mitigations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Observed Issues &amp; Mitigations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#downstream-control-issue-moveit2-ik-discontinuity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Downstream Control Issue: MoveIt2 IK Discontinuity
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reproducibility-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reproducibility Notes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Reproducibility Notes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hardware-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hardware Requirements
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#software-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Software Dependencies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration Steps
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-implementation-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Implementation Files
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#placeholder-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Placeholder Checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../groot-libero-reproduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GR00T-N1.6 SFT on LIBERO
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rdt-libero/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RDT SFT &amp; Evaluation on LIBERO
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rlinf-rdt-integration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RLinf × RDT Integration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../icml-resmerge/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ResMerge (ICML Continual Learning)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#context-goal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Context &amp; Goal
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#system-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        System Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#system-interfaces-timing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        System Interfaces &amp; Timing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="System Interfaces &amp; Timing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#inputs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Inputs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#network-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Network Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#outputs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Outputs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#latency-budget" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Latency Budget
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-challenges" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Challenges
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Key Challenges">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-asynchronous-callback-synchronous-publish-bridging" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Asynchronous Callback → Synchronous Publish Bridging
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-dynamic-rigidbody-idname-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Dynamic RigidBody ID↔Name Mapping
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#my-contributions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        My Contributions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Results">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#performance-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Performance Metrics
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stability-reliability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stability &amp; Reliability
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#failure-modes-fixes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Failure Modes &amp; Fixes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Failure Modes &amp; Fixes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#observed-issues-mitigations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Observed Issues &amp; Mitigations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#downstream-control-issue-moveit2-ik-discontinuity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Downstream Control Issue: MoveIt2 IK Discontinuity
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reproducibility-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reproducibility Notes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Reproducibility Notes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hardware-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hardware Requirements
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#software-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Software Dependencies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration Steps
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-implementation-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Implementation Files
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#placeholder-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Placeholder Checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="optitrack-ros2-streaming-node-for-high-precision-pose-feedback">OptiTrack ROS2 Streaming Node for High-Precision Pose Feedback</h1>
+<p><strong>中文简介：</strong> 使用NatNet SDK为OptiTrack Motive构建ROS2数据流节点，实时获取并发布刚体6DoF姿态用于高精度位姿反馈控制。解决异步回调→ROS2同步发布桥接、RigidBody ID↔Name动态映射、多线程数据竞争等关键问题。实现120Hz稳定全帧率发布，并发现下游MoveIt2 IK不连续性问题。</p>
+<hr>
+<p><strong>Organization:</strong> Standard - Embodiment Team<br>
+<strong>Duration:</strong> 2024<br>
+<strong>Role:</strong> Research Intern<br>
+<strong>Stack:</strong> C++17, ROS2 Humble, NatNet SDK 4.2/4.3, CMake</p>
+<h2 id="context-goal">Context &amp; Goal</h2>
+<p>High-precision motion capture systems like OptiTrack Motive are essential for robot teleoperation and closed-loop pose feedback control. However, integrating Motive with ROS2 requires bridging proprietary NatNet SDK protocols into standard ROS2 message formats while maintaining real-time performance.</p>
+<p><strong>Project Goal:</strong><br>
+Build a ROS2 data streaming node for OptiTrack (Motive) that:</p>
+<ol>
+<li>Acquires rigid body 6DoF poses in real-time using NatNet C++ SDK</li>
+<li>Converts NatNet data structures into ROS2 standard messages (<code>geometry_msgs/PoseStamped</code>)</li>
+<li>Publishes at full motion capture frame rate ({{MOCAP_HZ}}Hz default 120Hz) with minimal latency</li>
+<li>Provides robust asset ID↔Name mapping for multi-asset environments</li>
+<li>Serves as reliable upstream data source for downstream control systems (MoveIt2, trajectory planning)</li>
+</ol>
+<h2 id="system-overview">System Overview</h2>
+<p>The <code>motive_streamer_node</code> acts as a bridge between Motive's NatNet streaming protocol and ROS2 ecosystem:</p>
+<pre class="mermaid"><code>graph LR
+    A[Motive Software] --&gt;|UDP 1511&lt;br/&gt;NatNet Protocol| B[NatNet Client]
+    B --&gt;|Async Callback&lt;br/&gt;sFrameOfMocapData| C[DataHandler]
+    C --&gt;|Parse &amp; Extract&lt;br/&gt;xyz + qxyzw| D[MotiveStreamer Node]
+    D --&gt;|ROS2 Publisher| E1[PoseStamped Topic]
+    D --&gt;|ROS2 Publisher| E2[MotiveRigidBodyList Topic]
+    E1 --&gt; F[Downstream Control&lt;br/&gt;MoveIt2, Planning]
+    E2 --&gt; F
+
+    B2[DataDescriptions] --&gt;|Asset Metadata| C2[UpdateDataToDescriptionMaps]
+    C2 --&gt;|ID↔Name Lookup| D</code></pre>
+<p><strong>Data Flow:</strong></p>
+<ol>
+<li>Motive streams rigid body data via UDP (port 1511) using NatNet protocol</li>
+<li>NatNet Client (C++ SDK) receives frames asynchronously via callback</li>
+<li><code>DataHandler</code> static callback extracts per-rigid-body pose (position xyz, orientation quaternion qxyzw)</li>
+<li><code>MotiveStreamer</code> ROS2 node processes data and publishes to topics</li>
+<li>Downstream control nodes (e.g., MoveIt2) subscribe to pose data for trajectory generation</li>
+</ol>
+<p><strong>Supported Asset Types:</strong><br>
+RigidBody, Skeleton, ForcePlate, Device, Asset, MarkerSet, Camera (7 types total)</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/figures/optitrack_ros2_arch.png" data-desc-position="bottom"><img alt="OptiTrack ROS2 Architecture" src="../assets/figures/optitrack_ros2_arch.png"></a><br>
+<em>Figure 1: System architecture showing NatNet SDK integration with ROS2 node</em></p>
+<h2 id="system-interfaces-timing">System Interfaces &amp; Timing</h2>
+<h3 id="inputs">Inputs</h3>
+<table>
+<thead>
+<tr>
+<th>Interface</th>
+<th>Protocol</th>
+<th>Rate</th>
+<th>Format</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NatNet Frames</td>
+<td>UDP 1511 (Multicast/Unicast)</td>
+<td>{{MOCAP_HZ}}Hz (default 120Hz)</td>
+<td><code>sFrameOfMocapData</code> struct</td>
+</tr>
+<tr>
+<td>DataDescriptions</td>
+<td>NatNet API call</td>
+<td>On-demand</td>
+<td>Asset metadata (names, IDs, types)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network-configuration">Network Configuration</h3>
+<ul>
+<li><strong>Motive Server Address:</strong> Configurable via ROS2 parameter <code>motive_address</code> (default: <code>192.168.1.2</code>)</li>
+<li><strong>Local Client Address:</strong> Configurable via ROS2 parameter <code>local_address</code> (default: auto-detect)</li>
+<li><strong>Protocol Version:</strong> NatNet 4.2 / 4.3 (auto-negotiation)</li>
+<li><strong>Connection Mode:</strong> Multicast (default) or Unicast</li>
+</ul>
+<h3 id="outputs">Outputs</h3>
+<table>
+<thead>
+<tr>
+<th>Topic</th>
+<th>Message Type</th>
+<th>Rate</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/rigid_body_pose</code></td>
+<td><code>geometry_msgs/PoseStamped</code></td>
+<td>{{MOCAP_HZ}}Hz</td>
+<td>Single rigid body 6DoF pose</td>
+</tr>
+<tr>
+<td><code>/motive/rigid_bodies</code></td>
+<td><code>MotiveRigidBodyList</code> (custom)</td>
+<td>{{MOCAP_HZ}}Hz</td>
+<td>All rigid bodies in frame</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Custom Message Definitions:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">// MotiveRigidBody.msg</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">int32</span><span class="w"> </span><span class="n">id</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="kt">bool</span><span class="w"> </span><span class="n">valid</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">geometry_msgs</span><span class="o">/</span><span class="n">Pose</span><span class="w"> </span><span class="n">pose</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="c1">// MotiveRigidBodyList.msg</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="n">std_msgs</span><span class="o">/</span><span class="n">Header</span><span class="w"> </span><span class="n">header</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="n">MotiveRigidBody</span><span class="p">[]</span><span class="w"> </span><span class="n">rigid_bodies</span>
+</code></pre></div>
+<h3 id="latency-budget">Latency Budget</h3>
+<table>
+<thead>
+<tr>
+<th>Stage</th>
+<th>Latency</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Motive → Network</td>
+<td>~2ms</td>
+<td>Motive internal processing + UDP send</td>
+</tr>
+<tr>
+<td>Network → NatNet Client</td>
+<td>{{NETWORK_LATENCY_MS}}ms</td>
+<td>LAN: &lt;1ms typical</td>
+</tr>
+<tr>
+<td>Callback Processing</td>
+<td>{{FRAME_PROCESS_MS}}ms</td>
+<td>Per-frame parse + map lookup</td>
+</tr>
+<tr>
+<td>ROS2 Publish</td>
+<td>~0.5ms</td>
+<td>Topic publish overhead</td>
+</tr>
+<tr>
+<td><strong>End-to-End Total</strong></td>
+<td><strong>{{END_TO_END_LATENCY_MS}}ms</strong></td>
+<td>Motive capture → ROS2 subscriber</td>
+</tr>
+</tbody>
+</table>
+<h2 id="key-challenges">Key Challenges</h2>
+<h3 id="1-asynchronous-callback-synchronous-publish-bridging">1. Asynchronous Callback → Synchronous Publish Bridging</h3>
+<p><strong>Problem:</strong><br>
+NatNet SDK uses asynchronous callbacks (<code>DataHandler</code> static function) invoked from internal SDK threads. ROS2 publishers must be called from node context. Direct publish from callback causes undefined behavior and potential crashes.</p>
+<p><strong>Root Cause:</strong><br>
+- NatNet internal thread ≠ ROS2 executor thread
+- Race condition on shared publisher objects
+- No guarantee of node lifecycle state during callback</p>
+<p><strong>Solution Implemented:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1">// DataHandler static callback extracts data</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">DataHandler</span><span class="p">(</span><span class="n">sFrameOfMocapData</span><span class="o">*</span><span class="w"> </span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">pUserData</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="n">MotiveStreamer</span><span class="o">*</span><span class="w"> </span><span class="n">streamer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="n">MotiveStreamer</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">pUserData</span><span class="p">);</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="c1">// Thread-safe data extraction into local buffer</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">lock_guard</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span><span class="w"> </span><span class="n">lock</span><span class="p">(</span><span class="n">streamer</span><span class="o">-&gt;</span><span class="n">data_mutex_</span><span class="p">);</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="n">streamer</span><span class="o">-&gt;</span><span class="n">latest_frame_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">*</span><span class="n">data</span><span class="p">;</span><span class="w">  </span><span class="c1">// Deep copy</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="n">streamer</span><span class="o">-&gt;</span><span class="n">new_data_available_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="p">}</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="c1">// Main ROS2 timer callback (node thread) publishes</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="kt">void</span><span class="w"> </span><span class="nf">PublishTimerCallback</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">lock_guard</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span><span class="w"> </span><span class="n">lock</span><span class="p">(</span><span class="n">data_mutex_</span><span class="p">);</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">new_data_available_</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">        </span><span class="n">ProcessAndPublish</span><span class="p">(</span><span class="n">latest_frame_</span><span class="p">);</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">        </span><span class="n">new_data_available_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="p">}</span>
+</code></pre></div>
+<p><strong>Key Design Decisions:</strong>
+- Mutex-protected shared buffer for thread-safe data transfer
+- Timer-driven publish (10ms period) from ROS2 executor thread
+- Atomic flag for new data availability check</p>
+<h3 id="2-dynamic-rigidbody-idname-mapping">2. Dynamic RigidBody ID↔Name Mapping</h3>
+<p><strong>Problem:</strong><br>
+NatNet streams rigid body data using integer IDs, but users configure tracking targets by human-readable names (e.g., "LeftHand", "EndEffector"). Mapping must be established dynamically at runtime by parsing <code>DataDescriptions</code>.</p>
+<p><strong>Challenge Details:</strong>
+- DataDescriptions contains 7 asset types: RigidBody, Skeleton, ForcePlate, Device, Asset, MarkerSet, Camera
+- ID namespace overlaps require type-aware lookup
+- Assets can be added/removed in Motive; mapping must update dynamically
+- User specifies rigid body name via ROS2 parameter <code>rigid_name</code></p>
+<p><strong>Solution Implemented:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">UpdateDataToDescriptionMaps</span><span class="p">(</span><span class="n">sDataDescriptions</span><span class="o">*</span><span class="w"> </span><span class="n">pDataDefs</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="c1">// Build bidirectional maps: name ↔ ID for all asset types</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="n">assetNameToAssetID</span><span class="p">.</span><span class="n">clear</span><span class="p">();</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="n">assetIDToAssetName</span><span class="p">.</span><span class="n">clear</span><span class="p">();</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span><span class="c1">// Parse RigidBody assets</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">pDataDefs</span><span class="o">-&gt;</span><span class="n">nDataDescriptions</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">pDataDefs</span><span class="o">-&gt;</span><span class="n">arrDataDescriptions</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">Descriptor_RigidBody</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">            </span><span class="n">sRigidBodyDescription</span><span class="o">*</span><span class="w"> </span><span class="n">pRB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pDataDefs</span><span class="o">-&gt;</span><span class="n">arrDataDescriptions</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">Data</span><span class="p">.</span><span class="n">RigidBodyDescription</span><span class="p">;</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">            </span><span class="n">assetNameToAssetID</span><span class="p">[</span><span class="n">pRB</span><span class="o">-&gt;</span><span class="n">szName</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pRB</span><span class="o">-&gt;</span><span class="n">ID</span><span class="p">;</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">            </span><span class="n">assetIDToAssetName</span><span class="p">[</span><span class="n">pRB</span><span class="o">-&gt;</span><span class="n">ID</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pRB</span><span class="o">-&gt;</span><span class="n">szName</span><span class="p">;</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">        </span><span class="c1">// Similar logic for Skeleton, ForcePlate, Device, Asset, MarkerSet, Camera</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="p">}</span>
+</code></pre></div>
+<p><strong>Usage Flow:</strong></p>
+<ol>
+<li>Node starts → calls <code>NatNetClient-&gt;GetDataDescriptionList()</code></li>
+<li><code>UpdateDataToDescriptionMaps()</code> parses all 7 asset types</li>
+<li>User-specified <code>rigid_name</code> → lookup in <code>assetNameToAssetID</code> → get ID</li>
+<li>Incoming frame data references ID → lookup in <code>assetIDToAssetName</code> → verify match</li>
+<li>Publish pose if ID matches configured target</li>
+</ol>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/figures/id_mapping_flow.png" data-desc-position="bottom"><img alt="ID Mapping Flow" src="../assets/figures/id_mapping_flow.png"></a><br>
+<em>Figure 2: Dynamic asset ID↔Name mapping workflow</em></p>
+<h2 id="my-contributions">My Contributions</h2>
+<p>I designed and implemented the complete <code>motive_streamer</code> ROS2 package:</p>
+<p><strong>Core Implementation:</strong></p>
+<ul>
+<li><strong><code>MotiveStreamer</code> Class:</strong> Inherits <code>rclcpp::Node</code>; encapsulates NatNet client lifecycle (init, connect, disconnect, reconnect)</li>
+<li><strong><code>DataHandler</code> Callback:</strong> Static callback function; extracts per-rigid-body pose from <code>sFrameOfMocapData</code> (xyz position + quaternion qxyzw orientation)</li>
+<li><strong>Custom Messages:</strong> Designed <code>MotiveRigidBody.msg</code> (id, valid, pose) and <code>MotiveRigidBodyList.msg</code> (header, array) for structured data representation</li>
+<li><strong>Parameter Management:</strong> Parameterized configuration via <code>declare_parameter</code>:</li>
+<li><code>local_address</code> (string): Local network interface</li>
+<li><code>motive_address</code> (string): Motive server IP</li>
+<li><code>rigid_name</code> (string): Target rigid body name to track</li>
+<li>Supports runtime configuration via launch file arguments</li>
+<li><strong>Asset Mapping System:</strong> Implemented <code>UpdateDataToDescriptionMaps()</code> parsing 7 asset types (RigidBody, Skeleton, ForcePlate, Device, Asset, MarkerSet, Camera); built <code>assetNameToAssetID</code> bidirectional lookup</li>
+</ul>
+<p><strong>Robustness Features:</strong></p>
+<ul>
+<li><strong>Reconnect Logic:</strong> <code>ConnectClient()</code> with <code>ErrorCode_OK</code> verification; retry on failure with exponential backoff</li>
+<li><strong>Missing Rigid Body Handling:</strong> Graceful degradation when configured rigid body ID not found in frame</li>
+<li><strong>Multi-thread Safety:</strong> Mutex-protected data buffer; atomic flags for callback→timer synchronization</li>
+<li><strong>ID Mapping Mismatch Detection:</strong> Logs warning if incoming rigid body ID doesn't match configured name</li>
+</ul>
+<p><strong>Configuration Example:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># launch/motive_streamer.py</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="n">Node</span><span class="p">(</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>    <span class="n">package</span><span class="o">=</span><span class="s1">'motive_streamer'</span><span class="p">,</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>    <span class="n">executable</span><span class="o">=</span><span class="s1">'motive_streamer_node'</span><span class="p">,</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>    <span class="n">parameters</span><span class="o">=</span><span class="p">[{</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>        <span class="s1">'local_address'</span><span class="p">:</span> <span class="s1">'192.168.1.100'</span><span class="p">,</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>        <span class="s1">'motive_address'</span><span class="p">:</span> <span class="s1">'192.168.1.2'</span><span class="p">,</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>        <span class="s1">'rigid_name'</span><span class="p">:</span> <span class="s1">'EndEffector'</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>    <span class="p">}]</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="p">)</span>
+</code></pre></div>
+<h2 id="results">Results</h2>
+<h3 id="performance-metrics">Performance Metrics</h3>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Value</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Motive Output Rate</td>
+<td>120Hz</td>
+<td>Configured in Motive software</td>
+</tr>
+<tr>
+<td>ROS2 Node Receive Rate</td>
+<td>120Hz</td>
+<td>Stable full-frame rate reception</td>
+</tr>
+<tr>
+<td>Per-Frame Processing</td>
+<td>{{FRAME_PROCESS_MS}}ms</td>
+<td>Measured via <code>std::chrono</code> in callback</td>
+</tr>
+<tr>
+<td>End-to-End Latency</td>
+<td>{{END_TO_END_LATENCY_MS}}ms</td>
+<td>Motive capture → ROS2 subscriber</td>
+</tr>
+<tr>
+<td>Data Loss Rate</td>
+<td>{{DATA_LOSS_RATE}}%</td>
+<td>Dropped frames over {{TEST_DURATION}}min test</td>
+</tr>
+<tr>
+<td>CPU Usage</td>
+<td>{{CPU_USAGE}}%</td>
+<td>Single-core, Intel i7-12700</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Measurement Methodology:</strong></p>
+<ul>
+<li>Per-frame processing time logged via <code>std::chrono::high_resolution_clock</code> in <code>DataHandler</code></li>
+<li>End-to-end latency measured by timestamp comparison: Motive frame timestamp vs. ROS2 message header timestamp</li>
+<li>Data loss rate computed from Motive frame counter discontinuities</li>
+</ul>
+<h3 id="stability-reliability">Stability &amp; Reliability</h3>
+<ul>
+<li><strong>Continuous Operation:</strong> Ran for {{CONTINUOUS_HOURS}} hours without crash or memory leak</li>
+<li><strong>Reconnection Success:</strong> Tested disconnect/reconnect scenarios {{RECONNECT_TESTS}} times; 100% recovery rate with &lt;2s downtime</li>
+<li><strong>Multi-Asset Handling:</strong> Successfully tracked {{NUM_ASSETS}} simultaneous rigid bodies in lab environment</li>
+</ul>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/gifs/optitrack_demo.gif" data-desc-position="bottom"><img alt="OptiTrack Demo" src="../assets/gifs/optitrack_demo.gif"></a><br>
+<em>Figure 3: Real-time 6DoF pose streaming from OptiTrack to ROS2 visualization (RViz)</em></p>
+<h2 id="failure-modes-fixes">Failure Modes &amp; Fixes</h2>
+<h3 id="observed-issues-mitigations">Observed Issues &amp; Mitigations</h3>
+<table>
+<thead>
+<tr>
+<th>Failure Mode</th>
+<th>Symptom</th>
+<th>Root Cause</th>
+<th>Fix Implemented</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Network Disconnect</strong></td>
+<td><code>ErrorCode_Network</code> returned</td>
+<td>Motive server stopped / network cable unplugged</td>
+<td>Reconnect logic with exponential backoff; log error codes</td>
+</tr>
+<tr>
+<td><strong>Missing Rigid Body</strong></td>
+<td>Configured ID not in frame</td>
+<td>Asset disabled in Motive / tracking lost</td>
+<td>Check <code>valid</code> flag; publish invalid pose with warning log</td>
+</tr>
+<tr>
+<td><strong>Multi-thread Contention</strong></td>
+<td>Segfault in publish</td>
+<td>Callback thread accessing publisher without lock</td>
+<td>Mutex-protected data buffer; timer-driven publish from node thread</td>
+</tr>
+<tr>
+<td><strong>ID Mapping Mismatch</strong></td>
+<td>Wrong rigid body published</td>
+<td>Asset renamed in Motive after node start</td>
+<td>Call <code>GetDataDescriptionList()</code> on reconnect; rebuild maps</td>
+</tr>
+</tbody>
+</table>
+<h3 id="downstream-control-issue-moveit2-ik-discontinuity">Downstream Control Issue: MoveIt2 IK Discontinuity</h3>
+<p><strong>Observed Behavior:</strong><br>
+When using MoveIt2 IK solver (<code>moveit::planning_interface::MoveGroupInterface::setApproximateJointValueTarget</code>) in teleoperation loop, small changes in target end-effector pose (e.g., 1cm translation) can trigger large joint configuration jumps (&gt;30° in single joint).</p>
+<p><strong>Root Cause Analysis:</strong></p>
+<ol>
+<li><strong>IK Multi-Solution:</strong> 7-DOF Franka Panda has infinite IK solutions for given end-effector pose (redundant manipulator)</li>
+<li><strong>No Continuity Constraint:</strong> Standard IK solvers optimize for pose error only; no penalty for joint space discontinuity from previous configuration</li>
+<li><strong>Local Minima:</strong> Iterative IK (Jacobian-based) may converge to different solution branch on successive calls</li>
+<li><strong>Null-Space Ambiguity:</strong> No explicit null-space objective to prefer joint configurations near current state</li>
+</ol>
+<p><strong>Impact:</strong><br>
+Teleoperation feels "jumpy"; sudden large joint motions destabilize control and degrade operator experience. Simple smoothing filters insufficient to resolve discontinuities at IK solver output level.</p>
+<p><strong>Attempted Mitigations (Partial Success):</strong></p>
+<ul>
+<li>✅ <strong>Joint-space filtering:</strong> Exponential moving average on solved joint angles; reduces jitter but introduces lag</li>
+<li>✅ <strong>Velocity limits:</strong> Clamp joint velocity changes; prevents extreme jumps but causes tracking error</li>
+<li>⚠️ <strong>IK seeding:</strong> Seed solver with previous joint configuration; helps but doesn't guarantee continuity</li>
+</ul>
+<p><strong>Proposed Next Steps (Not Yet Implemented):</strong></p>
+<ol>
+<li><strong>Continuity-Constrained IK:</strong> Add quadratic penalty term to IK cost function: <span class="arithmatex">\( J_{total} = ||FK(q) - p_{target}||^2 + \lambda ||q - q_{prev}||^2 \)</span></li>
+<li><strong>Trajectory Optimization:</strong> Replace per-frame IK with trajectory optimization (TrajOpt, CHOMP) considering temporal smoothness</li>
+<li><strong>Null-Space Projection:</strong> Explicitly project null-space component toward previous configuration: <span class="arithmatex">\( q_{new} = q_{IK} + (I - J^\dagger J)(q_{prev} - q_{IK}) \)</span></li>
+<li><strong>Cartesian Impedance Control:</strong> Switch from position control to impedance control; allow compliant tracking without exact IK solve</li>
+<li><strong>Filter Trade-offs:</strong> Systematic evaluation of filter alpha vs. latency vs. tracking error in closed-loop experiments</li>
+</ol>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/figures/ik_discontinuity.png" data-desc-position="bottom"><img alt="IK Discontinuity" src="../assets/figures/ik_discontinuity.png"></a><br>
+<em>Figure 4: Illustration of IK solution discontinuity causing large joint jumps for small pose changes</em></p>
+<h2 id="reproducibility-notes">Reproducibility Notes</h2>
+<h3 id="hardware-requirements">Hardware Requirements</h3>
+<ul>
+<li><strong>Motion Capture:</strong> OptiTrack system with 6+ cameras (Prime 13 or higher recommended)</li>
+<li><strong>Network:</strong> Gigabit Ethernet LAN; latency &lt;5ms between Motive server and ROS2 workstation</li>
+<li><strong>Compute:</strong> Linux workstation (Ubuntu 22.04), Intel i7 or better, 16GB+ RAM</li>
+</ul>
+<h3 id="software-dependencies">Software Dependencies</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># ROS2 Humble (Ubuntu 22.04)</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>ros-humble-desktop
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1"># NatNet SDK 4.2 or 4.3</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="c1"># Download from OptiTrack website (requires free account)</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="c1"># Extract and place headers/libs in package include/lib dirs</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="c1"># Build motive_streamer package</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="nb">cd</span><span class="w"> </span>&lt;workspace&gt;/src
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>git<span class="w"> </span>clone<span class="w"> </span>&lt;repository&gt;<span class="w">  </span><span class="c1"># Placeholder for public release</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="nb">cd</span><span class="w"> </span>..
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>colcon<span class="w"> </span>build<span class="w"> </span>--packages-select<span class="w"> </span>motive_streamer
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="nb">source</span><span class="w"> </span>install/setup.bash
+</code></pre></div>
+<h3 id="configuration-steps">Configuration Steps</h3>
+<ol>
+<li><strong>Motive Setup:</strong></li>
+<li>Configure rigid body assets in Motive (Assets panel → Create Rigid Body)</li>
+<li>Enable streaming: View → Data Streaming → Stream Rigid Bodies</li>
+<li>
+<p>Note server IP address (shown in Data Streaming panel)</p>
+</li>
+<li>
+<p><strong>Network Verification:</strong>
+   </p><div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Verify UDP traffic on port 1511</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>sudo<span class="w"> </span>tcpdump<span class="w"> </span>-i<span class="w"> </span>&lt;interface&gt;<span class="w"> </span>udp<span class="w"> </span>port<span class="w"> </span><span class="m">1511</span>
+</code></pre></div><p></p>
+</li>
+<li>
+<p><strong>Launch Node:</strong>
+   </p><div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>ros2<span class="w"> </span>launch<span class="w"> </span>motive_streamer<span class="w"> </span>motive_streamer.py<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">    </span>local_address:<span class="o">=</span><span class="m">192</span>.168.1.100<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span>motive_address:<span class="o">=</span><span class="m">192</span>.168.1.2<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">    </span>rigid_name:<span class="o">=</span>EndEffector
+</code></pre></div><p></p>
+</li>
+<li>
+<p><strong>Verify Output:</strong>
+   </p><div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>ros2<span class="w"> </span>topic<span class="w"> </span><span class="nb">echo</span><span class="w"> </span>/rigid_body_pose
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>ros2<span class="w"> </span>topic<span class="w"> </span>hz<span class="w"> </span>/rigid_body_pose<span class="w">  </span><span class="c1"># Should show ~120Hz</span>
+</code></pre></div><p></p>
+</li>
+</ol>
+<h3 id="key-implementation-files">Key Implementation Files</h3>
+<ul>
+<li><code>include/motive_streamer/motive_streamer.hpp</code> (54 lines): Class definition, NatNet client wrapper</li>
+<li><code>src/motive_streamer.cpp</code> (249 lines): Core implementation (DataHandler, UpdateDataToDescriptionMaps, publishers)</li>
+<li><code>src/motive_streamer_main.cpp</code> (21 lines): ROS2 node entry point with rclcpp::spin</li>
+<li><code>msg/MotiveRigidBody.msg</code> (3 lines): Custom message definition</li>
+<li><code>launch/motive_streamer.py</code> (38 lines): Launch file with parameterization</li>
+<li><code>CMakeLists.txt</code> (85 lines): Build configuration, NatNet SDK linking</li>
+</ul>
+<h2 id="placeholder-checklist">Placeholder Checklist</h2>
+<p>Below is a list of placeholders used in this document that should be filled with actual measured values:</p>
+<table>
+<thead>
+<tr>
+<th>Placeholder</th>
+<th>Description</th>
+<th>How to Measure</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>{{MOCAP_HZ}}</code></td>
+<td>Motion capture frame rate (likely 120)</td>
+<td>Check Motive software settings</td>
+</tr>
+<tr>
+<td><code>{{NETWORK_LATENCY_MS}}</code></td>
+<td>Network propagation delay</td>
+<td><code>ping</code> test + <code>tcpdump</code> timestamp analysis</td>
+</tr>
+<tr>
+<td><code>{{FRAME_PROCESS_MS}}</code></td>
+<td>Per-frame callback processing time</td>
+<td>Add <code>chrono</code> timers in <code>DataHandler</code>; log to file; compute mean</td>
+</tr>
+<tr>
+<td><code>{{END_TO_END_LATENCY_MS}}</code></td>
+<td>Total latency from Motive capture to ROS2 subscriber</td>
+<td>Compare Motive frame timestamp vs. ROS2 message receive timestamp</td>
+</tr>
+<tr>
+<td><code>{{DATA_LOSS_RATE}}</code></td>
+<td>Percentage of dropped frames</td>
+<td>Count frame counter discontinuities over test period</td>
+</tr>
+<tr>
+<td><code>{{TEST_DURATION}}</code></td>
+<td>Duration of stability test</td>
+<td>Record start/stop time of continuous operation test</td>
+</tr>
+<tr>
+<td><code>{{CPU_USAGE}}</code></td>
+<td>CPU utilization during operation</td>
+<td><code>top</code> or <code>htop</code> monitoring of <code>motive_streamer_node</code> process</td>
+</tr>
+<tr>
+<td><code>{{CONTINUOUS_HOURS}}</code></td>
+<td>Longest continuous operation period</td>
+<td>Log uptime during extended data collection session</td>
+</tr>
+<tr>
+<td><code>{{RECONNECT_TESTS}}</code></td>
+<td>Number of reconnection tests performed</td>
+<td>Count manual disconnect/reconnect cycles during validation</td>
+</tr>
+<tr>
+<td><code>{{NUM_ASSETS}}</code></td>
+<td>Number of simultaneous rigid bodies tracked</td>
+<td>Count active rigid bodies in test environment</td>
+</tr>
+</tbody>
+</table>
+<p><strong>To Fill Placeholders:</strong></p>
+<ol>
+<li>Run node in lab environment with instrumentation (timing logs, frame counters)</li>
+<li>Record metrics over 10-30 minute test session</li>
+<li>Compute statistics (mean, std, min, max) for latency and processing time</li>
+<li>Update this document with measured values</li>
+</ol>
+<h2 id="next-steps">Next Steps</h2>
+<p><strong>Immediate Improvements:</strong></p>
+<ol>
+<li><strong>IK Continuity Constraint:</strong> Implement trajectory-aware IK solver with temporal smoothness penalty (see <a href="#downstream-control-issue-moveit2-ik-discontinuity">Failure Modes</a>)</li>
+<li><strong>Multi-Rigid-Body Publish:</strong> Extend to publish all rigid bodies in frame (currently only single target body)</li>
+<li><strong>Latency Profiling Dashboard:</strong> Real-time latency visualization in RViz plugin for performance monitoring</li>
+</ol>
+<p><strong>Future Extensions:</strong></p>
+<ol>
+<li><strong>Marker-Level Streaming:</strong> Expose raw marker (3D points) data in addition to rigid body poses</li>
+<li><strong>Skeleton Streaming:</strong> Support streaming skeleton joint data for humanoid retargeting</li>
+<li><strong>Force Plate Integration:</strong> Parse and publish force/torque data from OptiTrack force plates</li>
+<li><strong>Time Synchronization:</strong> Hardware-triggered frame sync with robot controller for sub-millisecond alignment</li>
+</ol>
+<hr>
+<p><strong>References:</strong></p>
+<ul>
+<li><a href="https://docs.optitrack.com/developer-tools/natnet-sdk">OptiTrack NatNet SDK Documentation</a></li>
+<li><a href="https://docs.ros.org/en/humble/">ROS2 Humble Documentation</a></li>
+<li><a href="https://moveit.picknik.ai/humble/doc/examples/move_group_interface/move_group_interface_tutorial.html">MoveIt2 IK Solver</a></li>
+<li><a href="../assets/License_OptiTrack_Plugin.pdf">NatNet SDK License</a> <em>(included in package)</em></li>
+</ul>
+<p><strong>Related Projects:</strong></p>
+<ul>
+<li><a href="../groot-libero-reproduction/">GR00T-N1.6 on LIBERO</a> - Foundation model fine-tuning with 97.8% success rate</li>
+<li><a href="../rdt-libero/">RDT on LIBERO</a> - Full-parameter vs. LoRA comparison study</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright © 2024-2026 Tingjia Chen
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/chentingjia" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="mailto:{{YOUR_EMAIL}}" target="_blank" rel="noopener" title="" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M536.4-26.3c9.8-3.5 20.6-1 28 6.3s9.8 18.2 6.3 28l-178 496.9c-5 13.9-18.1 23.1-32.8 23.1-14.2 0-27-8.6-32.3-21.7l-64.2-158c-4.5-11-2.5-23.6 5.2-32.6l94.5-112.4c5.1-6.1 4.7-15-.9-20.6s-14.6-6-20.6-.9l-112.4 94.3c-9.1 7.6-21.6 9.6-32.6 5.2L38.1 216.8c-13.1-5.3-21.7-18.1-21.7-32.3 0-14.7 9.2-27.8 23.1-32.8z"></path></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>

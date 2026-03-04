@@ -1,0 +1,50 @@
+PLACEHOLDER: optitrack_demo.gif
+
+Create a demo GIF showing real-time OptiTrack → ROS2 streaming:
+
+**Recording Setup:**
+1. Launch RViz with PoseStamped visualization
+2. Add display: `geometry_msgs/PoseStamped` topic → `Axes` display
+3. Set fixed frame to "world" or Motive coordinate frame
+4. Start motive_streamer_node with rigid body tracking
+5. Move tracked rigid body (e.g., handheld marker set) in OptiTrack capture volume
+
+**What to Show in Recording:**
+- RViz window displaying coordinate axes following rigid body motion
+- Smooth, real-time updates at 120Hz (no visible lag)
+- 3-5 second motion sequence: translation + rotation
+- Optional: Show terminal with `ros2 topic hz /rigid_body_pose` confirming rate
+
+**Recording Workflow:**
+
+1. Screen record using OBS Studio or SimpleScreenRecorder:
+   ```bash
+   # On Linux
+   simplescreenrecorder
+   # Or OBS Studio with settings: 1920×1080, 30 FPS
+   ```
+
+2. Trim to 5-10 seconds of clean motion
+
+3. Convert to optimized GIF:
+   ```bash
+   # Reduce frame rate and resize for web
+   ffmpeg -i optitrack_recording.mp4 \
+          -vf "fps=10,scale=800:-1:flags=lanczos" \
+          -loop 0 optitrack_demo.gif
+   
+   # Optimize file size (target <2MB)
+   gifsicle -O3 --colors 256 --lossy=80 \
+            optitrack_demo.gif -o optitrack_demo_optimized.gif
+   ```
+
+4. Verify file size <5MB (preferably <2MB)
+
+**Alternative (if no hardware access):**
+- Use simulation: Publish mock PoseStamped data with smooth trajectory
+- Record RViz visualization showing smooth pose tracking
+- Add text overlay: "Simulated 120Hz streaming (hardware demo pending)"
+
+Resolution: 800px width, 10 FPS
+Format: GIF, optimized with gifsicle
+Duration: 5-10 seconds

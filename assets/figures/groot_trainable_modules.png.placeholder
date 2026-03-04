@@ -1,0 +1,64 @@
+PLACEHOLDER: groot_trainable_modules.png
+
+Create a visual module freeze/train configuration diagram:
+
+**Layout:** Vertical stack showing all 6 GR00T components
+
+**Component Boxes (top to bottom):**
+
+1. **Visual Encoder (ViT)**
+   - Background: Light gray (frozen)
+   - Icon: Eye or camera symbol
+   - Label: "FROZEN"
+   - Parameters: "~800M params"
+   - Reason: "Preserve pretrained visual features"
+
+2. **Language Model (LLM)**
+   - Background: Light gray (frozen)
+   - Icon: Text or chat bubble
+   - Label: "FROZEN"
+   - Parameters: "~800M params"
+   - Reason: "Preserve pretrained language understanding"
+
+3. **Projector**
+   - Background: Light green (trainable)
+   - Icon: Network or merge symbol
+   - Label: "TRAINABLE"
+   - Parameters: "~400M params"
+   - Reason: "Adapt multimodal fusion to LIBERO"
+
+4. **Transformer Backbone**
+   - Background: Light blue (partially trainable)
+   - Label: "TRAINABLE (layers)"
+   - Parameters: "~600M params"
+
+5. **Diffusion Decoder**
+   - Background: Light green (trainable)
+   - Icon: Wave or diffusion pattern
+   - Label: "TRAINABLE"
+   - Parameters: "~600M params"
+   - Reason: "Learn LIBERO action distribution"
+
+6. **Eagle Decoder**
+   - Background: Light green (trainable)
+   - Icon: Action or robot arm
+   - Label: "TRAINABLE"
+   - Parameters: "~200M params"
+   - Reason: "Map to concrete actions"
+
+**Summary Box at Bottom:**
+- Total Parameters: 3.2B
+- Trainable Parameters: 1.6B (50%)
+- Frozen Parameters: 1.6B (50%)
+- Strategy: "Selective fine-tuning preserves pretrained knowledge"
+
+**Style:**
+- Clean, professional boxes with consistent sizing
+- Color legend: Gray = Frozen, Green = Trainable
+- Use iconography for quick visual scanning
+- Add connecting lines showing data flow
+
+**Tools:** draw.io, Figma, or PowerPoint  
+**Resolution:** 1200px width × 1400px height, PNG format  
+**File size:** <400KB
+

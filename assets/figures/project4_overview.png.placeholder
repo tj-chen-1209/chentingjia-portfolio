@@ -1,0 +1,56 @@
+PLACEHOLDER: project4_overview.png
+
+Create a system architecture diagram showing RLinf × RDT integration:
+
+**Layout: Horizontal flow with 3 main sections**
+
+**Section 1: Environment Layer (Left)**
+- LIBERO Environment box
+- Outputs arrow labeled:
+  - images (multi-view)
+  - eef_state
+  - **joint_states (NEW, highlighted in green)**
+  - language instruction
+
+**Section 2: RLinf Framework (Middle)**
+- Worker Process box
+  - Receives observations from env
+  - Packages into Experience struct
+  - Highlight: "Experience.joint_states field (NEW)"
+- Buffer/Queue box
+  - Stores experiences
+- Learner Process box
+  - Batches experiences
+  - Sends to model
+
+**Section 3: RDT Policy (Right)**
+- RDT Action Model box
+- Sub-components:
+  - Image preprocessing (with "180° rotation fix" annotation)
+  - SigLIP encoder
+  - T5 encoder  
+  - State processing (uses joint_states)
+  - Diffusion Transformer
+  - Action output
+- Return arrow: Actions → Worker → Environment
+
+**Bottom: Blocked Training Loop**
+- Dashed box labeled "RL Training Backend (BLOCKED)"
+- Arrow from Learner → Training Backend with red X
+- Label: "Requires log_prob (not available from diffusion)"
+
+**Annotations:**
+- Green highlights on joint_states data path
+- Red X on blocked training connection
+- "✓ Forward inference works" annotation
+- "✗ Training blocked by log_prob" annotation
+
+**Style:**
+- Clean boxes with rounded corners
+- Color coding: Blue (environment), Gray (framework), Orange (RDT), Red (blocked)
+- Solid arrows for working data flow, dashed for blocked connections
+
+**Tools:** draw.io, Lucidchart, or Mermaid  
+**Resolution:** 1800×1000 px  
+**Format:** PNG  
+**File size:** <600KB

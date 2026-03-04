@@ -1,0 +1,2446 @@
+<!DOCTYPE html><html lang="en" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Technical documentation for research projects in Embodied AI, robot learning, and vision-language-action models">
+      
+      
+        <meta name="author" content="Tingjia Chen">
+      
+      
+        <link rel="canonical" href="https://chentingjia.github.io/chentingjia-portfolio/projects/rlinf-rdt-integration/">
+      
+      
+        <link rel="prev" href="../rdt-libero/">
+      
+      
+        <link rel="next" href="../icml-resmerge/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.4">
+    
+    
+      
+        <title>RLinf × RDT Integration - Tingjia Chen - Embodied AI Portfolio</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#rlinf-rdt-integration-rl-interface-for-diffusion-policies" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Tingjia Chen - Embodied AI Portfolio" class="md-header__button md-logo" aria-label="Tingjia Chen - Embodied AI Portfolio" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Tingjia Chen - Embodied AI Portfolio
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              RLinf × RDT Integration
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo" aria-label="Switch to dark mode" type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo" aria-label="Switch to light mode" type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/chentingjia/chentingjia-portfolio" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    chentingjia/chentingjia-portfolio
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../teleop-mocap/" class="md-tabs__link">
+          
+  
+  
+  Projects
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Tingjia Chen - Embodied AI Portfolio" class="md-nav__button md-logo" aria-label="Tingjia Chen - Embodied AI Portfolio" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+
+    </a>
+    Tingjia Chen - Embodied AI Portfolio
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/chentingjia/chentingjia-portfolio" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    chentingjia/chentingjia-portfolio
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Projects
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Projects
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../teleop-mocap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OptiTrack ROS2 Streaming Node
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../groot-libero-reproduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GR00T-N1.6 SFT on LIBERO
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rdt-libero/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RDT SFT &amp; Evaluation on LIBERO
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RLinf × RDT Integration
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RLinf × RDT Integration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#context-goal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Context &amp; Goal
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#system-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        System Overview
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="System Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#architecture-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture Components
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#interface-contracts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interface Contracts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Interface Contracts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#environment-output-libero_envpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Environment Output (libero_env.py)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-structure-io_structpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Structure (io_struct.py)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rdt-action-model-interface-rdt_action_modelpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RDT Action Model Interface (rdt_action_model.py)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#image-rotation-correction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Image Rotation Correction
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-challenges" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Challenges
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Key Challenges">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-state-space-alignment-eef-vs-joint-space" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. State-Space Alignment: EEF vs Joint Space
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-image-rotation-mismatch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Image Rotation Mismatch
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-diffusion-policy-vs-rl-interface-mismatch-critical-blocker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Diffusion Policy vs RL Interface Mismatch (Critical Blocker)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-dependency-version-conflicts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Dependency Version Conflicts
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-i-built" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What I Built
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-works-now-vs-whats-blocked" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What Works Now vs What's Blocked
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="What Works Now vs What's Blocked">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#forward-inference-loop-complete" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ Forward Inference Loop (Complete)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rl-training-loop-blocked" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ❌ RL Training Loop (Blocked)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#engineering-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Engineering Notes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Engineering Notes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rotation-correction-details" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rotation Correction Details
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dependency-patch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dependency Patch
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reproducibility-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reproducibility Notes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#failure-modes-fixes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Failure Modes &amp; Fixes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps-enabling-rl-fine-tuning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps: Enabling RL Fine-tuning
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Next Steps: Enabling RL Fine-tuning">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#option-1-off-policy-rl-with-deterministic-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option 1: Off-Policy RL with Deterministic Policy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-2-surrogate-stochastic-distribution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option 2: Surrogate Stochastic Distribution
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-3-distillation-to-stochastic-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option 3: Distillation to Stochastic Policy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-4-behavior-cloning-warm-start-differentiable-policy-head" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option 4: Behavior Cloning Warm-start + Differentiable Policy Head
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-5-score-based-policy-gradients" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option 5: Score-Based Policy Gradients
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-6-dependency-containerization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option 6: Dependency Containerization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recommended-path-forward" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recommended Path Forward
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reproducibility-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reproducibility Checklist
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Reproducibility Checklist">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#environment-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Environment Setup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#integration-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Integration Files
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#running-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Running Integration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#debugging-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Debugging Commands
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#placeholder-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Placeholder Checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../icml-resmerge/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ResMerge (ICML Continual Learning)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#context-goal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Context &amp; Goal
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#system-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        System Overview
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="System Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#architecture-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture Components
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#interface-contracts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interface Contracts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Interface Contracts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#environment-output-libero_envpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Environment Output (libero_env.py)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-structure-io_structpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Structure (io_struct.py)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rdt-action-model-interface-rdt_action_modelpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RDT Action Model Interface (rdt_action_model.py)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#image-rotation-correction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Image Rotation Correction
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-challenges" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Challenges
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Key Challenges">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-state-space-alignment-eef-vs-joint-space" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. State-Space Alignment: EEF vs Joint Space
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-image-rotation-mismatch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Image Rotation Mismatch
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-diffusion-policy-vs-rl-interface-mismatch-critical-blocker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Diffusion Policy vs RL Interface Mismatch (Critical Blocker)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-dependency-version-conflicts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Dependency Version Conflicts
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-i-built" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What I Built
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-works-now-vs-whats-blocked" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What Works Now vs What's Blocked
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="What Works Now vs What's Blocked">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#forward-inference-loop-complete" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ Forward Inference Loop (Complete)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rl-training-loop-blocked" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ❌ RL Training Loop (Blocked)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#engineering-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Engineering Notes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Engineering Notes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rotation-correction-details" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rotation Correction Details
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dependency-patch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dependency Patch
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reproducibility-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reproducibility Notes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#failure-modes-fixes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Failure Modes &amp; Fixes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps-enabling-rl-fine-tuning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps: Enabling RL Fine-tuning
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Next Steps: Enabling RL Fine-tuning">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#option-1-off-policy-rl-with-deterministic-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option 1: Off-Policy RL with Deterministic Policy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-2-surrogate-stochastic-distribution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option 2: Surrogate Stochastic Distribution
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-3-distillation-to-stochastic-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option 3: Distillation to Stochastic Policy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-4-behavior-cloning-warm-start-differentiable-policy-head" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option 4: Behavior Cloning Warm-start + Differentiable Policy Head
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-5-score-based-policy-gradients" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option 5: Score-Based Policy Gradients
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-6-dependency-containerization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option 6: Dependency Containerization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recommended-path-forward" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recommended Path Forward
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reproducibility-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reproducibility Checklist
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Reproducibility Checklist">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#environment-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Environment Setup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#integration-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Integration Files
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#running-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Running Integration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#debugging-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Debugging Commands
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#placeholder-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Placeholder Checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="rlinf-rdt-integration-rl-interface-for-diffusion-policies">RLinf × RDT Integration: RL Interface for Diffusion Policies</h1>
+<p><strong>中文简介：</strong> 将Robotics Diffusion Transformer（RDT）集成到强化学习框架RLinf中，实现环境→策略推理→动作执行的前向循环。扩展LIBERO环境提取joint_states（9维：7关节+2夹爪），修改数据结构传递关节信息，封装RDT为ActionModel接口，修复180°图像旋转不匹配。前向推理已打通，但RL训练受阻：扩散策略无法提供log_prob用于策略梯度，需要探索替代方案（Q-learning、surrogate分布、蒸馏等）。</p>
+<hr>
+<p><strong>Organization:</strong> PKU Lingchu Lab<br>
+<strong>Duration:</strong> 2024<br>
+<strong>Role:</strong> Research Intern<br>
+<strong>Stack:</strong> PyTorch, RLinf Framework, RDT, LIBERO, peft, diffusers</p>
+<h2 id="context-goal">Context &amp; Goal</h2>
+<p><strong>RLinf</strong> is an RL framework designed for scalable robot learning experiments. <strong>RDT (Robotics Diffusion Transformer)</strong> is a diffusion-based policy model pretrained on large-scale robot datasets. Combining them enables:</p>
+<ol>
+<li><strong>RL fine-tuning</strong> of pretrained diffusion policies on specific tasks</li>
+<li><strong>Policy improvement</strong> beyond behavior cloning via environmental interaction</li>
+<li><strong>Exploration</strong> using diffusion-generated actions as priors</li>
+</ol>
+<p><strong>Project Goal:</strong></p>
+<p>Integrate RDT as a policy model into RLinf to enable RL fine-tuning on LIBERO benchmark:</p>
+<ol>
+<li><strong>Bridge environment interface:</strong> LIBERO observations → RDT input format</li>
+<li><strong>Implement action prediction:</strong> RDT denoising inference → executable actions</li>
+<li><strong>Enable training loop:</strong> Connect RLinf training backend to RDT policy updates</li>
+<li><strong>Validate integration:</strong> Run forward inference loop (env → policy → action → env)</li>
+</ol>
+<p><strong>Target Outcome:</strong><br>
+Establish infrastructure for "pretrain → RL fine-tune" workflow, allowing RDT to improve via environmental interaction beyond supervised learning.</p>
+<h2 id="system-overview">System Overview</h2>
+<p>The integration involves four layers: environment interface, data communication, model wrapper, and training backend.</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/figures/project4_overview.png" data-desc-position="bottom"><img alt="System Architecture" src="../assets/figures/project4_overview.png"></a><br>
+<em>Figure 1: RLinf × RDT integration architecture showing data flow from LIBERO environment to RDT policy</em></p>
+<h3 id="architecture-components">Architecture Components</h3>
+<pre class="mermaid"><code>graph TD
+    A[LIBERO Environment&lt;br/&gt;libero_env.py] --&gt;|Observations| B[Worker Process]
+    B --&gt;|Experience&lt;br/&gt;+joint_states field| C[Data Buffer]
+    C --&gt;|Batch| D[Learner Process]
+    D --&gt;|Model Forward| E[RDT Action Model&lt;br/&gt;rdt_action_model.py]
+
+    E --&gt; F[SigLIP Visual Encoder]
+    E --&gt; G[T5 Language Encoder]
+    E --&gt; H[State Processing]
+
+    F --&gt; I[Diffusion Transformer]
+    G --&gt; I
+    H --&gt; I
+
+    I --&gt; J[Denoising Inference]
+    J --&gt; K[Action Output]
+    K --&gt;|Actions| B
+    B --&gt;|Execute| A
+
+    L[Training Backend] -.-&gt;|Requires log_prob| E
+    L -.-&gt;|BLOCKED| M[Policy Gradient Update]
+
+    style L fill:#ffcccc
+    style M fill:#ffcccc</code></pre>
+<p><strong>Data Flow:</strong></p>
+<ol>
+<li><strong>Environment → Worker:</strong> LIBERO env returns observations (images, EEF state, <strong>joint_states</strong>)</li>
+<li><strong>Worker → Buffer:</strong> Package observations into <code>Experience</code> struct with dedicated <code>joint_states</code> field</li>
+<li><strong>Buffer → Learner:</strong> Batch experiences for model inference</li>
+<li><strong>Learner → RDT:</strong> Process observations, run diffusion denoising</li>
+<li><strong>RDT → Environment:</strong> Output actions execute in LIBERO simulator</li>
+<li><strong>Training Backend (BLOCKED):</strong> Cannot compute policy gradients without <code>log_prob</code></li>
+</ol>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/figures/rlinf_rdt_dataflow.png" data-desc-position="bottom"><img alt="Data Flow Diagram" src="../assets/figures/rlinf_rdt_dataflow.png"></a><br>
+<em>Figure 2: End-to-end data flow showing joint_states extension and RDT inference path</em></p>
+<h2 id="interface-contracts">Interface Contracts</h2>
+<h3 id="environment-output-libero_envpy">Environment Output (libero_env.py)</h3>
+<p><strong>Observation Dictionary:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Shape</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>images</code></td>
+<td><code>{{IMAGE_SHAPE}}</code></td>
+<td><code>np.ndarray</code></td>
+<td>Multi-view RGB images (cam_high, wrist)</td>
+</tr>
+<tr>
+<td><code>eef_state</code></td>
+<td><code>{{EEF_STATE_DIM}}</code></td>
+<td><code>np.ndarray</code></td>
+<td>End-effector pose (position + orientation)</td>
+</tr>
+<tr>
+<td><code>joint_states</code></td>
+<td><code>(9,)</code></td>
+<td><code>np.ndarray</code></td>
+<td>7 joint angles + 2 gripper positions</td>
+</tr>
+<tr>
+<td><code>language</code></td>
+<td><code>str</code></td>
+<td>String</td>
+<td>Task instruction (e.g., "pick up the red block")</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Key Modification:</strong><br>
+Original RLinf LIBERO env returned only EEF state. <strong>Extended to extract and return <code>joint_states</code></strong> from LIBERO observation dict:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># libero_env.py (_extract_image_and_state, prepare_observations)</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="k">def</span><span class="w"> </span><span class="nf">_extract_image_and_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obs_dict</span><span class="p">):</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="c1"># Original: only EEF state</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">eef_state</span> <span class="o">=</span> <span class="n">obs_dict</span><span class="p">[</span><span class="s1">'robot0_eef_pos'</span><span class="p">]</span>  <span class="c1"># Position + orientation</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="c1"># NEW: Extract joint states for RDT</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">joint_pos</span> <span class="o">=</span> <span class="n">obs_dict</span><span class="p">[</span><span class="s1">'robot0_joint_pos'</span><span class="p">]</span>      <span class="c1"># 7-DoF joint angles</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="n">gripper_qpos</span> <span class="o">=</span> <span class="n">obs_dict</span><span class="p">[</span><span class="s1">'robot0_gripper_qpos'</span><span class="p">]</span>  <span class="c1"># 2D gripper positions</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="n">joint_states</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">joint_pos</span><span class="p">,</span> <span class="n">gripper_qpos</span><span class="p">])</span>  <span class="c1"># Shape: (9,)</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    <span class="k">return</span> <span class="p">{</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>        <span class="s1">'images'</span><span class="p">:</span> <span class="n">images</span><span class="p">,</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>        <span class="s1">'eef_state'</span><span class="p">:</span> <span class="n">eef_state</span><span class="p">,</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>        <span class="s1">'joint_states'</span><span class="p">:</span> <span class="n">joint_states</span><span class="p">,</span>  <span class="c1"># NEW field</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>        <span class="s1">'language'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_instruction</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>    <span class="p">}</span>
+</code></pre></div>
+<p><strong>Rationale:</strong><br>
+RDT was pretrained on joint-space control. EEF-only state insufficient for RDT inference; must provide proprioceptive joint angles.</p>
+<h3 id="data-structure-io_structpy">Data Structure (io_struct.py)</h3>
+<p><strong>Experience Class Extension:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># io_struct.py</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nd">@dataclass</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="k">class</span><span class="w"> </span><span class="nc">Experience</span><span class="p">:</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>    <span class="n">images</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>          <span class="c1"># Shape: {{IMAGE_BATCH_SHAPE}}</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>    <span class="n">eef_state</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>       <span class="c1"># Shape: (batch, {{EEF_STATE_DIM}})</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>    <span class="n">joint_states</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>    <span class="c1"># Shape: (batch, 9) - NEW field</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>    <span class="n">language</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>         <span class="c1"># Length: batch</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>    <span class="n">actions</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>         <span class="c1"># Shape: (batch, {{ACTION_DIM}})</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>    <span class="n">rewards</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>         <span class="c1"># Shape: (batch,)</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>    <span class="n">dones</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>           <span class="c1"># Shape: (batch,)</span>
+</code></pre></div>
+<p><strong>Key Modification:</strong><br>
+Added <code>joint_states</code> field (shape: <code>(batch, 9)</code>) to preserve joint angle information end-to-end from environment to model inference. Without this field, joint data would be lost in Worker → Learner communication.</p>
+<h3 id="rdt-action-model-interface-rdt_action_modelpy">RDT Action Model Interface (rdt_action_model.py)</h3>
+<p><strong>ActionModel API Contract:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># rdt_action_model.py</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="k">class</span><span class="w"> </span><span class="nc">RDTActionModel</span><span class="p">:</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">        </span><span class="sd">"""</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="sd">        Load pretrained RDT weights and initialize inference pipeline.</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="sd">        Args:</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="sd">            model_path: Path to RDT checkpoint</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="sd">            config: Model configuration (diffusion steps, action chunk, etc.)</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="sd">        """</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>        <span class="c1"># Apply compatibility patch</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"_CHECK_PEFT"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"0"</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>        <span class="c1"># Load RDT model</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">load_rdt_model</span><span class="p">(</span><span class="n">model_path</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">predict_action_batch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> 
+<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>                             <span class="n">images</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+<a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>                             <span class="n">eef_state</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+<a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a>                             <span class="n">joint_states</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+<a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a>                             <span class="n">language</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="w">        </span><span class="sd">"""</span>
+<a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="sd">        Batch action prediction from RDT diffusion model.</span>
+<a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a>
+<a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a><span class="sd">        Args:</span>
+<a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a><span class="sd">            images: Multi-view RGB images, shape {{IMAGE_BATCH_SHAPE}}</span>
+<a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a><span class="sd">            eef_state: End-effector state, shape (batch, {{EEF_STATE_DIM}})</span>
+<a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a><span class="sd">            joint_states: Joint angles + gripper, shape (batch, 9)</span>
+<a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a><span class="sd">            language: Task instructions, length batch</span>
+<a id="__codelineno-2-30" name="__codelineno-2-30" href="#__codelineno-2-30"></a>
+<a id="__codelineno-2-31" name="__codelineno-2-31" href="#__codelineno-2-31"></a><span class="sd">        Returns:</span>
+<a id="__codelineno-2-32" name="__codelineno-2-32" href="#__codelineno-2-32"></a><span class="sd">            actions: Predicted actions, shape (batch, {{ACTION_DIM}})</span>
+<a id="__codelineno-2-33" name="__codelineno-2-33" href="#__codelineno-2-33"></a><span class="sd">        """</span>
+<a id="__codelineno-2-34" name="__codelineno-2-34" href="#__codelineno-2-34"></a>        <span class="c1"># Preprocess images (apply 180° rotation correction)</span>
+<a id="__codelineno-2-35" name="__codelineno-2-35" href="#__codelineno-2-35"></a>        <span class="n">images_corrected</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">rot90</span><span class="p">(</span><span class="n">images</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+<a id="__codelineno-2-36" name="__codelineno-2-36" href="#__codelineno-2-36"></a>
+<a id="__codelineno-2-37" name="__codelineno-2-37" href="#__codelineno-2-37"></a>        <span class="c1"># Build RDT input dict</span>
+<a id="__codelineno-2-38" name="__codelineno-2-38" href="#__codelineno-2-38"></a>        <span class="n">rdt_input</span> <span class="o">=</span> <span class="p">{</span>
+<a id="__codelineno-2-39" name="__codelineno-2-39" href="#__codelineno-2-39"></a>            <span class="s1">'images'</span><span class="p">:</span> <span class="n">images_corrected</span><span class="p">,</span>
+<a id="__codelineno-2-40" name="__codelineno-2-40" href="#__codelineno-2-40"></a>            <span class="s1">'joint_states'</span><span class="p">:</span> <span class="n">joint_states</span><span class="p">,</span>  <span class="c1"># RDT expects joint space</span>
+<a id="__codelineno-2-41" name="__codelineno-2-41" href="#__codelineno-2-41"></a>            <span class="s1">'language'</span><span class="p">:</span> <span class="n">language</span>
+<a id="__codelineno-2-42" name="__codelineno-2-42" href="#__codelineno-2-42"></a>        <span class="p">}</span>
+<a id="__codelineno-2-43" name="__codelineno-2-43" href="#__codelineno-2-43"></a>
+<a id="__codelineno-2-44" name="__codelineno-2-44" href="#__codelineno-2-44"></a>        <span class="c1"># Run diffusion inference</span>
+<a id="__codelineno-2-45" name="__codelineno-2-45" href="#__codelineno-2-45"></a>        <span class="n">actions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">predict_action</span><span class="p">(</span><span class="n">rdt_input</span><span class="p">,</span> 
+<a id="__codelineno-2-46" name="__codelineno-2-46" href="#__codelineno-2-46"></a>                                           <span class="n">num_diffusion_steps</span><span class="o">=</span><span class="p">{{</span><span class="n">DIFFUSION_STEPS</span><span class="p">}},</span>
+<a id="__codelineno-2-47" name="__codelineno-2-47" href="#__codelineno-2-47"></a>                                           <span class="n">action_chunk</span><span class="o">=</span><span class="p">{{</span><span class="n">ACTION_CHUNK</span><span class="p">}})</span>
+<a id="__codelineno-2-48" name="__codelineno-2-48" href="#__codelineno-2-48"></a>
+<a id="__codelineno-2-49" name="__codelineno-2-49" href="#__codelineno-2-49"></a>        <span class="k">return</span> <span class="n">actions</span>
+</code></pre></div>
+<p><strong>Interface Requirements:</strong></p>
+<ul>
+<li><strong>Input:</strong> Batched observations (images, states, language)</li>
+<li><strong>Output:</strong> Batched actions (shape: <code>(batch, {{ACTION_DIM}})</code>)</li>
+<li><strong>Preprocessing:</strong> 180° image rotation correction applied internally</li>
+<li><strong>Compatibility:</strong> <code>_CHECK_PEFT=0</code> environment variable set for dependency bypass</li>
+</ul>
+<h3 id="image-rotation-correction">Image Rotation Correction</h3>
+<p><strong>Problem:</strong><br>
+RLinf LIBERO images are rotated 180° relative to RDT pretraining images. Direct inference causes policy to see "upside-down" scenes, leading to nonsensical actions.</p>
+<p><strong>Detection:</strong><br>
+Visual inspection of RLinf LIBERO dataset images vs. RDT training data revealed consistent 180° rotation offset.</p>
+<p><strong>Fix:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Apply 180° rotation: k=2 means rotate 2×90° = 180°</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="n">images_corrected</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">rot90</span><span class="p">(</span><span class="n">images</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>  <span class="c1"># Rotate height×width axes</span>
+</code></pre></div>
+<p><strong>Validation:</strong><br>
+After correction, RDT inference produces reasonable actions (visual feedback confirms proper orientation).</p>
+<h2 id="key-challenges">Key Challenges</h2>
+<h3 id="1-state-space-alignment-eef-vs-joint-space">1. State-Space Alignment: EEF vs Joint Space</h3>
+<p><strong>Problem:</strong><br>
+RLinf's original LIBERO environment interface returns only end-effector (EEF) pose. RDT requires joint angles + gripper state for inference (pretrained on joint-space control).</p>
+<p><strong>Impact:</strong><br>
+Cannot run RDT inference without joint data; model expects 9-dimensional proprioceptive state.</p>
+<p><strong>Solution:</strong><br>
+Extended <code>libero_env.py</code> to extract <code>robot0_joint_pos</code> (7 joints) and <code>robot0_gripper_qpos</code> (2 gripper) from LIBERO observation dictionary. Concatenated into <code>joint_states</code> (dim=9) and added to observation return.</p>
+<p><strong>Verification:</strong><br>
+Logged <code>joint_states</code> shape in Worker process; confirmed (batch, 9) received by model wrapper.</p>
+<h3 id="2-image-rotation-mismatch">2. Image Rotation Mismatch</h3>
+<p><strong>Problem:</strong><br>
+RLinf LIBERO images rotated 180° relative to RDT pretraining images. Causes severe distribution shift; policy sees inverted visual inputs.</p>
+<p><strong>Root Cause:</strong><br>
+Different camera setup conventions between RLinf LIBERO dataset and RDT pretraining data sources.</p>
+<p><strong>Solution:</strong><br>
+Apply <code>np.rot90(images, k=2, axes=(-2, -1))</code> in preprocessing pipeline before feeding to RDT.</p>
+<p><strong>Validation:</strong><br>
+Visual inspection: corrected images match expected camera viewpoint orientation from RDT training.</p>
+<h3 id="3-diffusion-policy-vs-rl-interface-mismatch-critical-blocker">3. Diffusion Policy vs RL Interface Mismatch (Critical Blocker)</h3>
+<p><strong>Problem:</strong><br>
+Standard policy gradient RL (PPO, SAC, etc.) requires:</p>
+<ol>
+<li><strong>Stochastic policy:</strong> Sample actions from distribution <span class="arithmatex">\( a \sim \pi_\theta(a|s) \)</span></li>
+<li><strong>Log probability:</strong> Compute <span class="arithmatex">\( \log \pi_\theta(a|s) \)</span> for gradient estimation</li>
+</ol>
+<p>RDT uses <strong>deterministic denoising diffusion</strong>:</p>
+<ul>
+<li>Actions generated via iterative denoising: <span class="arithmatex">\( x_0 = \text{Denoise}(x_T, \text{steps}=H) \)</span></li>
+<li>Denoising process is deterministic given noise initialization</li>
+<li>No explicit probability distribution over actions; no <code>log_prob</code> computation</li>
+</ul>
+<p><strong>Technical Barrier:</strong><br>
+RLinf training backend expects <code>predict_action_batch()</code> to return <code>(actions, log_probs)</code>. RDT cannot provide <code>log_probs</code> in required form, <strong>blocking integration with policy gradient training loop</strong>.</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/figures/diffusion_vs_policy_gradient.png" data-desc-position="bottom"><img alt="Diffusion vs Policy Gradient" src="../assets/figures/diffusion_vs_policy_gradient.png"></a><br>
+<em>Figure 3: Conceptual mismatch between diffusion policy (deterministic denoising) and policy gradient RL (stochastic sampling + log_prob)</em></p>
+<p><strong>Current Status:</strong><br>
+- ✅ <strong>Forward inference:</strong> Env → RDT generates actions → actions execute in env (works)
+- ❌ <strong>Training loop:</strong> Cannot compute policy gradients without log_prob (blocked)</p>
+<p><strong>Implication:</strong><br>
+RDT currently acts as a frozen action generator (inference-only). RL fine-tuning requires architectural changes or alternative training objectives.</p>
+<h3 id="4-dependency-version-conflicts">4. Dependency Version Conflicts</h3>
+<p><strong>Problem:</strong><br>
+RDT depends on specific versions of <code>peft</code> and <code>diffusers</code>. RLinf has its own dependency stack. Version conflicts cause import errors or runtime crashes.</p>
+<p><strong>Specific Conflict:</strong><br>
+Strict version check in diffusers library (<code>_CHECK_PEFT</code>) fails when peft version mismatches.</p>
+<p><strong>Workaround:</strong><br>
+Set environment variable <code>os.environ["_CHECK_PEFT"] = "0"</code> to bypass version check.</p>
+<p><strong>Limitation:</strong><br>
+This is a patch, not a proper fix. May cause subtle bugs if API incompatibility exists. Long-term solution requires dependency reconciliation.</p>
+<h2 id="what-i-built">What I Built</h2>
+<p>Below is a breakdown of integration components and my specific contributions:</p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Function</th>
+<th>My Contribution</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>libero_env.py Extension</strong></td>
+<td>Extract joint states from LIBERO obs</td>
+<td>Implemented <code>joint_states</code> extraction in <code>_extract_image_and_state()</code>; parse <code>robot0_joint_pos</code> (7) + <code>robot0_gripper_qpos</code> (2) → concatenate to dim=9</td>
+</tr>
+<tr>
+<td><strong>io_struct.py Extension</strong></td>
+<td>Add joint_states to Experience</td>
+<td>Added <code>joint_states: np.ndarray</code> field to Experience dataclass for end-to-end data transmission</td>
+</tr>
+<tr>
+<td><strong>rdt_action_model.py</strong></td>
+<td>Wrap RDT as ActionModel</td>
+<td>Implemented complete wrapper: load checkpoint, preprocess observations, implement <code>predict_action_batch()</code> interface</td>
+</tr>
+<tr>
+<td><strong>Image Preprocessing</strong></td>
+<td>Fix 180° rotation mismatch</td>
+<td>Implemented <code>np.rot90(images, k=2)</code> correction in observation preprocessing</td>
+</tr>
+<tr>
+<td><strong>Dependency Patch</strong></td>
+<td>Bypass peft version check</td>
+<td>Added <code>os.environ["_CHECK_PEFT"] = "0"</code> workaround for runtime compatibility</td>
+</tr>
+<tr>
+<td><strong>Integration Script</strong></td>
+<td>Launch RLinf with RDT policy</td>
+<td>Created <code>run_libero_rdt.sh</code>: activate env, set paths, configure integration</td>
+</tr>
+<tr>
+<td><strong>Observation Plumbing</strong></td>
+<td>Connect env obs to model input</td>
+<td>Built dict mapping: RLinf obs fields → RDT expected input format (images, joint_states, language)</td>
+</tr>
+<tr>
+<td><strong>Batch Inference</strong></td>
+<td>Process multiple env instances</td>
+<td>Implemented batched observation processing for parallel environment evaluation</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Key Engineering Deliverables:</strong></p>
+<ul>
+<li><strong>Environment observation extension:</strong> Modified <code>libero_env.py</code> to extract and return <code>joint_states</code> (9 dims) alongside existing EEF state</li>
+<li><strong>End-to-end data plumbing:</strong> Added <code>joint_states</code> field to <code>Experience</code> data structure in <code>io_struct.py</code>; verified data transmission from env sampling to model inference</li>
+<li><strong>RDT model wrapper:</strong> Implemented <code>rdt_action_model.py</code> with:</li>
+<li>Pretrained checkpoint loading with compatibility patch (<code>_CHECK_PEFT=0</code>)</li>
+<li>Observation preprocessing (180° rotation, normalization)</li>
+<li>Batched action prediction via <code>predict_action_batch()</code> API</li>
+<li><strong>Image rotation correction:</strong> Identified and fixed 180° rotation mismatch between RLinf LIBERO images and RDT pretraining data</li>
+<li><strong>Integration validation:</strong> Successfully ran forward loop (env → RDT → action → env) confirming observation flow and action execution</li>
+</ul>
+<h2 id="what-works-now-vs-whats-blocked">What Works Now vs What's Blocked</h2>
+<h3 id="forward-inference-loop-complete">✅ Forward Inference Loop (Complete)</h3>
+<p><strong>Functional Pipeline:</strong></p>
+<ol>
+<li><strong>Environment Observation:</strong> LIBERO returns images + EEF + <strong>joint_states</strong> (9 dims)</li>
+<li><strong>Data Packaging:</strong> Worker wraps observations into <code>Experience</code> with <code>joint_states</code> field</li>
+<li><strong>Model Inference:</strong> RDT receives batched observations, runs diffusion denoising (H steps)</li>
+<li><strong>Action Generation:</strong> RDT outputs actions (shape: <code>(batch, {{ACTION_DIM}})</code>)</li>
+<li><strong>Environment Execution:</strong> Actions applied to LIBERO simulator; state advances</li>
+</ol>
+<p><strong>Verification:</strong></p>
+<ul>
+<li>Ran <code>run_libero_rdt.sh</code> successfully</li>
+<li>Logged observation shapes at each pipeline stage</li>
+<li>Confirmed actions execute in environment without errors</li>
+<li>Qualitatively validated: RDT generates reasonable manipulation actions (not random)</li>
+</ul>
+<p><strong>Inference Performance:</strong></p>
+<ul>
+<li>Per-step latency: ~375ms on A100 (consistent with standalone RDT eval)</li>
+<li>Batch size: {{BATCH_SIZE}} parallel environments</li>
+<li>Throughput: {{THROUGHPUT}} steps/second across all environments</li>
+</ul>
+<h3 id="rl-training-loop-blocked">❌ RL Training Loop (Blocked)</h3>
+<p><strong>Problem:</strong><br>
+RLinf training backend requires <code>log_prob</code> for policy gradient computation. RDT diffusion model does not expose <code>log_prob</code> in usable form.</p>
+<p><strong>Why This Blocks Training:</strong></p>
+<p>Policy gradient theorem requires:</p>
+<div class="arithmatex">\[
+\nabla_\theta J(\theta) = \mathbb{E}_{\tau \sim \pi_\theta} \left[ \sum_t \nabla_\theta \log \pi_\theta(a_t | s_t) \cdot A_t \right]
+\]</div>
+<p>Where:
+- <span class="arithmatex">\( \log \pi_\theta(a_t | s_t) \)</span> is log probability of action under policy
+- <span class="arithmatex">\( A_t \)</span> is advantage estimate (from value function or returns)</p>
+<p><strong>RDT's Challenge:</strong></p>
+<p>Diffusion models generate actions via iterative denoising:</p>
+<div class="arithmatex">\[
+a = \text{Denoise}(x_T, c, H) \quad \text{where } x_T \sim \mathcal{N}(0, I), c = \text{context}(s_t)
+\]</div>
+<ul>
+<li>Process is deterministic given initial noise <span class="arithmatex">\( x_T \)</span></li>
+<li>No explicit probability density <span class="arithmatex">\( p(a|s) \)</span></li>
+<li>Computing <span class="arithmatex">\( \log p(a|s) \)</span> requires expensive ELBO estimation or score matching</li>
+</ul>
+<p><strong>Current Workaround:</strong><br>
+None. RDT acts as deterministic action generator (inference-only mode). Cannot train with standard policy gradient RL.</p>
+<p><strong>Impact:</strong><br>
+- ✅ Can evaluate pretrained RDT on LIBERO (rollout collection works)
+- ❌ Cannot RL fine-tune RDT to improve via environmental interaction
+- ❌ Cannot combine behavior cloning + RL (pretrain → post-RL workflow blocked)</p>
+<h2 id="engineering-notes">Engineering Notes</h2>
+<h3 id="rotation-correction-details">Rotation Correction Details</h3>
+<p><strong>Discovery Process:</strong></p>
+<ol>
+<li>Ran initial RDT inference on RLinf LIBERO observations</li>
+<li>Actions were nonsensical (reaching in opposite direction from object)</li>
+<li>Saved and visualized RLinf images vs. RDT pretraining images</li>
+<li>Identified consistent 180° rotation offset</li>
+</ol>
+<p><strong>Implementation:</strong></p>
+<p>Applied in preprocessing before feeding to RDT:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Rotate 180° clockwise (k=2 means 2×90° rotation)</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">images_corrected</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">rot90</span><span class="p">(</span><span class="n">images</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="c1"># axes=(-2, -1) specifies height and width dimensions</span>
+</code></pre></div>
+<p><strong>Verification:</strong><br>
+Visual inspection confirms corrected images match RDT training data orientation. Actions post-correction are qualitatively reasonable.</p>
+<h3 id="dependency-patch">Dependency Patch</h3>
+<p><strong>Conflict:</strong><br>
+RDT uses <code>peft==0.10.0</code>. RLinf may have different peft version. The <code>diffusers</code> library has strict version check:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># In diffusers internal code</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="k">if</span> <span class="ow">not</span> <span class="n">check_peft_version_compatible</span><span class="p">():</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s2">"peft version mismatch"</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Workaround:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># In rdt_action_model.py, before imports</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"_CHECK_PEFT"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"0"</span>  <span class="c1"># Bypass version check</span>
+</code></pre></div>
+<p><strong>Risk:</strong><br>
+If actual API incompatibility exists, may cause subtle runtime bugs. Should be replaced with proper dependency resolution (see Next Steps).</p>
+<h3 id="reproducibility-notes">Reproducibility Notes</h3>
+<p><strong>Environment Setup:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># Create RLinf environment</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>conda<span class="w"> </span>env<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>environment.yml
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>conda<span class="w"> </span>activate<span class="w"> </span>rlinf
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="c1"># Install RDT dependencies (may conflict - use with caution)</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>pip<span class="w"> </span>install<span class="w"> </span><span class="nv">peft</span><span class="o">==</span><span class="m">0</span>.10.0
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>pip<span class="w"> </span>install<span class="w"> </span><span class="nv">diffusers</span><span class="o">=={{</span>DIFFUSERS_VERSION<span class="o">}}</span>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="c1"># Verify versions</span>
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">"import peft; print(peft.__version__)"</span><span class="w">  </span><span class="c1"># Should show 0.10.0</span>
+</code></pre></div>
+<p><strong>Configuration:</strong></p>
+<p>All integration settings in config file:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># integration_config.yaml</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="nt">model</span><span class="p">:</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="s">"rdt"</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">  </span><span class="nt">checkpoint</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{{</span><span class="nv">RDT_CHECKPOINT_PATH</span><span class="p p-Indicator">}}</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">  </span><span class="nt">diffusion_steps</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{{</span><span class="nv">DIFFUSION_STEPS</span><span class="p p-Indicator">}}</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">  </span><span class="nt">action_chunk</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{{</span><span class="nv">ACTION_CHUNK</span><span class="p p-Indicator">}}</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="nt">environment</span><span class="p">:</span>
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">"libero"</span>
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="w">  </span><span class="nt">task_suite</span><span class="p">:</span><span class="w"> </span><span class="s">"libero_object"</span>
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="w">  </span><span class="nt">num_parallel</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{{</span><span class="nv">NUM_PARALLEL_ENVS</span><span class="p p-Indicator">}}</span>
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>
+<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="nt">data</span><span class="p">:</span>
+<a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a><span class="w">  </span><span class="nt">include_joint_states</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">  </span><span class="c1"># Enable joint_states extraction</span>
+<a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a><span class="w">  </span><span class="nt">apply_image_rotation</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">  </span><span class="c1"># Enable 180° correction</span>
+</code></pre></div>
+<p><strong>Launch:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Run integration</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>bash<span class="w"> </span>run_libero_rdt.sh<span class="w"> </span>--config<span class="w"> </span>integration_config.yaml
+</code></pre></div>
+<h2 id="failure-modes-fixes">Failure Modes &amp; Fixes</h2>
+<p>Based on debugging and integration testing:</p>
+<ol>
+<li><strong>Missing joint_states Field Error</strong></li>
+<li><strong>Symptom:</strong> <code>KeyError: 'joint_states'</code> in model forward pass</li>
+<li><strong>Root Cause:</strong> Old environment code not returning joint_states; or Experience struct missing field</li>
+<li><strong>Diagnostic:</strong> Check env observation dict keys; verify io_struct.py has joint_states field</li>
+<li>
+<p><strong>Fix:</strong> Ensure libero_env.py extracts joint_states; rebuild Experience with new field</p>
+</li>
+<li>
+<p><strong>Image Rotation Still Incorrect</strong></p>
+</li>
+<li><strong>Symptom:</strong> RDT actions point in wrong direction despite rotation correction</li>
+<li><strong>Root Cause:</strong> Rotation applied to wrong axes or incorrect number of 90° rotations</li>
+<li><strong>Diagnostic:</strong> Save preprocessed images to file; visually inspect orientation</li>
+<li>
+<p><strong>Fix:</strong> Verify <code>axes=(-2, -1)</code> targets height×width; test k=1,2,3 to find correct rotation</p>
+</li>
+<li>
+<p><strong>peft Version Conflict Crash</strong></p>
+</li>
+<li><strong>Symptom:</strong> ImportError or AttributeError when loading RDT model</li>
+<li><strong>Root Cause:</strong> <code>_CHECK_PEFT=0</code> patch not applied before imports</li>
+<li><strong>Diagnostic:</strong> Check if os.environ set before <code>import diffusers</code></li>
+<li>
+<p><strong>Fix:</strong> Move patch to top of script; verify environment variable set in shell</p>
+</li>
+<li>
+<p><strong>Batch Size Mismatch</strong></p>
+</li>
+<li><strong>Symptom:</strong> Shape error in predict_action_batch: expected (N, ...) got (M, ...)</li>
+<li><strong>Root Cause:</strong> Number of parallel environments ≠ model batch size expected</li>
+<li><strong>Diagnostic:</strong> Log observation batch shape at entry to predict_action_batch</li>
+<li>
+<p><strong>Fix:</strong> Ensure consistent batch size across env workers and model inference; pad if needed</p>
+</li>
+<li>
+<p><strong>OOM During Batch Inference</strong></p>
+</li>
+<li><strong>Symptom:</strong> CUDA OOM error in RDT forward pass</li>
+<li><strong>Root Cause:</strong> Large batch size × multi-view images × H diffusion steps exceeds GPU memory</li>
+<li><strong>Diagnostic:</strong> Monitor <code>nvidia-smi</code> memory during inference</li>
+<li>
+<p><strong>Fix:</strong> Reduce num_parallel_envs; process in sub-batches; enable gradient checkpointing (if training)</p>
+</li>
+<li>
+<p><strong>Language Instruction Encoding Fails</strong></p>
+</li>
+<li><strong>Symptom:</strong> T5 encoder raises error on malformed instruction string</li>
+<li><strong>Root Cause:</strong> Empty string, non-ASCII characters, or exceeds max token length</li>
+<li><strong>Diagnostic:</strong> Log language instructions; check for edge cases</li>
+<li>
+<p><strong>Fix:</strong> Add input validation; truncate long instructions; handle empty strings gracefully</p>
+</li>
+<li>
+<p><strong>Denoising Divergence (Rare)</strong></p>
+</li>
+<li><strong>Symptom:</strong> RDT outputs NaN or extremely large action values</li>
+<li><strong>Root Cause:</strong> Numerical instability in diffusion sampling; or corrupted checkpoint</li>
+<li><strong>Diagnostic:</strong> Check action min/max; verify checkpoint loaded correctly</li>
+<li>
+<p><strong>Fix:</strong> Clip action outputs; reload checkpoint; reduce diffusion step size</p>
+</li>
+<li>
+<p><strong>Experience Buffer Overflow</strong></p>
+</li>
+<li><strong>Symptom:</strong> Memory usage grows unbounded; system slows down</li>
+<li><strong>Root Cause:</strong> Experience buffer not clearing old data; joint_states adds 9× more state data</li>
+<li><strong>Diagnostic:</strong> Monitor buffer size and memory usage over time</li>
+<li><strong>Fix:</strong> Implement buffer size limit; evict old experiences; compress joint_states if needed</li>
+</ol>
+<h2 id="next-steps-enabling-rl-fine-tuning">Next Steps: Enabling RL Fine-tuning</h2>
+<p>Below are concrete technical approaches to address the log_prob blocker and enable RL training:</p>
+<h3 id="option-1-off-policy-rl-with-deterministic-policy">Option 1: Off-Policy RL with Deterministic Policy</h3>
+<p><strong>Approach:</strong><br>
+Treat RDT as deterministic policy <span class="arithmatex">\( a = \mu_\theta(s) \)</span>. Use off-policy RL algorithms that don't require log_prob:</p>
+<ul>
+<li><strong>Q-learning variants:</strong> DQN, SAC (with deterministic actor), DDPG</li>
+<li><strong>Objective:</strong> Maximize Q-value: <span class="arithmatex">\( \nabla_\theta J = \mathbb{E}[Q(s, \mu_\theta(s))] \)</span></li>
+<li><strong>Advantage:</strong> No log_prob needed; gradient flows through action output</li>
+</ul>
+<p><strong>Implementation Steps:</strong></p>
+<ol>
+<li>Train critic network <span class="arithmatex">\( Q_\phi(s, a) \)</span> to estimate action values</li>
+<li>Collect experience with RDT deterministic policy (current inference works ✅)</li>
+<li>Update RDT parameters via: <span class="arithmatex">\( \nabla_\theta Q(s, \mu_\theta(s)) \)</span></li>
+<li>Requires differentiable RDT denoising (may need custom backward pass)</li>
+</ol>
+<p><strong>Feasibility:</strong> Medium (requires custom gradient computation through diffusion sampling)</p>
+<h3 id="option-2-surrogate-stochastic-distribution">Option 2: Surrogate Stochastic Distribution</h3>
+<p><strong>Approach:</strong><br>
+Add lightweight stochastic head that outputs Gaussian distribution around RDT actions:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># Pseudo-code</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="n">rdt_action</span> <span class="o">=</span> <span class="n">rdt_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">obs</span><span class="p">)</span>  <span class="c1"># Deterministic diffusion output</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="n">mean</span> <span class="o">=</span> <span class="n">rdt_action</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="n">std</span> <span class="o">=</span> <span class="n">learnable_std_parameter</span>  <span class="c1"># Or predicted from obs</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="n">policy_dist</span> <span class="o">=</span> <span class="n">Normal</span><span class="p">(</span><span class="n">mean</span><span class="p">,</span> <span class="n">std</span><span class="p">)</span>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="n">sampled_action</span> <span class="o">=</span> <span class="n">policy_dist</span><span class="o">.</span><span class="n">sample</span><span class="p">()</span>
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="n">log_prob</span> <span class="o">=</span> <span class="n">policy_dist</span><span class="o">.</span><span class="n">log_prob</span><span class="p">(</span><span class="n">sampled_action</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Advantages:</strong>
+- Provides log_prob for policy gradient
+- Minimal architectural change (add std prediction head)
+- Can initialize with small std to stay close to RDT actions</p>
+<p><strong>Disadvantages:</strong>
+- Surrogate distribution may not represent true RDT action uncertainty
+- Two-stage process (diffusion + sampling) adds complexity</p>
+<p><strong>Implementation Steps:</strong></p>
+<ol>
+<li>Add learnable std parameter or std prediction network</li>
+<li>Freeze RDT diffusion model initially</li>
+<li>Train std parameter via policy gradient</li>
+<li>Gradually unfreeze diffusion model layers</li>
+</ol>
+<p><strong>Feasibility:</strong> High (straightforward to implement and test)</p>
+<h3 id="option-3-distillation-to-stochastic-policy">Option 3: Distillation to Stochastic Policy</h3>
+<p><strong>Approach:</strong><br>
+Train a separate lightweight Gaussian policy to distill RDT actions, then RL-fine-tune the distilled policy:</p>
+<ol>
+<li><strong>Phase 1 (Distillation):</strong></li>
+<li>Collect action dataset from RDT on diverse states</li>
+<li>Train Gaussian policy <span class="arithmatex">\( \pi_\phi(a|s) \)</span> to match RDT actions</li>
+<li>
+<p>Loss: <span class="arithmatex">\( \mathcal{L} = \mathbb{E}[||a_{\text{RDT}} - a_\phi||^2] \)</span></p>
+</li>
+<li>
+<p><strong>Phase 2 (RL Fine-tuning):</strong></p>
+</li>
+<li>Initialize RL with distilled policy</li>
+<li>Fine-tune using standard policy gradient (PPO, SAC)</li>
+<li>Distilled policy is stochastic; provides log_prob naturally</li>
+</ol>
+<p><strong>Advantages:</strong>
+- Decouples diffusion model from RL training
+- Can use any standard RL algorithm
+- Distilled policy may be more sample-efficient (lighter model)</p>
+<p><strong>Disadvantages:</strong>
+- Loses diffusion model structure and pretraining knowledge
+- Two-stage training adds complexity
+- Distilled policy may not capture RDT action distribution fully</p>
+<p><strong>Feasibility:</strong> High (well-established approach in RL literature)</p>
+<h3 id="option-4-behavior-cloning-warm-start-differentiable-policy-head">Option 4: Behavior Cloning Warm-start + Differentiable Policy Head</h3>
+<p><strong>Approach:</strong><br>
+Replace RDT action decoder with differentiable stochastic head for RL fine-tuning:</p>
+<ol>
+<li>Keep RDT encoders (vision, language, state) frozen or partially frozen</li>
+<li>Replace diffusion decoder with Gaussian policy head: <span class="arithmatex">\( \pi(a|s) = \mathcal{N}(\mu_\theta(h), \Sigma_\theta(h)) \)</span></li>
+<li>Initialize new head via behavior cloning on RDT-generated actions</li>
+<li>RL fine-tune the policy head with frozen encoders</li>
+</ol>
+<p><strong>Advantages:</strong>
+- Preserves RDT feature representations (vision, language)
+- Standard RL training (has log_prob)
+- Encoder knowledge transfer from pretraining</p>
+<p><strong>Disadvantages:</strong>
+- Discards diffusion decoder (loses multi-modal action modeling)
+- Gaussian policy may not capture complex action distributions
+- Requires retraining action head (behavior cloning phase)</p>
+<p><strong>Feasibility:</strong> High (commonly used in vision-language-action fine-tuning)</p>
+<h3 id="option-5-score-based-policy-gradients">Option 5: Score-Based Policy Gradients</h3>
+<p><strong>Approach:</strong><br>
+Use score-matching objectives that don't require explicit log_prob:</p>
+<ul>
+<li><strong>Idea:</strong> Diffusion models learn score function <span class="arithmatex">\( \nabla_a \log p(a|s) \)</span></li>
+<li><strong>RL via scores:</strong> Update policy using score-based policy gradient estimators</li>
+<li><strong>Reference:</strong> Recent work on diffusion policy RL (e.g., Diffusion-QL)</li>
+</ul>
+<p><strong>Implementation Steps:</strong></p>
+<ol>
+<li>Expose RDT score function <span class="arithmatex">\( \nabla_a \log p(a|s) \)</span></li>
+<li>Use score for implicit policy optimization</li>
+<li>Integrate with value function for critic-based RL</li>
+</ol>
+<p><strong>Feasibility:</strong> Low (requires research-level implementation; not straightforward)</p>
+<h3 id="option-6-dependency-containerization">Option 6: Dependency Containerization</h3>
+<p><strong>Approach:</strong><br>
+Isolate RDT dependencies to avoid conflicts with RLinf:</p>
+<ol>
+<li><strong>Docker containerization:</strong></li>
+<li>Container 1: RLinf framework with environment (no RDT dependencies)</li>
+<li>Container 2: RDT inference server (isolated dependencies)</li>
+<li>
+<p>Communication via gRPC or REST API</p>
+</li>
+<li>
+<p><strong>Virtual environment separation:</strong></p>
+</li>
+<li>Create separate conda env for RDT inference</li>
+<li>Call RDT via subprocess from RLinf</li>
+<li>Pass observations and receive actions via serialization</li>
+</ol>
+<p><strong>Advantages:</strong>
+- Clean dependency separation
+- No version conflict patches needed
+- Each component uses optimal dependency versions</p>
+<p><strong>Disadvantages:</strong>
+- Inter-process communication overhead (latency increase)
+- More complex deployment and debugging
+- May limit gradient flow if RL training requires end-to-end backprop</p>
+<p><strong>Feasibility:</strong> High (engineering solution, not research problem)</p>
+<h3 id="recommended-path-forward">Recommended Path Forward</h3>
+<p><strong>Near-term (1-2 weeks):</strong><br>
+Implement <strong>Option 2 (Surrogate Stochastic Distribution)</strong> for quickest path to RL training. Add Gaussian head around RDT actions; test policy gradient updates with frozen diffusion model.</p>
+<p><strong>Medium-term (1 month):</strong><br>
+Implement <strong>Option 3 (Distillation)</strong> for more robust RL fine-tuning. Distill RDT to lightweight Gaussian policy; validate distillation quality; run full PPO/SAC training.</p>
+<p><strong>Long-term (research):</strong><br>
+Investigate <strong>Option 5 (Score-Based Policy Gradients)</strong> for native diffusion policy RL without distribution mismatch.</p>
+<p><strong>Parallel effort:</strong><br>
+Implement <strong>Option 6 (Containerization)</strong> to eliminate dependency patches and improve reproducibility.</p>
+<h2 id="reproducibility-checklist">Reproducibility Checklist</h2>
+<h3 id="environment-setup">Environment Setup</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># Clone RLinf framework (private repository - contact for access)</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>git<span class="w"> </span>clone<span class="w"> </span><span class="o">{{</span>RLINF_REPO_URL<span class="o">}}</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="nb">cd</span><span class="w"> </span>rlinf
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="c1"># Create environment</span>
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>conda<span class="w"> </span>env<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>environment.yml
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>conda<span class="w"> </span>activate<span class="w"> </span>rlinf
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>
+<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="c1"># Install RDT dependencies (with version conflicts noted)</span>
+<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>pip<span class="w"> </span>install<span class="w"> </span><span class="nv">peft</span><span class="o">==</span><span class="m">0</span>.10.0
+<a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>pip<span class="w"> </span>install<span class="w"> </span><span class="nv">diffusers</span><span class="o">=={{</span>DIFFUSERS_VERSION<span class="o">}}</span>
+<a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a>
+<a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a><span class="c1"># Verify compatibility patch</span>
+<a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">"import os; os.environ['_CHECK_PEFT']='0'; import diffusers; print('OK')"</span>
+</code></pre></div>
+<h3 id="integration-files">Integration Files</h3>
+<p><strong>Modified Files (relative to RLinf root):</strong></p>
+<ul>
+<li><code>envs/libero_env.py</code>: Added joint_states extraction (~20 lines added)</li>
+<li><code>utils/io_struct.py</code>: Added joint_states field to Experience dataclass (~2 lines added)</li>
+<li><code>models/rdt_action_model.py</code>: Complete RDT wrapper (~150 lines, new file)</li>
+<li><code>scripts/run_libero_rdt.sh</code>: Integration launch script (~30 lines, new file)</li>
+</ul>
+<p><strong>No Internal Paths Disclosed:</strong> All paths use <code>{{PLACEHOLDER}}</code> format in documentation.</p>
+<h3 id="running-integration">Running Integration</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># Set paths in config</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">RDT_CHECKPOINT</span><span class="o">={{</span>RDT_CHECKPOINT_PATH<span class="o">}}</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="nb">export</span><span class="w"> </span><span class="nv">LIBERO_DATA</span><span class="o">={{</span>LIBERO_DATA_PATH<span class="o">}}</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="c1"># Launch integration (forward inference mode)</span>
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>bash<span class="w"> </span>run_libero_rdt.sh<span class="w"> </span>--config<span class="w"> </span>integration_config.yaml
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>
+<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="c1"># Expected output: Environment rollouts with RDT actions (no training)</span>
+</code></pre></div>
+<h3 id="debugging-commands">Debugging Commands</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># Check observation shapes</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">"from envs.libero_env import LiberoEnv; env = LiberoEnv(); obs = env.reset(); print(obs.keys())"</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="c1"># Verify joint_states shape</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">"import io_struct; exp = io_struct.Experience(...); print(exp.joint_states.shape)"</span>
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="c1"># Test RDT inference standalone</span>
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>python<span class="w"> </span>models/rdt_action_model.py<span class="w"> </span>--test_batch<span class="w"> </span><span class="o">{{</span>TEST_OBS_PATH<span class="o">}}</span>
+</code></pre></div>
+<h2 id="placeholder-checklist">Placeholder Checklist</h2>
+<p>Below are placeholders used in this document that should be filled with actual values:</p>
+<table>
+<thead>
+<tr>
+<th>Placeholder</th>
+<th>Description</th>
+<th>How to Obtain</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>{{IMAGE_SHAPE}}</code></td>
+<td>Input image shape per view</td>
+<td>Check LIBERO obs dict; likely (128, 128, 3) or similar</td>
+</tr>
+<tr>
+<td><code>{{IMAGE_BATCH_SHAPE}}</code></td>
+<td>Batched image shape</td>
+<td>(batch, num_views, H, W, C) - check RDT input</td>
+</tr>
+<tr>
+<td><code>{{EEF_STATE_DIM}}</code></td>
+<td>End-effector state dimension</td>
+<td>Count EEF pose elements (position 3 + orientation 4 = 7?)</td>
+</tr>
+<tr>
+<td><code>{{ACTION_DIM}}</code></td>
+<td>Action space dimension</td>
+<td>LIBERO: 6D EEF delta + gripper = 7 or 8 dims</td>
+</tr>
+<tr>
+<td><code>{{DIFFUSION_STEPS}}</code></td>
+<td>Number of denoising steps H</td>
+<td>Likely 8 (from RDT project), check config</td>
+</tr>
+<tr>
+<td><code>{{ACTION_CHUNK}}</code></td>
+<td>Action chunk length N</td>
+<td>Likely 10 (from RDT project), check config</td>
+</tr>
+<tr>
+<td><code>{{BATCH_SIZE}}</code></td>
+<td>Parallel environments</td>
+<td>Check RLinf config; typically 4-16</td>
+</tr>
+<tr>
+<td><code>{{THROUGHPUT}}</code></td>
+<td>Steps per second</td>
+<td>Compute: batch_size / (375ms inference + env_step_time)</td>
+</tr>
+<tr>
+<td><code>{{DIFFUSERS_VERSION}}</code></td>
+<td>diffusers library version</td>
+<td><code>pip show diffusers | grep Version</code></td>
+</tr>
+<tr>
+<td><code>{{RDT_CHECKPOINT_PATH}}</code></td>
+<td>Path to RDT checkpoint</td>
+<td>User-specified config</td>
+</tr>
+<tr>
+<td><code>{{LIBERO_DATA_PATH}}</code></td>
+<td>LIBERO dataset location</td>
+<td>User-specified config</td>
+</tr>
+<tr>
+<td><code>{{NUM_PARALLEL_ENVS}}</code></td>
+<td>Number of parallel envs</td>
+<td>RLinf config</td>
+</tr>
+<tr>
+<td><code>{{RLINF_REPO_URL}}</code></td>
+<td>RLinf repository URL</td>
+<td>Private repo (contact lab for access)</td>
+</tr>
+<tr>
+<td><code>{{TEST_OBS_PATH}}</code></td>
+<td>Test observation batch file</td>
+<td>Save sample observations for testing</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Visual Asset Placeholders:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Figure</th>
+<th>Description</th>
+<th>Priority</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>project4_overview.png</code></td>
+<td>System architecture: RLinf + RDT + LIBERO</td>
+<td>High</td>
+</tr>
+<tr>
+<td><code>rlinf_rdt_dataflow.png</code></td>
+<td>Detailed data flow with joint_states extension</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td><code>diffusion_vs_policy_gradient.png</code></td>
+<td>Conceptual diagram: diffusion denoising vs stochastic policy sampling</td>
+<td>High</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Figure Creation Instructions:</strong></p>
+<ul>
+<li><code>project4_overview.png</code>: Show RLinf Worker/Learner architecture with RDT as ActionModel; highlight joint_states data path</li>
+<li><code>rlinf_rdt_dataflow.png</code>: Sequence diagram: env.reset() → obs with joint_states → Experience → batch → RDT → actions → env.step()</li>
+<li><code>diffusion_vs_policy_gradient.png</code>: Side-by-side comparison:</li>
+<li>Left: Diffusion (deterministic denoising x_T → x_0)</li>
+<li>Right: Stochastic policy (sample from distribution, compute log_prob)</li>
+<li>Middle: "Mismatch" with question mark</li>
+</ul>
+<hr>
+<p><strong>References:</strong></p>
+<ul>
+<li><a href="https://arxiv.org/abs/2410.07368">RDT: Robot Diffusion Transformer</a></li>
+<li><a href="https://lifelong-robot-learning.github.io/LIBERO/">LIBERO Benchmark</a></li>
+<li><a href="https://arxiv.org/abs/2205.09991">Diffusion Models for RL</a> (Diffusion-QL)</li>
+<li><a href="https://www.deepspeed.ai/">DeepSpeed Documentation</a></li>
+</ul>
+<p><strong>Related Projects:</strong></p>
+<ul>
+<li><a href="../rdt-libero/">RDT SFT on LIBERO</a> - Standalone RDT fine-tuning achieving 92% (object), 94% (goal); provides pretrained checkpoints for this integration</li>
+<li><a href="../groot-libero-reproduction/">GR00T-N1.6 on LIBERO</a> - Alternative foundation model achieving 97.8% success with native RL compatibility</li>
+<li><a href="../teleop-mocap/">OptiTrack ROS2 Streaming</a> - Motion capture infrastructure for robot teleoperation and data collection</li>
+</ul>
+<p><strong>Note:</strong> RLinf framework is proprietary. This page documents only the integration approach and interface contracts, not internal implementation details.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright © 2024-2026 Tingjia Chen
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/chentingjia" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="mailto:{{YOUR_EMAIL}}" target="_blank" rel="noopener" title="" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M536.4-26.3c9.8-3.5 20.6-1 28 6.3s9.8 18.2 6.3 28l-178 496.9c-5 13.9-18.1 23.1-32.8 23.1-14.2 0-27-8.6-32.3-21.7l-64.2-158c-4.5-11-2.5-23.6 5.2-32.6l94.5-112.4c5.1-6.1 4.7-15-.9-20.6s-14.6-6-20.6-.9l-112.4 94.3c-9.1 7.6-21.6 9.6-32.6 5.2L38.1 216.8c-13.1-5.3-21.7-18.1-21.7-32.3 0-14.7 9.2-27.8 23.1-32.8z"></path></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+         <loc>https://chentingjia.github.io/chentingjia-portfolio/</loc>
+         <lastmod>2026-03-04</lastmod>
+    </url>
+    <url>
+         <loc>https://chentingjia.github.io/chentingjia-portfolio/assets/</loc>
+         <lastmod>2026-03-04</lastmod>
+    </url>
+    <url>
+         <loc>https://chentingjia.github.io/chentingjia-portfolio/projects/groot-libero-reproduction/</loc>
+         <lastmod>2026-03-04</lastmod>
+    </url>
+    <url>
+         <loc>https://chentingjia.github.io/chentingjia-portfolio/projects/icml-resmerge/</loc>
+         <lastmod>2026-03-04</lastmod>
+    </url>
+    <url>
+         <loc>https://chentingjia.github.io/chentingjia-portfolio/projects/rdt-libero/</loc>
+         <lastmod>2026-03-04</lastmod>
+    </url>
+    <url>
+         <loc>https://chentingjia.github.io/chentingjia-portfolio/projects/rlinf-rdt-integration/</loc>
+         <lastmod>2026-03-04</lastmod>
+    </url>
+    <url>
+         <loc>https://chentingjia.github.io/chentingjia-portfolio/projects/teleop-mocap/</loc>
+         <lastmod>2026-03-04</lastmod>
+    </url>
+</urlset>

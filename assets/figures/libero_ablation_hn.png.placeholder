@@ -1,0 +1,76 @@
+PLACEHOLDER: libero_ablation_hn.png
+
+Create a heatmap showing success rate vs. diffusion steps (H) and action chunk length (N):
+
+**Chart Type:** 2D heatmap with annotated cells
+
+**Axes:**
+- X-axis: Action Chunk Length N (values: 1, 5, 10, 15, 20)
+- Y-axis: Diffusion Steps H (values: 1, 2, 4, 8, 10, 16)
+
+**Known Data Points (from experiments):**
+- (H=1, N=1): 78%
+- (H=8, N=1): 88%
+- (H=8, N=10): 90%
+- (H=1, N=10): {{SUCCESS_H1_N10}}%
+- Other cells: {{...}} (pending experiments)
+
+**Visual Elements:**
+- Color scale: 0-100% success rate (red → yellow → green gradient)
+- Cell annotations: Display percentage value in each cell
+- Highlight optimal configuration (H=8, N=10, 90%) with bold border
+- Color bar on right showing scale
+
+**Annotations:**
+- "Optimal: H=8, N=10 (90%)" with arrow
+- "Baseline: H=1, N=1 (78%)" with arrow
+- "Trade-off: Higher H/N = better accuracy but slower inference"
+
+**Python Code Example:**
+
+```python
+import matplotlib.pyplot as plt
+import seaborn as sns
+import numpy as np
+
+# Data (fill with actual values)
+H_values = [1, 2, 4, 8, 10, 16]
+N_values = [1, 5, 10, 15, 20]
+
+# Create grid (use NaN for missing experiments)
+success_matrix = np.array([
+    [78, np.nan, np.nan, np.nan, np.nan],  # H=1
+    [np.nan, np.nan, np.nan, np.nan, np.nan],  # H=2
+    [np.nan, np.nan, np.nan, np.nan, np.nan],  # H=4
+    [88, np.nan, 90, np.nan, np.nan],  # H=8
+    [np.nan, np.nan, np.nan, np.nan, np.nan],  # H=10
+    [np.nan, np.nan, np.nan, np.nan, np.nan],  # H=16
+])
+
+# Create heatmap
+fig, ax = plt.subplots(figsize=(10, 7), dpi=150)
+sns.heatmap(success_matrix, annot=True, fmt='.0f', cmap='RdYlGn',
+            vmin=0, vmax=100, cbar_kws={'label': 'Success Rate (%)'},
+            xticklabels=N_values, yticklabels=H_values,
+            linewidths=0.5, linecolor='gray', ax=ax)
+
+ax.set_xlabel('Action Chunk Length (N)', fontsize=12)
+ax.set_ylabel('Diffusion Steps (H)', fontsize=12)
+ax.set_title('RDT Hyperparameter Ablation: Success Rate vs. (H, N)\nlibero_object task suite',
+             fontsize=14, pad=20)
+
+# Highlight optimal configuration
+from matplotlib.patches import Rectangle
+optimal_H_idx = 3  # H=8
+optimal_N_idx = 2  # N=10
+rect = Rectangle((optimal_N_idx, optimal_H_idx), 1, 1,
+                 linewidth=3, edgecolor='blue', facecolor='none')
+ax.add_patch(rect)
+
+plt.tight_layout()
+plt.savefig('libero_ablation_hn.png', dpi=150, bbox_inches='tight')
+```
+
+**Resolution:** 1500×1050 px  
+**Format:** PNG  
+**File size:** <400KB

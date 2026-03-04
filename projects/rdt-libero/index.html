@@ -1,0 +1,2746 @@
+<!DOCTYPE html><html lang="en" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Technical documentation for research projects in Embodied AI, robot learning, and vision-language-action models">
+      
+      
+        <meta name="author" content="Tingjia Chen">
+      
+      
+        <link rel="canonical" href="https://chentingjia.github.io/chentingjia-portfolio/projects/rdt-libero/">
+      
+      
+        <link rel="prev" href="../groot-libero-reproduction/">
+      
+      
+        <link rel="next" href="../rlinf-rdt-integration/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.4">
+    
+    
+      
+        <title>RDT SFT &amp; Evaluation on LIBERO - Tingjia Chen - Embodied AI Portfolio</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#rdt-sft-evaluation-on-libero-full-parameter-vs-lora" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Tingjia Chen - Embodied AI Portfolio" class="md-header__button md-logo" aria-label="Tingjia Chen - Embodied AI Portfolio" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Tingjia Chen - Embodied AI Portfolio
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              RDT SFT &amp; Evaluation on LIBERO
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo" aria-label="Switch to dark mode" type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo" aria-label="Switch to light mode" type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/chentingjia/chentingjia-portfolio" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    chentingjia/chentingjia-portfolio
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../teleop-mocap/" class="md-tabs__link">
+          
+  
+  
+  Projects
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Tingjia Chen - Embodied AI Portfolio" class="md-nav__button md-logo" aria-label="Tingjia Chen - Embodied AI Portfolio" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+
+    </a>
+    Tingjia Chen - Embodied AI Portfolio
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/chentingjia/chentingjia-portfolio" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    chentingjia/chentingjia-portfolio
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Projects
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Projects
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../teleop-mocap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OptiTrack ROS2 Streaming Node
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../groot-libero-reproduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GR00T-N1.6 SFT on LIBERO
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RDT SFT &amp; Evaluation on LIBERO
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RDT SFT &amp; Evaluation on LIBERO
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#context-goal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Context &amp; Goal
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#system-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        System Overview
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="System Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#architecture-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture Flow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-layer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Layer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#model-layer-rdt-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Model Layer (RDT Architecture)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#training-layer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Training Layer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#evaluation-layer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evaluation Layer
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-challenges" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Challenges
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Key Challenges">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-data-heterogeneity-state-action-alignment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Data Heterogeneity &amp; State-Action Alignment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-language-ambiguity-under-limited-demonstrations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Language Ambiguity Under Limited Demonstrations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-small-sample-overfitting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Small-Sample Overfitting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-lora-performance-ceiling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. LoRA Performance Ceiling
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-evaluation-inefficiency" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Evaluation Inefficiency
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-i-built" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What I Built
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reproducibility-experiment-hygiene" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reproducibility &amp; Experiment Hygiene
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Reproducibility &amp; Experiment Hygiene">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configuration-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration Management
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deterministic-seeding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deterministic Seeding
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dependency-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dependency Management
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#logging-monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Logging &amp; Monitoring
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Results">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#success-rates-by-task-suite" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Success Rates by Task Suite
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#full-parameter-vs-lora-comparison" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Full-Parameter vs LoRA Comparison
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#full-vs-lora-trade-off-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Full vs LoRA Trade-off Analysis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Full vs LoRA Trade-off Analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#why-lora-underperforms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why LoRA Underperforms
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#proposed-experiments-to-test-next" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Proposed Experiments to Test Next
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#profiler-findings-evaluation-efficiency" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Profiler Findings &amp; Evaluation Efficiency
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Profiler Findings &amp; Evaluation Efficiency">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#latency-breakdown" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Latency Breakdown
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#proposed-acceleration-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Proposed Acceleration Strategies
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ablation-hyperparameter-tuning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ablation &amp; Hyperparameter Tuning
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Ablation &amp; Hyperparameter Tuning">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#diffusion-steps-h-vs-success-rate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Diffusion Steps (H) vs Success Rate
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#action-chunk-length-n-vs-success-rate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Action Chunk Length (N) vs Success Rate
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#failure-modes-debugging-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Failure Modes &amp; Debugging Notes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Next Steps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#problem-1-lora-underperforms-full-parameter-20-vs-76" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problem 1: LoRA Underperforms Full-Parameter (20% vs 76%+)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#problem-2-rdt-inference-slow-375msstep-69-eval-time" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problem 2: RDT Inference Slow (375ms/step, 69% eval time)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#problem-3-spatial-long-horizon-underperformance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problem 3: Spatial &amp; Long-Horizon Underperformance
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reproducibility-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reproducibility Checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#placeholder-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Placeholder Checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rlinf-rdt-integration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RLinf × RDT Integration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../icml-resmerge/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ResMerge (ICML Continual Learning)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#context-goal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Context &amp; Goal
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#system-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        System Overview
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="System Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#architecture-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture Flow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-layer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Layer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#model-layer-rdt-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Model Layer (RDT Architecture)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#training-layer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Training Layer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#evaluation-layer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evaluation Layer
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-challenges" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Challenges
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Key Challenges">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-data-heterogeneity-state-action-alignment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Data Heterogeneity &amp; State-Action Alignment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-language-ambiguity-under-limited-demonstrations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Language Ambiguity Under Limited Demonstrations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-small-sample-overfitting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Small-Sample Overfitting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-lora-performance-ceiling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. LoRA Performance Ceiling
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-evaluation-inefficiency" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Evaluation Inefficiency
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-i-built" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What I Built
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reproducibility-experiment-hygiene" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reproducibility &amp; Experiment Hygiene
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Reproducibility &amp; Experiment Hygiene">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configuration-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration Management
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deterministic-seeding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deterministic Seeding
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dependency-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dependency Management
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#logging-monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Logging &amp; Monitoring
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Results">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#success-rates-by-task-suite" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Success Rates by Task Suite
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#full-parameter-vs-lora-comparison" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Full-Parameter vs LoRA Comparison
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#full-vs-lora-trade-off-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Full vs LoRA Trade-off Analysis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Full vs LoRA Trade-off Analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#why-lora-underperforms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why LoRA Underperforms
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#proposed-experiments-to-test-next" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Proposed Experiments to Test Next
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#profiler-findings-evaluation-efficiency" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Profiler Findings &amp; Evaluation Efficiency
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Profiler Findings &amp; Evaluation Efficiency">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#latency-breakdown" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Latency Breakdown
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#proposed-acceleration-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Proposed Acceleration Strategies
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ablation-hyperparameter-tuning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ablation &amp; Hyperparameter Tuning
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Ablation &amp; Hyperparameter Tuning">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#diffusion-steps-h-vs-success-rate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Diffusion Steps (H) vs Success Rate
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#action-chunk-length-n-vs-success-rate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Action Chunk Length (N) vs Success Rate
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#failure-modes-debugging-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Failure Modes &amp; Debugging Notes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Next Steps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#problem-1-lora-underperforms-full-parameter-20-vs-76" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problem 1: LoRA Underperforms Full-Parameter (20% vs 76%+)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#problem-2-rdt-inference-slow-375msstep-69-eval-time" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problem 2: RDT Inference Slow (375ms/step, 69% eval time)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#problem-3-spatial-long-horizon-underperformance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problem 3: Spatial &amp; Long-Horizon Underperformance
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reproducibility-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reproducibility Checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#placeholder-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Placeholder Checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="rdt-sft-evaluation-on-libero-full-parameter-vs-lora">RDT SFT &amp; Evaluation on LIBERO: Full-parameter vs LoRA</h1>
+<p><strong>中文简介：</strong> 在LIBERO仿真中对Robotics Diffusion Transformer（RDT）进行监督微调，对比全参数与LoRA方法、评估数据规模对多任务模仿学习成功率的影响。实现完整的数据预处理→训练→评估pipeline，包括HDF5解析、SigLIP图像归一化、T5-XXL语言嵌入缓存（加速30%）、DeepSpeed分布式训练、以及批量checkpoint评估工具。发现LoRA上限仅~20%远低于全参数76%+；推理耗时375ms/step占评估69%时间；扩散步数和动作块长度对成功率有显著影响。</p>
+<hr>
+<p><strong>Organization:</strong> PKU Lingchu Lab<br>
+<strong>Duration:</strong> 2024<br>
+<strong>Role:</strong> Research Intern<br>
+<strong>Stack:</strong> PyTorch, DeepSpeed, LIBERO, peft (LoRA), T5-XXL, SigLIP</p>
+<h2 id="context-goal">Context &amp; Goal</h2>
+<p><strong>Robotics Diffusion Transformer (RDT)</strong> is a vision-language-action model that uses diffusion-based action generation for robot manipulation. Evaluating RDT on standardized benchmarks like <strong>LIBERO</strong> is critical for understanding:</p>
+<ol>
+<li><strong>Fine-tuning method trade-offs:</strong> Full-parameter vs. LoRA (parameter-efficient)</li>
+<li><strong>Data scale effects:</strong> How many demonstrations needed for acceptable performance</li>
+<li><strong>Language-conditioned manipulation:</strong> Multi-task generalization under complex natural language instructions</li>
+</ol>
+<p><strong>Project Goal:</strong></p>
+<p>Build complete supervised fine-tuning (SFT) and evaluation pipeline for RDT on LIBERO to:</p>
+<ol>
+<li>Implement full-parameter and LoRA fine-tuning with DeepSpeed distributed training</li>
+<li>Evaluate success rate across LIBERO task suites (Spatial, Object, Goal, Long)</li>
+<li>Profile inference bottlenecks and tune hyperparameters (diffusion steps, action chunk length)</li>
+<li>Analyze failure modes (language ambiguity, small-sample overfitting, LoRA limitations)</li>
+<li>Establish reproducible experiment workflow with config management and batch evaluation tools</li>
+</ol>
+<h2 id="system-overview">System Overview</h2>
+<p>The RDT pipeline consists of four layers: data preprocessing, model architecture, distributed training, and systematic evaluation.</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/figures/libero_pipeline.png" data-desc-position="bottom"><img alt="LIBERO Pipeline" src="../assets/figures/libero_pipeline.png"></a><br>
+<em>Figure 1: End-to-end RDT training and evaluation pipeline on LIBERO</em></p>
+<h3 id="architecture-flow">Architecture Flow</h3>
+<pre class="mermaid"><code>graph TD
+    A[LIBERO HDF5 Dataset] --&gt; B[HDF5VLADataset Parser]
+    B --&gt; C[VLAConsumerDataset&lt;br/&gt;Random Sampling]
+    C --&gt; D1[Image Preprocessing&lt;br/&gt;128×128 → 336×336]
+    C --&gt; D2[T5-XXL Language Encoder&lt;br/&gt;Cached Embeddings]
+    C --&gt; D3[State Normalization&lt;br/&gt;7 joints + 2 gripper]
+
+    D1 --&gt; E[RDT Model]
+    D2 --&gt; E
+    D3 --&gt; E
+
+    E --&gt; F[SigLIP Visual Encoder]
+    E --&gt; G[T5 Language Encoder]
+    E --&gt; H[State Adaptor]
+
+    F --&gt; I[Diffusion Transformer]
+    G --&gt; I
+    H --&gt; I
+
+    I --&gt; J[Action Decoder&lt;br/&gt;6D EEF + Gripper]
+    J --&gt; K[LIBERO Environment]
+    K --&gt; L[Success Detection]
+
+    M[DeepSpeed ZeRO-2&lt;br/&gt;BF16 Mixed Precision] --&gt; E
+    N[TensorBoard Logging] --&gt; E</code></pre>
+<h3 id="data-layer">Data Layer</h3>
+<p><strong>LIBERO Dataset Format (HDF5):</strong></p>
+<ul>
+<li><strong>Multi-view Images:</strong> <code>cam_high</code>, <code>cam_left_wrist</code> (128×128 RGB numpy arrays)</li>
+<li><strong>Robot State:</strong> 7-DoF joint positions + 2D gripper travel (left/right finger positions)</li>
+<li><strong>Actions:</strong> 6D end-effector delta (x,y,z position + roll,pitch,yaw orientation in meters/radians) + gripper command (open/close binary)</li>
+<li><strong>Language Instructions:</strong> Natural language task descriptions (e.g., "pick up the red block and place it in the drawer")</li>
+</ul>
+<p><strong>Preprocessing Pipeline:</strong></p>
+<ol>
+<li><strong><code>HDF5VLADataset</code>:</strong> Parses LIBERO HDF5 files; extracts trajectories with <code>parse_hdf5_file()</code></li>
+<li><strong><code>VLAConsumerDataset</code>:</strong> Randomly samples timesteps from trajectories; implements trajectory-length weighted sampling for balanced data distribution</li>
+<li><strong>Image Processing:</strong></li>
+<li>Pad 128×128 images to 336×336 (SigLIP standard input size)</li>
+<li>Normalize pixel values to SigLIP mean/std</li>
+<li>Augmentation: random horizontal flip, color jitter</li>
+<li><strong>Language Embedding Cache:</strong></li>
+<li>Precompute T5-XXL embeddings for all instructions</li>
+<li>Cache to disk to avoid redundant encoding</li>
+<li>Speedup: ~30% training time reduction</li>
+</ol>
+<h3 id="model-layer-rdt-architecture">Model Layer (RDT Architecture)</h3>
+<p><strong>Components:</strong></p>
+<ul>
+<li><strong>SigLIP Visual Encoder:</strong> Processes 336×336 RGB images from multiple camera views</li>
+<li><strong>T5 Language Encoder:</strong> Encodes natural language instructions to embeddings</li>
+<li><strong>State Adaptor:</strong> Projects robot proprioceptive state (joints, gripper) to latent space</li>
+<li><strong>Diffusion Transformer:</strong> Fuses multimodal features (vision, language, state) and generates action distribution</li>
+<li><strong>Action Decoder:</strong> Converts diffusion output to executable actions (6D EEF delta + gripper)</li>
+</ul>
+<p><strong>Fine-tuning Modes:</strong></p>
+<ol>
+<li><strong>Full-Parameter Fine-tuning:</strong></li>
+<li>Train all model parameters end-to-end</li>
+<li>
+<p>High capacity but requires more compute and data</p>
+</li>
+<li>
+<p><strong>LoRA Fine-tuning (via peft library):</strong></p>
+</li>
+<li>Inject low-rank adapters into selected modules</li>
+<li>Configurable <code>target_modules</code>: <code>all</code>, <code>adaptor_only</code>, <code>cross_attn</code>, <code>adaptor_cross</code>, etc.</li>
+<li>Tunable hyperparameters: rank (8-32), alpha, dropout</li>
+</ol>
+<h3 id="training-layer">Training Layer</h3>
+<p><strong>Training Script:</strong> <code>main_sft.py</code></p>
+<p><strong>Key Features:</strong></p>
+<ul>
+<li><strong>DeepSpeed ZeRO-2:</strong> Distributed training with optimizer state partitioning</li>
+<li><strong>BF16 Mixed Precision:</strong> Reduce memory footprint and improve throughput</li>
+<li><strong>Data Augmentation:</strong> Random image flips, state noise injection</li>
+<li><strong>Sampling Validation:</strong> Periodically sample from model to verify action distribution</li>
+<li><strong>TensorBoard Logging:</strong> Track loss, learning rate, gradient norms</li>
+</ul>
+<p><strong>Configuration Management:</strong></p>
+<ul>
+<li>Hyperparameters passed via bash scripts (e.g., <code>train_libero_object.sh</code>)</li>
+<li>Auto-generate timestamped experiment directories</li>
+<li>Save full config snapshot (<code>config.txt</code>) to each experiment dir</li>
+<li>Support checkpoint resume with <code>--resume</code> flag</li>
+</ul>
+<h3 id="evaluation-layer">Evaluation Layer</h3>
+<p><strong>Evaluation Script:</strong> <code>libero_rdt_eval.py</code></p>
+<p><strong>Workflow:</strong></p>
+<ol>
+<li>Load model checkpoint from experiment directory</li>
+<li>Initialize LIBERO simulation environment</li>
+<li>Run N trials per task (typically 5 trials/task)</li>
+<li>Compute per-task success rate</li>
+<li>Output CSV with per-episode results</li>
+<li>Profile inference and environment stepping time</li>
+</ol>
+<p><strong>Batch Evaluation Tools:</strong></p>
+<ul>
+<li><strong><code>batch_eval_checkpoints.sh</code>:</strong> Evaluate multiple checkpoints in parallel</li>
+<li><strong><code>analyze_checkpoints.py</code>:</strong> Aggregate results across checkpoints; plot success rate vs. training step curves</li>
+</ul>
+<p><strong>Profiler:</strong><br>
+Measures and logs per-step timing breakdown:
+- Model inference time (forward pass + diffusion sampling)
+- Environment stepping time (physics simulation)
+- Overhead (observation processing, action clipping)</p>
+<h2 id="key-challenges">Key Challenges</h2>
+<h3 id="1-data-heterogeneity-state-action-alignment">1. Data Heterogeneity &amp; State-Action Alignment</h3>
+<p><strong>Problem:</strong><br>
+LIBERO dataset format differs from RDT pretraining data:</p>
+<ul>
+<li><strong>Image size:</strong> LIBERO uses 128×128; RDT expects 336×336 (SigLIP standard)</li>
+<li><strong>State space:</strong> LIBERO has 7 joint angles + 2 gripper travel values; RDT pretraining uses different joint-angle indexing</li>
+<li><strong>Action space:</strong> LIBERO uses 6D EEF deltas (meters/radians) + discrete gripper; RDT unified action space requires remapping</li>
+</ul>
+<p><strong>Root Cause:</strong><br>
+RDT was pretrained on heterogeneous datasets with varying state/action representations. Each downstream benchmark requires custom index mapping and normalization.</p>
+<p><strong>Solution Implemented:</strong><br>
+Configured <code>UNI_STATE_INDICES</code> for LIBERO-specific state-action mapping:
+- State indices: joint angles <code>[0,7)</code> + normalized gripper travel <code>[10,12)</code>
+- Action indices: 6D EEF delta <code>[39,45)</code> + gripper command <code>[10]</code>
+- Normalized gripper travel to <code>[0,1]</code> via min/max scaling</p>
+<h3 id="2-language-ambiguity-under-limited-demonstrations">2. Language Ambiguity Under Limited Demonstrations</h3>
+<p><strong>Problem:</strong><br>
+Similar task instructions (e.g., "place the block next to the ramekin" vs. "place the block on the ramekin") cause semantic confusion when training data is limited.</p>
+<p><strong>Impact:</strong><br>
+Task 8 ("next to the plate") achieved 0% success rate across 5 trials. Analysis revealed both source and target objects mentioned "plate" in instruction, causing policy confusion about which object to manipulate.</p>
+<p><strong>Implication:</strong><br>
+Language grounding requires sufficient demonstrations to disambiguate spatial relationships ("next to" vs. "on") and object references under visually similar scenes.</p>
+<h3 id="3-small-sample-overfitting">3. Small-Sample Overfitting</h3>
+<p><strong>Problem:</strong><br>
+Training on single demonstration (<code>demo_0</code>) causes rapid overfitting:
+- Training loss converges after 1000+ epochs
+- Validation success rate plateaus at ~20%
+- Policy fails to generalize to slight variations in object poses or scene configurations</p>
+<p><strong>Root Cause:</strong><br>
+Single trajectory provides insufficient coverage of state-action space. Model memorizes specific pixel patterns and joint sequences without learning robust task semantics.</p>
+<p><strong>Mitigation:</strong><br>
+Requires full demonstration set (typically 50-100 demos per task) for acceptable generalization.</p>
+<h3 id="4-lora-performance-ceiling">4. LoRA Performance Ceiling</h3>
+<p><strong>Problem:</strong><br>
+Under full LIBERO demonstration data, LoRA fine-tuning achieves maximum ~20% success rate, far below full-parameter fine-tuning (76%+ on Spatial suite).</p>
+<p><strong>Hypothesis:</strong><br>
+Low-rank constraint limits model capacity to adapt diffusion decoder and state adaptor for LIBERO-specific action distribution. LoRA rank 8-32 may be insufficient for 6D EEF + gripper control requiring high-dimensional action manifold learning.</p>
+<p><strong>Open Question:</strong><br>
+Does scaling LoRA rank (64, 128) close the gap? Or is full fine-tuning of specific modules (adaptor, decoder) necessary?</p>
+<h3 id="5-evaluation-inefficiency">5. Evaluation Inefficiency</h3>
+<p><strong>Problem:</strong><br>
+Single-step model inference takes ~375 ms on A100 GPU, dominating evaluation time:
+- Inference: 375 ms (~69% of total eval time per step)
+- Environment stepping: ~170 ms (~31%)
+- Effective evaluation throughput: ~2 steps/second</p>
+<p><strong>Impact:</strong><br>
+Evaluating one checkpoint across 10 tasks × 5 trials × 200 steps/episode = 10,000 steps takes ~1 hour. Systematic checkpoint sweeps and ablation studies become time-prohibitive.</p>
+<p><strong>Bottleneck Analysis:</strong><br>
+Diffusion sampling requires multiple neural network forward passes (H steps, default 8-10). Each forward pass invokes:
+- SigLIP visual encoding (multi-view images)
+- T5 language encoding (instruction text)
+- Diffusion transformer denoising step</p>
+<h2 id="what-i-built">What I Built</h2>
+<p>Below is a breakdown of pipeline components and my specific contributions:</p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Function</th>
+<th>My Contribution</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>HDF5VLADataset</strong></td>
+<td>Parse LIBERO HDF5 files, extract trajectories</td>
+<td>Implemented <code>parse_hdf5_file()</code>; trajectory-length weighted sampling</td>
+</tr>
+<tr>
+<td><strong>VLAConsumerDataset</strong></td>
+<td>Random timestep sampling, batching</td>
+<td>Implemented random sampling with padding/normalization</td>
+</tr>
+<tr>
+<td><strong>Image Preprocessing</strong></td>
+<td>Resize 128×128 → 336×336, normalize to SigLIP</td>
+<td>Implemented padding and augmentation pipeline (flips, color jitter)</td>
+</tr>
+<tr>
+<td><strong>Language Embedding Cache</strong></td>
+<td>Precompute T5-XXL embeddings</td>
+<td>Implemented disk caching; achieved ~30% training speedup</td>
+</tr>
+<tr>
+<td><strong>State-Action Mapping</strong></td>
+<td>Map LIBERO state/action to RDT indices</td>
+<td>Configured <code>UNI_STATE_INDICES</code>: state <code>[0,7)</code> joints + <code>[10,12)</code> gripper; action <code>[39,45)</code> EEF + <code>[10]</code> gripper</td>
+</tr>
+<tr>
+<td><strong>Gripper Normalization</strong></td>
+<td>Normalize gripper travel to [0,1]</td>
+<td>Implemented min/max scaling for 2D gripper positions</td>
+</tr>
+<tr>
+<td><strong>LoRA Integration</strong></td>
+<td>Parameter-efficient fine-tuning</td>
+<td>Integrated peft==0.10.0; configurable target modules (attention, FFN, adaptor)</td>
+</tr>
+<tr>
+<td><strong>LoRA Hyperparameter Tuning</strong></td>
+<td>Optimize rank, alpha, dropout</td>
+<td>Tested rank 8-32, various alpha values and dropout rates</td>
+</tr>
+<tr>
+<td><strong>Training Script</strong></td>
+<td>DeepSpeed distributed training</td>
+<td>Implemented <code>main_sft.py</code> with ZeRO-2, BF16, augmentation, logging</td>
+</tr>
+<tr>
+<td><strong>Config Management</strong></td>
+<td>Bash script-driven experiments</td>
+<td>Auto-generate experiment dirs; save config snapshots</td>
+</tr>
+<tr>
+<td><strong>Checkpoint Resume</strong></td>
+<td>Continue training from saved state</td>
+<td>Implemented <code>--resume</code> flag with checkpoint loading</td>
+</tr>
+<tr>
+<td><strong>Evaluation Script</strong></td>
+<td>Run LIBERO tasks with trained models</td>
+<td>Built <code>libero_rdt_eval.py</code>: auto-load checkpoint, run N trials/task, output CSV</td>
+</tr>
+<tr>
+<td><strong>Profiler</strong></td>
+<td>Measure inference and env stepping time</td>
+<td>Implemented timing breakdown; identified 375ms inference, 69% eval-time share</td>
+</tr>
+<tr>
+<td><strong>Batch Evaluation</strong></td>
+<td>Evaluate multiple checkpoints in parallel</td>
+<td>Built <code>batch_eval_checkpoints.sh</code> wrapper script</td>
+</tr>
+<tr>
+<td><strong>Result Analysis</strong></td>
+<td>Aggregate and visualize results</td>
+<td>Implemented <code>analyze_checkpoints.py</code>: plot success vs. training step</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Key Engineering Deliverables:</strong></p>
+<ul>
+<li><strong>Complete data preprocessing pipeline:</strong> LIBERO HDF5 → RDT input format with image padding (128×128 → 336×336), state remapping, and cached language embeddings</li>
+<li><strong>Full-parameter fine-tuning:</strong> End-to-end training on LIBERO with DeepSpeed ZeRO-2, BF16, data augmentation</li>
+<li><strong>LoRA integration:</strong> Parameterized LoRA injection with configurable target modules (attention/FFN/adaptor) via peft library; tested rank 8-32</li>
+<li><strong>State-action mapping:</strong> Configured <code>UNI_STATE_INDICES</code> for LIBERO: state (7 joints + 2 gripper) → indices <code>[0,7)</code> and <code>[10,12)</code>; action (6D EEF + gripper) → indices <code>[39,45)</code> and <code>[10]</code></li>
+<li><strong>Evaluation infrastructure:</strong> Built <code>libero_rdt_eval.py</code> with profiler, CSV logging, and video recording; batch evaluation tools for checkpoint comparison</li>
+<li><strong>Performance profiling:</strong> Measured inference latency (375ms/step on A100) and identified bottleneck (69% of eval time)</li>
+<li><strong>Hyperparameter ablations:</strong> Tuned diffusion steps H (1→8) and action chunk length N (1→10) on libero_object; documented 78%→88%→90% improvement</li>
+</ul>
+<h2 id="reproducibility-experiment-hygiene">Reproducibility &amp; Experiment Hygiene</h2>
+<h3 id="configuration-management">Configuration Management</h3>
+<p><strong>Config-Driven Experiments:</strong></p>
+<p>All training runs use bash script wrappers that pass hyperparameters to Python:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># train_libero_object.sh (example structure)</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>python<span class="w"> </span>main_sft.py<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span>--data_path<span class="w"> </span><span class="o">{{</span>LIBERO_DATA_PATH<span class="o">}}</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span>--task_suite<span class="w"> </span>libero_object<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span>--batch_size<span class="w"> </span><span class="o">{{</span>BATCH_SIZE<span class="o">}}</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span>--learning_rate<span class="w"> </span><span class="o">{{</span>LEARNING_RATE<span class="o">}}</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">    </span>--num_epochs<span class="w"> </span><span class="o">{{</span>NUM_EPOCHS<span class="o">}}</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span>--output_dir<span class="w"> </span>experiments/libero_object_<span class="o">{{</span>TIMESTAMP<span class="o">}}</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">    </span>--deepspeed_config<span class="w"> </span>configs/deepspeed_zero2.json<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">    </span>--seed<span class="w"> </span><span class="m">42</span>
+</code></pre></div>
+<p><strong>Experiment Directory Auto-generation:</strong></p>
+<ul>
+<li>Timestamped directories prevent overwrite: <code>experiments/libero_object_20240315_143022/</code></li>
+<li>Full config snapshot saved: <code>config.txt</code> contains all hyperparameters</li>
+<li>Checkpoint versioning: <code>checkpoint-{step}.pt</code> with step number</li>
+</ul>
+<h3 id="deterministic-seeding">Deterministic Seeding</h3>
+<p><strong>Fixed Random Seed:</strong> 42</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="n">torch</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">manual_seed_all</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="c1"># Note: Full determinism not guaranteed on GPU due to non-deterministic CUDA ops</span>
+</code></pre></div>
+<h3 id="dependency-management">Dependency Management</h3>
+<p><strong>Environment Specification:</strong></p>
+<p>Dependencies recorded in <code>environment.yml</code> or <code>requirements.txt</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Key dependencies (versions to be specified)</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nt">pytorch</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{{</span><span class="nv">PYTORCH_VERSION</span><span class="p p-Indicator">}}</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="nt">peft</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.10.0</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="nt">deepspeed</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{{</span><span class="nv">DEEPSPEED_VERSION</span><span class="p p-Indicator">}}</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="nt">transformers</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{{</span><span class="nv">TRANSFORMERS_VERSION</span><span class="p p-Indicator">}}</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="nt">libero</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{{</span><span class="nv">LIBERO_VERSION</span><span class="p p-Indicator">}}</span>
+</code></pre></div>
+<p><strong>Python:</strong> 3.10 (recommended for compatibility)</p>
+<h3 id="logging-monitoring">Logging &amp; Monitoring</h3>
+<p><strong>DeepSpeed Logs:</strong>
+- Training loss, learning rate schedule, gradient norms
+- GPU memory usage, throughput (samples/second)
+- NCCL debug info for distributed training diagnostics</p>
+<p><strong>TensorBoard:</strong>
+- Real-time loss curves
+- Validation metrics (if enabled)
+- Hyperparameter tracking</p>
+<p><strong>Checkpoint Integrity:</strong>
+- Verify checkpoint file size and SHA256 hash
+- Log model parameter count at save time
+- Test checkpoint loading before long evaluation runs</p>
+<h2 id="results">Results</h2>
+<h3 id="success-rates-by-task-suite">Success Rates by Task Suite</h3>
+<p>Evaluation protocol: 5 trials per task, success detection via LIBERO built-in task checkers.</p>
+<table>
+<thead>
+<tr>
+<th>Task Suite</th>
+<th>Success Rate</th>
+<th>Checkpoint</th>
+<th>Trials</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>libero_object</strong></td>
+<td><strong>92%</strong></td>
+<td>checkpoint-40000</td>
+<td>5/task</td>
+<td>H=8, N=10 (tuned)</td>
+</tr>
+<tr>
+<td><strong>libero_goal</strong></td>
+<td><strong>94%</strong></td>
+<td>checkpoint-30000</td>
+<td>5/task</td>
+<td>Best performing suite</td>
+</tr>
+<tr>
+<td><strong>libero_spatial</strong></td>
+<td><strong>76%</strong></td>
+<td>checkpoint-22000</td>
+<td>5/task</td>
+<td>Spatial reasoning challenges</td>
+</tr>
+<tr>
+<td><strong>libero_long</strong></td>
+<td><strong>38%</strong></td>
+<td>checkpoint-38000</td>
+<td>5/task</td>
+<td>Long-horizon task difficulty</td>
+</tr>
+</tbody>
+</table>
+<p><em>Table 1: RDT full-parameter fine-tuning results on LIBERO task suites</em></p>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li><strong>Goal suite (94%):</strong> Tasks with clear object manipulation goals perform best</li>
+<li><strong>Object suite (92%):</strong> Strong performance after hyperparameter tuning (H=8, N=10)</li>
+<li><strong>Spatial suite (76%):</strong> Spatial relationship understanding (e.g., "next to", "between") more challenging</li>
+<li><strong>Long suite (38%):</strong> Long-horizon tasks (5+ subtasks) reveal credit assignment and temporal reasoning limitations</li>
+</ul>
+<p><strong>Language Confusion Example:</strong><br>
+Task 8 ("place the block next to the plate") achieved 0% success across 5 trials. Root cause: both source object and target reference mention "plate" in instruction, causing ambiguity in language grounding without sufficient demonstrations.</p>
+<h3 id="full-parameter-vs-lora-comparison">Full-Parameter vs LoRA Comparison</h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Success Rate Range</th>
+<th>Trainable Params</th>
+<th>Training Time</th>
+<th>Memory</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Full-Parameter</strong></td>
+<td>76% - 94% (task-dependent)</td>
+<td>{{PARAMS_TOTAL}}M</td>
+<td>{{TRAIN_TIME_FULL}}h</td>
+<td>{{MEM_FULL}}GB</td>
+</tr>
+<tr>
+<td><strong>LoRA (rank 8-32)</strong></td>
+<td>~20% (upper bound)</td>
+<td>{{PARAMS_LORA}}M</td>
+<td>{{TRAIN_TIME_LORA}}h</td>
+<td>{{MEM_LORA}}GB</td>
+</tr>
+</tbody>
+</table>
+<p><em>Table 2: Fine-tuning method comparison on full LIBERO demonstration data</em></p>
+<p><strong>Critical Finding:</strong><br>
+LoRA achieves only ~20% success rate maximum across tested configurations (rank 8-32, various target modules), far below full-parameter performance (76%+). This represents a 56-74 percentage point gap.</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/figures/libero_curve.png" data-desc-position="bottom"><img alt="Learning Curves Comparison" src="../assets/figures/libero_curve.png"></a><br>
+<em>Figure 2: Success rate vs. training steps for full-parameter vs. LoRA fine-tuning</em></p>
+<h2 id="full-vs-lora-trade-off-analysis">Full vs LoRA Trade-off Analysis</h2>
+<h3 id="why-lora-underperforms">Why LoRA Underperforms</h3>
+<p><strong>Hypothesis 1: Insufficient Rank Capacity</strong></p>
+<ul>
+<li>Tested ranks: 8, 16, 32</li>
+<li>LoRA approximates weight updates as <span class="arithmatex">\( \Delta W = BA \)</span> where <span class="arithmatex">\( B \in \mathbb{R}^{d \times r}, A \in \mathbb{R}^{r \times k} \)</span></li>
+<li>For 6D EEF control + gripper requiring high-dimensional action manifold, rank 32 may be insufficient</li>
+</ul>
+<p><strong>Hypothesis 2: Suboptimal Module Selection</strong></p>
+<ul>
+<li>Tested <code>target_modules</code>: <code>all</code>, <code>adaptor_only</code>, <code>cross_attn</code>, <code>adaptor_cross</code></li>
+<li>May need to target diffusion decoder specifically (currently not isolated)</li>
+<li>Action decoder may require full fine-tuning (not just low-rank adaptation)</li>
+</ul>
+<p><strong>Hypothesis 3: Diffusion Model Architecture Mismatch</strong></p>
+<ul>
+<li>LoRA designed for autoregressive transformers (LLMs)</li>
+<li>Diffusion transformers iterate over noise levels; low-rank adapters may not capture denoising dynamics effectively</li>
+<li>May need full fine-tuning of diffusion layers while keeping encoders frozen</li>
+</ul>
+<h3 id="proposed-experiments-to-test-next">Proposed Experiments to Test Next</h3>
+<ol>
+<li><strong>Rank Scaling Study:</strong></li>
+<li>Test LoRA rank 64, 128, 256</li>
+<li>Measure success rate vs. rank; identify saturation point</li>
+<li>
+<p>Compare training time vs. full fine-tuning</p>
+</li>
+<li>
+<p><strong>Module-Specific LoRA:</strong></p>
+</li>
+<li>Apply LoRA only to diffusion decoder (freeze encoders + adaptor)</li>
+<li>Apply LoRA only to state adaptor + action decoder (freeze vision/language)</li>
+<li>
+<p>Measure per-module contribution to performance</p>
+</li>
+<li>
+<p><strong>Hybrid Strategies:</strong></p>
+</li>
+<li>Full fine-tune adaptor + LoRA on diffusion decoder</li>
+<li>Full fine-tune diffusion decoder + freeze encoders</li>
+<li>
+<p>Measure trade-off: performance vs. trainable parameters</p>
+</li>
+<li>
+<p><strong>LoRA Initialization:</strong></p>
+</li>
+<li>Initialize LoRA matrices with SVD of full fine-tuning weight deltas</li>
+<li>
+<p>Test if warm-start improves convergence</p>
+</li>
+<li>
+<p><strong>Diffusion-Specific Adapters:</strong></p>
+</li>
+<li>Replace LoRA with diffusion-aware adapters (e.g., condition on noise level)</li>
+<li>Test if architecture-specific adaptation outperforms generic LoRA</li>
+</ol>
+<h2 id="profiler-findings-evaluation-efficiency">Profiler Findings &amp; Evaluation Efficiency</h2>
+<h3 id="latency-breakdown">Latency Breakdown</h3>
+<p><strong>Per-Step Timing (A100 GPU):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Time (ms)</th>
+<th>Percentage</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Model Inference</strong></td>
+<td><strong>~375 ms</strong></td>
+<td><strong>~69%</strong></td>
+<td>Forward pass + diffusion sampling (H=8 steps)</td>
+</tr>
+<tr>
+<td>Environment Stepping</td>
+<td>~170 ms</td>
+<td>~31%</td>
+<td>LIBERO physics simulation (CPU-bound)</td>
+</tr>
+<tr>
+<td><strong>Total per Step</strong></td>
+<td><strong>~545 ms</strong></td>
+<td><strong>100%</strong></td>
+<td>Effective throughput: ~2 steps/second</td>
+</tr>
+</tbody>
+</table>
+<p><em>Table 3: Profiler breakdown showing inference dominates evaluation time</em></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/figures/libero_profiler_breakdown.png" data-desc-position="bottom"><img alt="Profiler Breakdown" src="../assets/figures/libero_profiler_breakdown.png"></a><br>
+<em>Figure 3: Pie chart showing inference (69%) vs. environment (31%) time distribution</em></p>
+<p><strong>Bottleneck Analysis:</strong></p>
+<p>Inference time (375 ms) dominated by:</p>
+<ol>
+<li><strong>Diffusion sampling (H=8 iterations):</strong> Each denoising step requires full transformer forward pass</li>
+<li><strong>Multi-view image encoding:</strong> SigLIP encoder processes 2 camera views (cam_high, wrist) per step</li>
+<li><strong>Transformer backbone:</strong> Large model ({{MODEL_SIZE_GB}}GB) with attention operations</li>
+</ol>
+<p><strong>Impact on Evaluation:</strong></p>
+<ul>
+<li>Single task (10 episodes, ~200 steps/episode): ~30 minutes</li>
+<li>Full task suite (10 tasks × 5 trials): ~25 hours</li>
+<li>Checkpoint sweep (10 checkpoints): ~250 hours (10+ days)</li>
+</ul>
+<h3 id="proposed-acceleration-strategies">Proposed Acceleration Strategies</h3>
+<ol>
+<li><strong>Reduce Diffusion Steps:</strong></li>
+<li>Test H=4, H=2, H=1 (DDIM fast sampling)</li>
+<li>Measure success rate vs. latency trade-off</li>
+<li>
+<p>Expected speedup: 2-8× depending on H</p>
+</li>
+<li>
+<p><strong>Encoder Caching:</strong></p>
+</li>
+<li>Cache language embeddings (already done: ~30% speedup ✅)</li>
+<li>Cache visual features for static camera views (if applicable)</li>
+<li>
+<p>Recompute only when observations change significantly</p>
+</li>
+<li>
+<p><strong>Model Distillation:</strong></p>
+</li>
+<li>Distill diffusion model to smaller student ({{STUDENT_SIZE}}B params)</li>
+<li>Train student to match full model action distribution</li>
+<li>
+<p>Expected speedup: 3-5× with minimal accuracy loss</p>
+</li>
+<li>
+<p><strong>Batch Inference:</strong></p>
+</li>
+<li>Process multiple environments in parallel on single GPU</li>
+<li>Amortize encoder overhead across batch</li>
+<li>
+<p>Expected speedup: 2-3× for batch size 4-8</p>
+</li>
+<li>
+<p><strong>Model Compilation:</strong></p>
+</li>
+<li>Use <code>torch.compile()</code> or TorchScript for kernel fusion</li>
+<li>
+<p>Expected speedup: 1.5-2× from operator optimization</p>
+</li>
+<li>
+<p><strong>Quantization:</strong></p>
+</li>
+<li>Apply INT8 or FP16 quantization to encoders</li>
+<li>Measure accuracy vs. latency trade-off</li>
+<li>Expected speedup: 1.5-2× with &lt;5% accuracy loss</li>
+</ol>
+<h2 id="ablation-hyperparameter-tuning">Ablation &amp; Hyperparameter Tuning</h2>
+<h3 id="diffusion-steps-h-vs-success-rate">Diffusion Steps (H) vs Success Rate</h3>
+<p><strong>Experiment:</strong> libero_object task suite, vary diffusion sampling steps H</p>
+<table>
+<thead>
+<tr>
+<th>Diffusion Steps (H)</th>
+<th>Success Rate</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>H=1</td>
+<td>78%</td>
+<td>Fast sampling but lower quality</td>
+</tr>
+<tr>
+<td>H=8</td>
+<td>88%</td>
+<td>Good balance (+10% over H=1)</td>
+</tr>
+<tr>
+<td>H=10</td>
+<td>{{SUCCESS_H10}}%</td>
+<td>Diminishing returns expected</td>
+</tr>
+</tbody>
+</table>
+<p><em>Table 4: Diffusion steps H impact on success rate (libero_object)</em></p>
+<p><strong>Finding:</strong><br>
+Increasing H from 1 to 8 improves success rate by 10 percentage points (78% → 88%). This validates that diffusion sampling quality directly impacts task success.</p>
+<p><strong>Trade-off:</strong><br>
+H=8 requires 8× more inference time than H=1. For evaluation efficiency, H=4 may offer better balance (pending experiment).</p>
+<h3 id="action-chunk-length-n-vs-success-rate">Action Chunk Length (N) vs Success Rate</h3>
+<p><strong>Experiment:</strong> libero_object task suite, vary action chunk length N (actions generated per inference call)</p>
+<table>
+<thead>
+<tr>
+<th>Action Chunk (N)</th>
+<th>Success Rate</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>N=1</td>
+<td>78%</td>
+<td>Per-step inference</td>
+</tr>
+<tr>
+<td>N=10</td>
+<td>90%</td>
+<td>Chunk-based control (+12% over N=1)</td>
+</tr>
+</tbody>
+</table>
+<p><em>Table 5: Action chunk length N impact on success rate (libero_object)</em></p>
+<p><strong>Finding:</strong><br>
+Generating 10-step action sequences (N=10) improves success from 78% to 90% (+12 percentage points). Longer action chunks provide:
+- Temporal consistency (avoid per-step jitter)
+- Reduced inference overhead (10× fewer model calls)
+- Smoother trajectories for manipulation</p>
+<p><strong>Current Best Configuration:</strong><br>
+H=8 (diffusion steps), N=10 (action chunk) achieves 92% on libero_object (after checkpoint-40000).</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/figures/libero_ablation_hn.png" data-desc-position="bottom"><img alt="Ablation Study" src="../assets/figures/libero_ablation_hn.png"></a><br>
+<em>Figure 4: Heatmap showing success rate vs. (H, N) parameter combinations</em></p>
+<h2 id="failure-modes-debugging-notes">Failure Modes &amp; Debugging Notes</h2>
+<p>Based on systematic evaluation and debugging across LIBERO task suites:</p>
+<ol>
+<li><strong>Language Grounding Ambiguity</strong></li>
+<li><strong>Symptom:</strong> Policy ignores instruction; manipulates wrong object (0% success on specific tasks)</li>
+<li><strong>Example:</strong> Task 8 ("next to the plate") - both source and target mention "plate" → confusion</li>
+<li><strong>Diagnostic:</strong> Compare success rate on single-object vs. multi-object-reference instructions</li>
+<li>
+<p><strong>Fix:</strong> Augment training data with unambiguous instructions; increase demonstration count for ambiguous cases</p>
+</li>
+<li>
+<p><strong>Spatial Relationship Failure</strong></p>
+</li>
+<li><strong>Symptom:</strong> Policy places object in wrong spatial relation ("on" instead of "next to")</li>
+<li><strong>Root Cause:</strong> Insufficient demonstrations for spatial preposition grounding ("next to", "between", "above")</li>
+<li><strong>Diagnostic:</strong> Visualize predicted vs. ground-truth placement in video recordings</li>
+<li>
+<p><strong>Fix:</strong> Overweight training loss on spatial tasks; add geometric constraints to action decoder</p>
+</li>
+<li>
+<p><strong>Long-Horizon Credit Assignment</strong></p>
+</li>
+<li><strong>Symptom:</strong> First 3-4 subtasks succeed, final subtask fails consistently (38% on libero_long)</li>
+<li><strong>Root Cause:</strong> Diffusion model optimizes per-timestep loss; no explicit long-term goal tracking</li>
+<li><strong>Diagnostic:</strong> Analyze failure point histogram across episodes</li>
+<li>
+<p><strong>Fix:</strong> Add hierarchical policy (high-level planner + low-level controller); use goal-conditioned RL for long tasks</p>
+</li>
+<li>
+<p><strong>Overfitting on Single Demonstration</strong></p>
+</li>
+<li><strong>Symptom:</strong> Training loss converges after 1000+ epochs, validation success plateaus at ~20%</li>
+<li><strong>Root Cause:</strong> Memorization of specific pixel patterns and joint trajectories from single demo</li>
+<li><strong>Diagnostic:</strong> Compare training vs. validation loss divergence; visualize action distribution diversity</li>
+<li>
+<p><strong>Fix:</strong> Use full demonstration set (50-100 demos); early stopping based on validation metric</p>
+</li>
+<li>
+<p><strong>Gripper Control Oscillation</strong></p>
+</li>
+<li><strong>Symptom:</strong> Gripper opens/closes repeatedly without stable grasp</li>
+<li><strong>Root Cause:</strong> Gripper command prediction near decision boundary (0.4-0.6 instead of binary 0/1)</li>
+<li><strong>Diagnostic:</strong> Log gripper command distribution; check for multi-modal distribution</li>
+<li>
+<p><strong>Fix:</strong> Apply hysteresis to gripper commands; use separate loss weight for gripper vs. EEF actions</p>
+</li>
+<li>
+<p><strong>Environment Stepping Timeout</strong></p>
+</li>
+<li><strong>Symptom:</strong> Episode hangs mid-execution; no state update from LIBERO</li>
+<li><strong>Root Cause:</strong> LIBERO simulation occasionally deadlocks (rare bug in physics engine)</li>
+<li><strong>Diagnostic:</strong> Monitor episode step count vs. wall-clock time; detect stalls</li>
+<li>
+<p><strong>Fix:</strong> Add per-step timeout (5s); restart environment on timeout; log failed episodes for debugging</p>
+</li>
+<li>
+<p><strong>LoRA Rank Saturation</strong></p>
+</li>
+<li><strong>Symptom:</strong> Increasing LoRA rank from 16 to 32 shows no success rate improvement</li>
+<li><strong>Root Cause:</strong> Rank 16 already saturates low-rank subspace for current target modules; bottleneck is module selection not rank</li>
+<li><strong>Diagnostic:</strong> Compare LoRA weight singular values; check for rank deficiency</li>
+<li>
+<p><strong>Fix:</strong> Target different modules (diffusion decoder specifically); try hybrid full+LoRA strategy</p>
+</li>
+<li>
+<p><strong>Multi-GPU Data Imbalance</strong></p>
+</li>
+<li><strong>Symptom:</strong> GPU 0 has higher memory usage than others; training slower than expected</li>
+<li><strong>Root Cause:</strong> Trajectory-length weighted sampling causes batch imbalance across GPUs</li>
+<li><strong>Diagnostic:</strong> Log batch size and sequence length distribution per GPU</li>
+<li><strong>Fix:</strong> Implement balanced sampling across GPUs; use DeepSpeed pipeline parallelism for large models</li>
+</ol>
+<h2 id="next-steps">Next Steps</h2>
+<p>Below are concrete experiment plans addressing the three main open problems:</p>
+<h3 id="problem-1-lora-underperforms-full-parameter-20-vs-76">Problem 1: LoRA Underperforms Full-Parameter (20% vs 76%+)</h3>
+<p><strong>Hypothesis Testing Roadmap:</strong></p>
+<ol>
+<li><strong>Rank Scaling Experiment:</strong></li>
+<li>Test LoRA rank: 64, 128, 256</li>
+<li>Measure success rate vs. trainable parameters vs. training time</li>
+<li>
+<p>Expected outcome: Identify if rank is bottleneck or if module selection matters more</p>
+</li>
+<li>
+<p><strong>Module Targeting Ablation:</strong></p>
+</li>
+<li>Configuration A: LoRA on attention layers only</li>
+<li>Configuration B: LoRA on FFN layers only</li>
+<li>Configuration C: LoRA on adaptor + decoder only (freeze vision/language)</li>
+<li>Configuration D: Full fine-tune adaptor, LoRA on decoder</li>
+<li>
+<p>Measure success rate for each configuration</p>
+</li>
+<li>
+<p><strong>Hybrid Strategy:</strong></p>
+</li>
+<li>Full fine-tune: state adaptor ({{ADAPTOR_PARAMS}}M params)</li>
+<li>LoRA on: diffusion decoder (rank 32)</li>
+<li>Freeze: SigLIP, T5 encoders</li>
+<li>
+<p>Expected: Bridge gap between LoRA-only and full fine-tuning</p>
+</li>
+<li>
+<p><strong>Diffusion-Aware Adapters:</strong></p>
+</li>
+<li>Replace LoRA with noise-level-conditioned adapters</li>
+<li>Test if conditioning on diffusion timestep <span class="arithmatex">\( t \)</span> improves adaptation</li>
+<li>Compare against standard LoRA on same parameter budget</li>
+</ol>
+<p><strong>Success Criteria:</strong><br>
+Achieve &gt;60% success rate with &lt;30% trainable parameters (currently LoRA at ~20% success is insufficient).</p>
+<h3 id="problem-2-rdt-inference-slow-375msstep-69-eval-time">Problem 2: RDT Inference Slow (375ms/step, 69% eval time)</h3>
+<p><strong>Acceleration Roadmap:</strong></p>
+<ol>
+<li><strong>Fast Diffusion Sampling:</strong></li>
+<li>Implement DDIM sampler with H=4, H=2, H=1</li>
+<li>Measure success rate degradation vs. speedup</li>
+<li>
+<p>Expected: 2-8× speedup; target &lt;100ms inference with H=2</p>
+</li>
+<li>
+<p><strong>Encoder Caching Strategy:</strong></p>
+</li>
+<li>Cache language embeddings per episode (already done ✅)</li>
+<li>Cache visual features when camera view is static (feasibility study needed)</li>
+<li>
+<p>Expected: Additional 10-20% speedup if visual caching viable</p>
+</li>
+<li>
+<p><strong>Model Compilation:</strong></p>
+</li>
+<li>Apply <code>torch.compile()</code> with backend="inductor"</li>
+<li>Profile kernel fusion opportunities</li>
+<li>
+<p>Expected: 1.5-2× speedup from operator optimization</p>
+</li>
+<li>
+<p><strong>Batch Evaluation:</strong></p>
+</li>
+<li>Run 4-8 LIBERO environments in parallel on single A100</li>
+<li>Batch images through SigLIP encoder</li>
+<li>
+<p>Expected: 2-3× throughput improvement; target &lt;150ms per batch</p>
+</li>
+<li>
+<p><strong>Quantization Study:</strong></p>
+</li>
+<li>Apply FP16 or INT8 quantization to SigLIP and T5 encoders</li>
+<li>Measure accuracy vs. latency trade-off</li>
+<li>Expected: 1.5-2× speedup with &lt;5% success rate loss</li>
+</ol>
+<p><strong>Success Criteria:</strong><br>
+Achieve &lt;100ms inference per step (3.75× speedup) while maintaining &gt;80% success rate on libero_object.</p>
+<h3 id="problem-3-spatial-long-horizon-underperformance">Problem 3: Spatial &amp; Long-Horizon Underperformance</h3>
+<p><strong>Spatial Task Improvement (76% → target 90%+):</strong></p>
+<ol>
+<li><strong>Data Augmentation for Spatial Tasks:</strong></li>
+<li>Augment demonstrations with synthetic spatial variations</li>
+<li>Randomly perturb object positions while preserving spatial relationships</li>
+<li>
+<p>Expected: Improve spatial reasoning generalization</p>
+</li>
+<li>
+<p><strong>Explicit Spatial Grounding:</strong></p>
+</li>
+<li>Add spatial relationship classifier head (auxiliary loss)</li>
+<li>Train to predict spatial relationship type ("next to", "on", "above") from vision+language</li>
+<li>
+<p>Use classifier to bias action generation toward correct spatial placement</p>
+</li>
+<li>
+<p><strong>Spatial Curriculum Learning:</strong></p>
+</li>
+<li>Phase 1: Train on unambiguous spatial tasks</li>
+<li>Phase 2: Gradually introduce ambiguous spatial instructions</li>
+<li>Expected: Better spatial relationship understanding</li>
+</ol>
+<p><strong>Long-Horizon Task Improvement (38% → target 70%+):</strong></p>
+<ol>
+<li><strong>Hierarchical Policy:</strong></li>
+<li>High-level: Predict subgoal sequence from language instruction</li>
+<li>Low-level: RDT generates actions to reach each subgoal</li>
+<li>
+<p>Train with hindsight relabeling for credit assignment</p>
+</li>
+<li>
+<p><strong>Explicit Subtask Segmentation:</strong></p>
+</li>
+<li>Annotate LIBERO demonstrations with subtask boundaries</li>
+<li>Train policy to predict subtask transitions</li>
+<li>
+<p>Use subtask-aware conditioning for action generation</p>
+</li>
+<li>
+<p><strong>Temporal Context Extension:</strong></p>
+</li>
+<li>Increase action history context window from {{CONTEXT_LEN}} to {{CONTEXT_LEN_EXTENDED}}</li>
+<li>Test if longer memory improves long-horizon task success</li>
+<li>
+<p>Measure memory usage vs. performance trade-off</p>
+</li>
+<li>
+<p><strong>RL Fine-tuning for Long Tasks:</strong></p>
+</li>
+<li>Use imitation learning (RDT SFT) as initialization</li>
+<li>Apply RL (PPO, SAC) with sparse task success reward</li>
+<li>Expected: Improve credit assignment for multi-subtask sequences</li>
+</ol>
+<p><strong>Success Criteria:</strong><br>
+Achieve &gt;90% on spatial tasks and &gt;70% on long-horizon tasks.</p>
+<h2 id="reproducibility-checklist">Reproducibility Checklist</h2>
+<p>To reproduce this work, ensure:</p>
+<p><strong>Environment Setup:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Create environment</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>rdt-libero<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.10
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>conda<span class="w"> </span>activate<span class="w"> </span>rdt-libero
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="c1"># Install dependencies</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>pip<span class="w"> </span>install<span class="w"> </span><span class="nv">torch</span><span class="o">=={{</span>PYTORCH_VERSION<span class="o">}}</span><span class="w"> </span>torchvision
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>pip<span class="w"> </span>install<span class="w"> </span><span class="nv">peft</span><span class="o">==</span><span class="m">0</span>.10.0<span class="w"> </span><span class="nv">deepspeed</span><span class="o">=={{</span>DEEPSPEED_VERSION<span class="o">}}</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>pip<span class="w"> </span>install<span class="w"> </span><span class="nv">transformers</span><span class="o">=={{</span>TRANSFORMERS_VERSION<span class="o">}}</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>pip<span class="w"> </span>install<span class="w"> </span><span class="nv">libero</span><span class="o">=={{</span>LIBERO_VERSION<span class="o">}}</span>
+</code></pre></div>
+<p><strong>Data Preparation:</strong></p>
+<ol>
+<li>Download LIBERO dataset (HDF5 format)</li>
+<li>Verify HDF5 structure: images, states, actions, language</li>
+<li>Run preprocessing script to generate cached embeddings</li>
+</ol>
+<p><strong>Training:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Full-parameter fine-tuning</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>bash<span class="w"> </span>scripts/train_libero_object.sh
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1"># LoRA fine-tuning</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>bash<span class="w"> </span>scripts/train_libero_object_lora.sh<span class="w"> </span>--rank<span class="w"> </span><span class="m">32</span><span class="w"> </span>--target_modules<span class="w"> </span>all
+</code></pre></div>
+<p><strong>Evaluation:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Single checkpoint evaluation</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>python<span class="w"> </span>libero_rdt_eval.py<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span>--checkpoint<span class="w"> </span><span class="o">{{</span>CHECKPOINT_PATH<span class="o">}}</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">    </span>--task_suite<span class="w"> </span>libero_object<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">    </span>--num_trials<span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">    </span>--diffusion_steps<span class="w"> </span><span class="m">8</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">    </span>--action_chunk<span class="w"> </span><span class="m">10</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="c1"># Batch checkpoint evaluation</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>bash<span class="w"> </span>batch_eval_checkpoints.sh<span class="w"> </span><span class="o">{{</span>EXPERIMENT_DIR<span class="o">}}</span>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>python<span class="w"> </span>analyze_checkpoints.py<span class="w"> </span>--results_dir<span class="w"> </span><span class="o">{{</span>EXPERIMENT_DIR<span class="o">}}</span>/eval_results
+</code></pre></div>
+<h2 id="placeholder-checklist">Placeholder Checklist</h2>
+<p>Below are placeholders used in this document that should be filled with actual measured values:</p>
+<table>
+<thead>
+<tr>
+<th>Placeholder</th>
+<th>Description</th>
+<th>How to Obtain</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>{{LIBERO_DATA_PATH}}</code></td>
+<td>Path to LIBERO dataset</td>
+<td>Dataset download location</td>
+</tr>
+<tr>
+<td><code>{{BATCH_SIZE}}</code></td>
+<td>Training batch size per GPU</td>
+<td>Training config</td>
+</tr>
+<tr>
+<td><code>{{LEARNING_RATE}}</code></td>
+<td>Learning rate</td>
+<td>Training config (likely 1e-4 to 5e-4)</td>
+</tr>
+<tr>
+<td><code>{{NUM_EPOCHS}}</code></td>
+<td>Number of training epochs</td>
+<td>Training config</td>
+</tr>
+<tr>
+<td><code>{{TIMESTAMP}}</code></td>
+<td>Experiment timestamp</td>
+<td>Auto-generated (e.g., 20240315_143022)</td>
+</tr>
+<tr>
+<td><code>{{PYTORCH_VERSION}}</code></td>
+<td>PyTorch version</td>
+<td><code>pip show torch | grep Version</code></td>
+</tr>
+<tr>
+<td><code>{{DEEPSPEED_VERSION}}</code></td>
+<td>DeepSpeed version</td>
+<td><code>pip show deepspeed | grep Version</code></td>
+</tr>
+<tr>
+<td><code>{{TRANSFORMERS_VERSION}}</code></td>
+<td>HuggingFace version</td>
+<td><code>pip show transformers | grep Version</code></td>
+</tr>
+<tr>
+<td><code>{{LIBERO_VERSION}}</code></td>
+<td>LIBERO benchmark version</td>
+<td><code>pip show libero | grep Version</code></td>
+</tr>
+<tr>
+<td><code>{{PARAMS_TOTAL}}</code></td>
+<td>Total model parameters</td>
+<td>Count with <code>sum(p.numel() for p in model.parameters())</code></td>
+</tr>
+<tr>
+<td><code>{{PARAMS_LORA}}</code></td>
+<td>LoRA trainable parameters</td>
+<td>Count LoRA adapter parameters only</td>
+</tr>
+<tr>
+<td><code>{{TRAIN_TIME_FULL}}</code></td>
+<td>Full fine-tuning wall time</td>
+<td>Log training start/end timestamps</td>
+</tr>
+<tr>
+<td><code>{{TRAIN_TIME_LORA}}</code></td>
+<td>LoRA fine-tuning wall time</td>
+<td>Log training start/end timestamps</td>
+</tr>
+<tr>
+<td><code>{{MEM_FULL}}</code></td>
+<td>Peak GPU memory (full)</td>
+<td>Monitor <code>nvidia-smi</code> during training</td>
+</tr>
+<tr>
+<td><code>{{MEM_LORA}}</code></td>
+<td>Peak GPU memory (LoRA)</td>
+<td>Monitor <code>nvidia-smi</code> during training</td>
+</tr>
+<tr>
+<td><code>{{MODEL_SIZE_GB}}</code></td>
+<td>Model checkpoint size</td>
+<td>Check file size of checkpoint .pt file</td>
+</tr>
+<tr>
+<td><code>{{SUCCESS_H10}}</code></td>
+<td>Success rate with H=10</td>
+<td>Run ablation experiment</td>
+</tr>
+<tr>
+<td><code>{{STUDENT_SIZE}}</code></td>
+<td>Distilled model size</td>
+<td>Design distillation target (e.g., 1.0B)</td>
+</tr>
+<tr>
+<td><code>{{CONTEXT_LEN}}</code></td>
+<td>Current context window length</td>
+<td>Check model config</td>
+</tr>
+<tr>
+<td><code>{{CONTEXT_LEN_EXTENDED}}</code></td>
+<td>Extended context length</td>
+<td>Proposed value (e.g., 2× current)</td>
+</tr>
+<tr>
+<td><code>{{CHECKPOINT_PATH}}</code></td>
+<td>Path to checkpoint file</td>
+<td>Experiment directory + checkpoint name</td>
+</tr>
+<tr>
+<td><code>{{EXPERIMENT_DIR}}</code></td>
+<td>Experiment output directory</td>
+<td>Auto-generated by training script</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Visual Asset Placeholders:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Figure</th>
+<th>Description</th>
+<th>Priority</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>libero_pipeline.png</code></td>
+<td>Data → model → training → eval flow diagram</td>
+<td>High</td>
+</tr>
+<tr>
+<td><code>libero_curve.png</code></td>
+<td>Success rate vs. training steps (full vs. LoRA)</td>
+<td>High</td>
+</tr>
+<tr>
+<td><code>libero_ablation_hn.png</code></td>
+<td>Heatmap: H (diffusion steps) vs. N (action chunk) success rates</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td><code>libero_profiler_breakdown.png</code></td>
+<td>Pie chart: inference (69%) vs. env (31%) time</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td><code>libero_language_confusion.png</code></td>
+<td>Example: task 8 instruction ambiguity visualization</td>
+<td>Low</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p><strong>References:</strong></p>
+<ul>
+<li><a href="https://arxiv.org/abs/2410.07368">RDT: Robot Diffusion Transformer</a></li>
+<li><a href="https://lifelong-robot-learning.github.io/LIBERO/">LIBERO Benchmark</a></li>
+<li><a href="https://arxiv.org/abs/2106.09685">LoRA: Low-Rank Adaptation</a></li>
+<li><a href="https://arxiv.org/abs/2010.02502">DDIM: Denoising Diffusion Implicit Models</a></li>
+<li><a href="https://www.deepspeed.ai/">DeepSpeed Documentation</a></li>
+</ul>
+<p><strong>Related Projects:</strong></p>
+<ul>
+<li><a href="../groot-libero-reproduction/">GR00T-N1.6 on LIBERO</a> - Achieved 97.8% with faster inference (50ms vs. 375ms)</li>
+<li><a href="../rlinf-rdt-integration/">RLinf × RDT Integration</a> - RL framework integration for pretrain → post-RL workflow</li>
+<li><a href="../teleop-mocap/">OptiTrack ROS2 Streaming</a> - Upstream data source for robot teleoperation</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright © 2024-2026 Tingjia Chen
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/chentingjia" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="mailto:{{YOUR_EMAIL}}" target="_blank" rel="noopener" title="" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M536.4-26.3c9.8-3.5 20.6-1 28 6.3s9.8 18.2 6.3 28l-178 496.9c-5 13.9-18.1 23.1-32.8 23.1-14.2 0-27-8.6-32.3-21.7l-64.2-158c-4.5-11-2.5-23.6 5.2-32.6l94.5-112.4c5.1-6.1 4.7-15-.9-20.6s-14.6-6-20.6-.9l-112.4 94.3c-9.1 7.6-21.6 9.6-32.6 5.2L38.1 216.8c-13.1-5.3-21.7-18.1-21.7-32.3 0-14.7 9.2-27.8 23.1-32.8z"></path></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>

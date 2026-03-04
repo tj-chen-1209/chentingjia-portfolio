@@ -1,0 +1,2310 @@
+<!DOCTYPE html><html lang="en" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Technical documentation for research projects in Embodied AI, robot learning, and vision-language-action models">
+      
+      
+        <meta name="author" content="Tingjia Chen">
+      
+      
+        <link rel="canonical" href="https://chentingjia.github.io/chentingjia-portfolio/projects/icml-resmerge/">
+      
+      
+        <link rel="prev" href="../rlinf-rdt-integration/">
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.4">
+    
+    
+      
+        <title>ResMerge (ICML Continual Learning) - Tingjia Chen - Embodied AI Portfolio</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#resmerge-residual-policy-merging-for-continual-robot-learning" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Tingjia Chen - Embodied AI Portfolio" class="md-header__button md-logo" aria-label="Tingjia Chen - Embodied AI Portfolio" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Tingjia Chen - Embodied AI Portfolio
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              ResMerge (ICML Continual Learning)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo" aria-label="Switch to dark mode" type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo" aria-label="Switch to light mode" type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/chentingjia/chentingjia-portfolio" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    chentingjia/chentingjia-portfolio
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../teleop-mocap/" class="md-tabs__link">
+          
+  
+  
+  Projects
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Tingjia Chen - Embodied AI Portfolio" class="md-nav__button md-logo" aria-label="Tingjia Chen - Embodied AI Portfolio" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+
+    </a>
+    Tingjia Chen - Embodied AI Portfolio
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/chentingjia/chentingjia-portfolio" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    chentingjia/chentingjia-portfolio
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Projects
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Projects
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../teleop-mocap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OptiTrack ROS2 Streaming Node
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../groot-libero-reproduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GR00T-N1.6 SFT on LIBERO
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rdt-libero/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RDT SFT &amp; Evaluation on LIBERO
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rlinf-rdt-integration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RLinf × RDT Integration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ResMerge (ICML Continual Learning)
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ResMerge (ICML Continual Learning)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#context-goal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Context &amp; Goal
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-idea-residual-policy-pool-dynamic-merging" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Idea: Residual Policy Pool + Dynamic Merging
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Key Idea: Residual Policy Pool + Dynamic Merging">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#conceptual-foundation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conceptual Foundation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#technical-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Technical Implementation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#system-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        System Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-its-hard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why It's Hard
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Why It's Hard">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#challenge-1-knowledge-interference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Challenge 1: Knowledge Interference
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#challenge-2-consistency-guarantee" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Challenge 2: Consistency Guarantee
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#challenge-3-parameter-efficiency" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Challenge 3: Parameter Efficiency
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#my-contributions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        My Contributions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="My Contributions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#role-in-project" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Role in Project
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-scientific-figures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Scientific Figures
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-experimental-support" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Experimental Support
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-documentation-reproducibility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Documentation &amp; Reproducibility
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#experimental-protocol" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Experimental Protocol
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Experimental Protocol">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#phase-1-base-policy-pretraining" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 1: Base Policy Pretraining
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-2-residual-learning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 2: Residual Learning
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-3-dynamic-merging" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 3: Dynamic Merging
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-4-consistency-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 4: Consistency Validation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#evaluation-benchmarks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evaluation Benchmarks
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ablation-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ablation Questions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Ablation Questions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ablation-1-merging-threshold" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ablation 1: Merging Threshold τ
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ablation-2-residual-pool-size-k" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ablation 2: Residual Pool Size k
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ablation-3-residual-correction-field-properties" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ablation 3: Residual Correction Field Properties
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lessons-learned" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lessons Learned
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Lessons Learned">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#about-continual-learning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        About Continual Learning
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#about-experimental-rigor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        About Experimental Rigor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#technical-insights" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Technical Insights
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-this-transfers-to-new-labs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How This Transfers to New Labs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="How This Transfers to New Labs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-method-communication-figure-creation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Method Communication (Figure Creation)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-rigorous-experimentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Rigorous Experimentation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-reproducibility-infrastructure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Reproducibility Infrastructure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-continual-learning-domain-knowledge" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Continual Learning Domain Knowledge
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reproducibility-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reproducibility Notes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#placeholder-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Placeholder Checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#context-goal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Context &amp; Goal
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-idea-residual-policy-pool-dynamic-merging" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Idea: Residual Policy Pool + Dynamic Merging
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Key Idea: Residual Policy Pool + Dynamic Merging">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#conceptual-foundation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conceptual Foundation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#technical-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Technical Implementation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#system-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        System Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-its-hard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why It's Hard
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Why It's Hard">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#challenge-1-knowledge-interference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Challenge 1: Knowledge Interference
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#challenge-2-consistency-guarantee" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Challenge 2: Consistency Guarantee
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#challenge-3-parameter-efficiency" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Challenge 3: Parameter Efficiency
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#my-contributions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        My Contributions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="My Contributions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#role-in-project" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Role in Project
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-scientific-figures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Scientific Figures
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-experimental-support" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Experimental Support
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-documentation-reproducibility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Documentation &amp; Reproducibility
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#experimental-protocol" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Experimental Protocol
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Experimental Protocol">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#phase-1-base-policy-pretraining" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 1: Base Policy Pretraining
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-2-residual-learning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 2: Residual Learning
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-3-dynamic-merging" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 3: Dynamic Merging
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-4-consistency-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 4: Consistency Validation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#evaluation-benchmarks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evaluation Benchmarks
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ablation-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ablation Questions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Ablation Questions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ablation-1-merging-threshold" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ablation 1: Merging Threshold τ
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ablation-2-residual-pool-size-k" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ablation 2: Residual Pool Size k
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ablation-3-residual-correction-field-properties" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ablation 3: Residual Correction Field Properties
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lessons-learned" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lessons Learned
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Lessons Learned">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#about-continual-learning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        About Continual Learning
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#about-experimental-rigor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        About Experimental Rigor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#technical-insights" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Technical Insights
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-this-transfers-to-new-labs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How This Transfers to New Labs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="How This Transfers to New Labs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-method-communication-figure-creation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Method Communication (Figure Creation)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-rigorous-experimentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Rigorous Experimentation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-reproducibility-infrastructure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Reproducibility Infrastructure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-continual-learning-domain-knowledge" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Continual Learning Domain Knowledge
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reproducibility-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reproducibility Notes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#placeholder-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Placeholder Checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="resmerge-residual-policy-merging-for-continual-robot-learning">ResMerge: Residual Policy Merging for Continual Robot Learning</h1>
+<p><strong>中文简介：</strong> ICML项目：为持续学习设计残差策略合并框架ResMerge，通过轻量级残差网络池（LoRA实现）和动态合并机制，实现高效的多任务知识融合与参数扩展。针对传统方法数据/参数随任务线性增长的问题，提出残差修正场的一致性保证机制，减少知识干扰和灾难性遗忘。我的贡献：绘制核心方法流程图和teaser概念图，协助一致性分析、性能对比和消融实验（合并阈值τ、残差池大小），改进模块化实验配置支持可复现性。</p>
+<hr>
+<p><strong>Organization:</strong> PKU Lingchu Lab<br>
+<strong>Duration:</strong> 2024<br>
+<strong>Role:</strong> Research Support (Figures &amp; Experiments)<br>
+<strong>Project Type:</strong> ICML Conference Submission</p>
+<h2 id="context-goal">Context &amp; Goal</h2>
+<p><strong>Continual learning</strong> in robotics aims to enable agents to learn multiple tasks sequentially without catastrophic forgetting. Traditional approaches face critical limitations:</p>
+<p><strong>Problems with Existing Methods:</strong></p>
+<ol>
+<li><strong>Data inefficiency:</strong> Each new task requires large training datasets to achieve acceptable performance</li>
+<li><strong>Parameter explosion:</strong> Model size grows linearly with number of tasks (multi-head architectures, task-specific modules)</li>
+<li><strong>Engineering overhead:</strong> Maintaining separate models or task-specific components increases deployment complexity</li>
+<li><strong>Catastrophic forgetting:</strong> Fine-tuning on new tasks degrades performance on previously learned tasks</li>
+</ol>
+<p><strong>ResMerge Motivation:</strong></p>
+<p>Introduce a <strong>residual policy merging framework</strong> that achieves efficient multi-task learning through:</p>
+<ol>
+<li><strong>Lightweight residual corrections:</strong> Task-specific knowledge stored in compact residual networks (LoRA adapters)</li>
+<li><strong>Dynamic merging:</strong> Intelligently combine multiple residuals based on task similarity or performance signals</li>
+<li><strong>Consistency guarantees:</strong> Ensure merged policy maintains performance on both original and new tasks</li>
+<li><strong>Parameter efficiency:</strong> Avoid linear parameter growth; share base policy across tasks</li>
+</ol>
+<p><strong>Project Goal:</strong><br>
+Develop and validate ResMerge framework demonstrating improved data/parameter efficiency compared to traditional continual learning baselines on robot manipulation benchmarks.</p>
+<h2 id="key-idea-residual-policy-pool-dynamic-merging">Key Idea: Residual Policy Pool + Dynamic Merging</h2>
+<h3 id="conceptual-foundation">Conceptual Foundation</h3>
+<p><strong>Core Insight:</strong><br>
+Instead of learning full policies for each task, decompose learning into:</p>
+<ul>
+<li><strong>Base Policy</strong> <span class="arithmatex">\( \pi_{\text{base}} \)</span>: General-purpose policy pretrained on source tasks</li>
+<li><strong>Residual Corrections</strong> <span class="arithmatex">\( \{\Delta_1, \Delta_2, ..., \Delta_k\} \)</span>: Lightweight task-specific adjustments</li>
+</ul>
+<p><strong>Merged Policy:</strong></p>
+<div class="arithmatex">\[
+\pi_{\text{merged}}(a|s) = \pi_{\text{base}}(a|s) + \sum_{i=1}^{k} w_i(s) \cdot \Delta_i(a|s)
+\]</div>
+<p>Where:
+- <span class="arithmatex">\( w_i(s) \)</span> are dynamic merging weights (context-dependent)
+- <span class="arithmatex">\( \Delta_i \)</span> are residual correction fields</p>
+<h3 id="technical-implementation">Technical Implementation</h3>
+<p><strong>Base Policy:</strong><br>
+Large pretrained model (e.g., vision-language-action transformer) trained on diverse source tasks. Kept frozen or lightly fine-tuned during continual learning.</p>
+<p><strong>Residual Policy Pool:</strong><br>
+Collection of lightweight LoRA (Low-Rank Adaptation) modules:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Conceptual implementation (not actual code)</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="k">class</span><span class="w"> </span><span class="nc">ResidualPolicyPool</span><span class="p">:</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">base_policy</span><span class="p">,</span> <span class="n">num_residuals</span><span class="p">):</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">base_policy</span> <span class="o">=</span> <span class="n">base_policy</span>  <span class="c1"># Frozen or lightly tuned</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">residuals</span> <span class="o">=</span> <span class="p">[</span><span class="n">LoRA</span><span class="p">(</span><span class="n">rank</span><span class="o">=</span><span class="p">{{</span><span class="n">LORA_RANK</span><span class="p">}})</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_residuals</span><span class="p">)]</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_merged_policy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_context</span><span class="p">):</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>        <span class="c1"># Compute merging weights</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>        <span class="n">weights</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">merge_module</span><span class="p">(</span><span class="n">task_context</span><span class="p">)</span>  <span class="c1"># Shape: (num_residuals,)</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>        <span class="c1"># Merge residuals</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>        <span class="n">merged_correction</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">w</span> <span class="o">*</span> <span class="n">res</span> <span class="k">for</span> <span class="n">w</span><span class="p">,</span> <span class="n">res</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">residuals</span><span class="p">))</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>        <span class="k">return</span> <span class="k">lambda</span> <span class="n">obs</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_policy</span><span class="p">(</span><span class="n">obs</span><span class="p">)</span> <span class="o">+</span> <span class="n">merged_correction</span><span class="p">(</span><span class="n">obs</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Merge Module:</strong><br>
+Neural network or algorithm that computes merging weights <span class="arithmatex">\( w_i \)</span> based on:
+- Task similarity (learned embedding distance)
+- Performance signals (validation success on subtask probes)
+- Context features (state distribution, language instruction)</p>
+<p><strong>Residual Correction Fields:</strong><br>
+Each residual <span class="arithmatex">\( \Delta_i \)</span> learns:
+- <strong>Direction:</strong> Which action dimensions to adjust (e.g., gripper control vs. arm motion)
+- <strong>Magnitude:</strong> How strongly to correct base policy output</p>
+<p><strong>Key Property - Consistency:</strong><br>
+Residuals designed to satisfy consistency constraint: merged policy should not degrade performance on original tasks. Enforced through:
+- Regularization on residual magnitude
+- Validation during merging weight optimization
+- Orthogonality constraints to prevent interference</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/figures/resmerge_pipeline.png" data-desc-position="bottom"><img alt="ResMerge Pipeline" src="../assets/figures/resmerge_pipeline.png"></a><br>
+<em>Figure 1: ResMerge method pipeline showing residual learning, merging, and environment interaction</em></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/figures/resmerge_teaser.png" data-desc-position="bottom"><img alt="Data/Parameter Efficiency" src="../assets/figures/resmerge_teaser.png"></a><br>
+<em>Figure 2: Conceptual comparison: traditional methods vs. ResMerge in data/parameter efficiency</em></p>
+<h2 id="system-overview">System Overview</h2>
+<pre class="mermaid"><code>graph TD
+    A[Source Tasks&lt;br/&gt;Pretraining Data] --&gt; B[Base Policy π_base&lt;br/&gt;Pretrained Transformer]
+
+    C[New Task 1] --&gt; D1[Residual Δ_1&lt;br/&gt;LoRA adapter]
+    E[New Task 2] --&gt; D2[Residual Δ_2&lt;br/&gt;LoRA adapter]
+    F[New Task k] --&gt; D3[Residual Δ_k&lt;br/&gt;LoRA adapter]
+
+    D1 --&gt; G[Residual Policy Pool]
+    D2 --&gt; G
+    D3 --&gt; G
+
+    H[Task Context&lt;br/&gt;State, Language] --&gt; I[Merge Module]
+    G --&gt; I
+
+    I --&gt; J[Merging Weights&lt;br/&gt;w_1, w_2, ..., w_k]
+
+    B --&gt; K[Merged Policy&lt;br/&gt;π_base + Σ w_i·Δ_i]
+    J --&gt; K
+
+    K --&gt; L[Action Output]
+    L --&gt; M[Robot Environment]
+    M --&gt; N[Validation:&lt;br/&gt;Consistency Check]</code></pre>
+<p><strong>Pipeline Stages:</strong></p>
+<ol>
+<li><strong>Pretraining:</strong> Train base policy <span class="arithmatex">\( \pi_{\text{base}} \)</span> on source tasks</li>
+<li><strong>Residual Learning:</strong> For each new task, train lightweight residual <span class="arithmatex">\( \Delta_i \)</span> (LoRA)</li>
+<li><strong>Pool Management:</strong> Add residual to pool; maintain consistency guarantees</li>
+<li><strong>Dynamic Merging:</strong> At inference, compute weights <span class="arithmatex">\( w_i \)</span> based on task context</li>
+<li><strong>Merged Execution:</strong> Apply weighted sum of residuals to base policy output</li>
+<li><strong>Validation:</strong> Verify merged policy maintains performance on all tasks</li>
+</ol>
+<h2 id="why-its-hard">Why It's Hard</h2>
+<h3 id="challenge-1-knowledge-interference">Challenge 1: Knowledge Interference</h3>
+<p><strong>Problem:</strong><br>
+Residual corrections optimized for different tasks can conflict when merged:</p>
+<ul>
+<li>Residual <span class="arithmatex">\( \Delta_1 \)</span> learned for Task 1: "increase gripper force"</li>
+<li>Residual <span class="arithmatex">\( \Delta_2 \)</span> learned for Task 2: "decrease gripper force"</li>
+<li>Merged: <span class="arithmatex">\( \Delta_1 + \Delta_2 \)</span> may cancel out or produce unstable behavior</li>
+</ul>
+<p><strong>Technical Difficulty:</strong><br>
+Action space is high-dimensional (6D EEF + gripper). Residuals modify multiple action dimensions simultaneously. Simple averaging can cause destructive interference.</p>
+<p><strong>Research Question:</strong><br>
+How to learn residuals that are "merge-friendly" (low interference when combined)?</p>
+<h3 id="challenge-2-consistency-guarantee">Challenge 2: Consistency Guarantee</h3>
+<p><strong>Problem:</strong><br>
+After merging residuals for new tasks, merged policy must still perform well on original tasks (avoid catastrophic forgetting).</p>
+<p><strong>Formal Constraint:</strong></p>
+<div class="arithmatex">\[
+\mathbb{E}_{\tau \sim \text{Task}_i} [R(\pi_{\text{merged}})] \geq (1 - \epsilon) \cdot \mathbb{E}_{\tau \sim \text{Task}_i} [R(\pi_i)]
+\]</div>
+<p>For all tasks <span class="arithmatex">\( i \)</span> in pool, where <span class="arithmatex">\( \epsilon \)</span> is acceptable performance degradation bound.</p>
+<p><strong>Technical Difficulty:</strong><br>
+Merging is a non-linear operation. No theoretical guarantee that weighted sum of residuals preserves individual task performance. Requires empirical validation and careful merging weight selection.</p>
+<p><strong>Research Question:</strong><br>
+What properties of residual correction fields ensure consistency after merging?</p>
+<h3 id="challenge-3-parameter-efficiency">Challenge 3: Parameter Efficiency</h3>
+<p><strong>Problem:</strong><br>
+Traditional continual learning:
+- <strong>Multi-head:</strong> <span class="arithmatex">\( O(k) \)</span> parameters for <span class="arithmatex">\( k \)</span> tasks (separate heads)
+- <strong>Full fine-tuning per task:</strong> <span class="arithmatex">\( O(k \cdot |θ|) \)</span> storage for <span class="arithmatex">\( k \)</span> tasks</p>
+<p>ResMerge target:
+- <strong>Residual pool:</strong> <span class="arithmatex">\( O(k \cdot r) \)</span> where <span class="arithmatex">\( r \ll |θ| \)</span> (LoRA rank)
+- <strong>Base policy:</strong> <span class="arithmatex">\( O(|θ|) \)</span> shared across all tasks
+- <strong>Total:</strong> <span class="arithmatex">\( O(|θ| + k \cdot r) \)</span> with <span class="arithmatex">\( k \cdot r \ll k \cdot |θ| \)</span></p>
+<p><strong>Technical Difficulty:</strong><br>
+Achieving strong performance with low-rank residuals (rank {{LORA_RANK}}, typically 8-32) requires careful design of:
+- Residual learning objectives
+- Merging strategies
+- Base policy selection</p>
+<p><strong>Research Question:</strong><br>
+What is the trade-off curve between residual rank <span class="arithmatex">\( r \)</span> and task capacity <span class="arithmatex">\( k \)</span>?</p>
+<h2 id="my-contributions">My Contributions</h2>
+<h3 id="role-in-project">Role in Project</h3>
+<p>I supported the ResMerge project through scientific figure creation, experimental validation, and reproducibility infrastructure. Below is a breakdown of my specific deliverables:</p>
+<h3 id="1-scientific-figures">1. Scientific Figures</h3>
+<p><strong>Figure Catalog:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Figure</th>
+<th>Purpose</th>
+<th>Message Conveyed</th>
+<th>My Contribution</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>method.pdf</code></td>
+<td>Method pipeline diagram</td>
+<td>Shows: Base policy → Residual learning → Dynamic merging → Task execution flow</td>
+<td>Drew complete flow diagram showing all system components and data flow</td>
+</tr>
+<tr>
+<td><code>teaser_csq.pdf</code></td>
+<td>Teaser concept figure</td>
+<td>Visual comparison: Traditional (linear growth) vs. ResMerge (sublinear growth) in data/parameter efficiency</td>
+<td>Designed conceptual visualization comparing parameter scaling curves</td>
+</tr>
+</tbody>
+</table>
+<p><strong>method.pdf Details:</strong></p>
+<p>Created end-to-end pipeline diagram showing:
+- Source task pretraining → base policy
+- New task arrives → learn residual <span class="arithmatex">\( \Delta_i \)</span> via LoRA
+- Residual added to pool
+- Merge module computes weights <span class="arithmatex">\( w_i \)</span> from task context
+- Merged policy <span class="arithmatex">\( \pi_{\text{base}} + \sum w_i \Delta_i \)</span> executes in environment
+- Consistency validation loop</p>
+<p><strong>teaser_csq.pdf Details:</strong></p>
+<p>Designed conceptual comparison figure:
+- <strong>Left panel:</strong> Traditional methods (multi-head, full fine-tuning)
+  - Parameter count: <span class="arithmatex">\( O(k \cdot |θ|) \)</span> - linear growth
+  - Data requirement: <span class="arithmatex">\( O(k \cdot D) \)</span> - linear growth
+- <strong>Right panel:</strong> ResMerge
+  - Parameter count: <span class="arithmatex">\( O(|θ| + k \cdot r) \)</span> - sublinear growth with <span class="arithmatex">\( r \ll |θ| \)</span>
+  - Data requirement: Reduced via knowledge transfer from base policy
+- <strong>Visual:</strong> Curves showing parameter/data scaling as function of task count <span class="arithmatex">\( k \)</span></p>
+<h3 id="2-experimental-support">2. Experimental Support</h3>
+<p><strong>Experiment Catalog:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Experiment Type</th>
+<th>What It Validates</th>
+<th>Expected Observation</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Residual Consistency Analysis</strong></td>
+<td>Correction field directions/magnitudes remain stable after merging</td>
+<td>Low variance in residual norms; aligned correction vectors</td>
+<td>Assisted execution</td>
+</tr>
+<tr>
+<td><strong>Multi-Task Performance</strong></td>
+<td>Merged policy succeeds on all pool tasks</td>
+<td>Success rate <span class="arithmatex">\( \geq \)</span> {{CONSISTENCY_THRESHOLD}}% on each task</td>
+<td>Assisted execution</td>
+</tr>
+<tr>
+<td><strong>Ablation: Merging Threshold τ</strong></td>
+<td>Optimal τ balances task capacity vs. consistency</td>
+<td>Performance vs. τ curve (U-shape or monotonic)</td>
+<td>Assisted execution</td>
+</tr>
+<tr>
+<td><strong>Ablation: Pool Size k</strong></td>
+<td>How many residuals can be effectively merged</td>
+<td>Performance plateaus or degrades beyond k={{MAX_POOL_SIZE}}</td>
+<td>Assisted execution</td>
+</tr>
+<tr>
+<td><strong>Data Efficiency Comparison</strong></td>
+<td>ResMerge vs. baselines under limited data</td>
+<td>{{RESMERGE_SUCCESS}}% vs. {{BASELINE_SUCCESS}}% at {{DATA_FRACTION}}× data</td>
+<td>Pending results</td>
+</tr>
+<tr>
+<td><strong>Parameter Efficiency Comparison</strong></td>
+<td>ResMerge vs. baselines at fixed parameter budget</td>
+<td>Higher task capacity at same parameter count</td>
+<td>Pending results</td>
+</tr>
+</tbody>
+</table>
+<p><strong>My Role in Experiments:</strong></p>
+<ul>
+<li><strong>Consistency Analysis:</strong> Helped run experiments measuring residual correction field properties:</li>
+<li>Computed direction alignment between residuals (cosine similarity)</li>
+<li>Measured residual magnitude distributions</li>
+<li>
+<p>Verified that merged residuals maintain bounded norms</p>
+</li>
+<li>
+<p><strong>Performance Comparison:</strong> Assisted with continual learning task evaluation:</p>
+</li>
+<li>Ran merged policy on LIBERO task subsets</li>
+<li>Collected success rate data across multiple tasks</li>
+<li>
+<p>Validated consistency constraint (no catastrophic forgetting)</p>
+</li>
+<li>
+<p><strong>Ablation Studies:</strong> Supported systematic hyperparameter sweeps:</p>
+</li>
+<li><strong>Merging threshold τ:</strong> Tested range [0.0, 0.1, 0.3, 0.5, 0.7, 1.0]; measured impact on task performance</li>
+<li><strong>Pool size k:</strong> Evaluated with k = [2, 4, 8, 16] residuals; identified scaling limits</li>
+</ul>
+<h3 id="3-documentation-reproducibility">3. Documentation &amp; Reproducibility</h3>
+<p><strong>Configuration Organization:</strong></p>
+<ul>
+<li>Helped structure experiment configs for systematic ablations</li>
+<li>Organized hyperparameter tracking (τ, k, LoRA rank, learning rate)</li>
+<li>Documented residual learning and merging protocols</li>
+</ul>
+<p><strong>Modularity Improvements:</strong></p>
+<ul>
+<li>Supported code refactoring for cleaner separation:</li>
+<li>Base policy module</li>
+<li>Residual policy module</li>
+<li>Merge module</li>
+<li>Evaluation pipeline</li>
+<li>Enabled easier ablation studies and future extensions</li>
+</ul>
+<p><strong>Impact:</strong><br>
+Improved reproducibility for collaborators and future work building on ResMerge framework.</p>
+<h2 id="experimental-protocol">Experimental Protocol</h2>
+<p><strong>Note:</strong> This section provides high-level protocol overview. Specific metrics and results use placeholders pending paper publication.</p>
+<h3 id="phase-1-base-policy-pretraining">Phase 1: Base Policy Pretraining</h3>
+<ol>
+<li>Train base policy on source tasks: {{SOURCE_TASKS}}</li>
+<li>Freeze or lightly tune base policy for continual learning phase</li>
+<li>Validate base policy performance: {{BASE_POLICY_SUCCESS}}% on source tasks</li>
+</ol>
+<h3 id="phase-2-residual-learning">Phase 2: Residual Learning</h3>
+<p>For each new task <span class="arithmatex">\( i \)</span>:</p>
+<ol>
+<li>Initialize LoRA adapter with rank {{LORA_RANK}}</li>
+<li>Train residual <span class="arithmatex">\( \Delta_i \)</span> on task-specific demonstrations ({{DEMOS_PER_TASK}} demos)</li>
+<li>Validate residual: base + <span class="arithmatex">\( \Delta_i \)</span> achieves {{RESIDUAL_SUCCESS}}% on task <span class="arithmatex">\( i \)</span></li>
+<li>Add <span class="arithmatex">\( \Delta_i \)</span> to residual pool</li>
+</ol>
+<h3 id="phase-3-dynamic-merging">Phase 3: Dynamic Merging</h3>
+<ol>
+<li>Given new task context (state, language instruction)</li>
+<li>Compute merging weights: <span class="arithmatex">\( w = \text{MergeModule}(\text{context}) \)</span></li>
+<li>Generate merged policy: <span class="arithmatex">\( \pi_{\text{merged}} = \pi_{\text{base}} + \sum w_i \Delta_i \)</span></li>
+<li>Execute merged policy in environment</li>
+</ol>
+<h3 id="phase-4-consistency-validation">Phase 4: Consistency Validation</h3>
+<p>For all tasks in pool:</p>
+<ol>
+<li>Evaluate merged policy on task <span class="arithmatex">\( i \)</span>: {{MERGED_SUCCESS_i}}%</li>
+<li>Compare to individual residual performance: {{INDIVIDUAL_SUCCESS_i}}%</li>
+<li>Verify consistency: degradation <span class="arithmatex">\( &lt; \epsilon \)</span> (typically <span class="arithmatex">\( \epsilon = 5\% \)</span>)</li>
+</ol>
+<h3 id="evaluation-benchmarks">Evaluation Benchmarks</h3>
+<p><strong>Primary Benchmark:</strong> {{BENCHMARKS}} (e.g., LIBERO subsets, custom manipulation tasks)</p>
+<p><strong>Metrics:</strong>
+- <strong>Success rate:</strong> Primary performance metric
+- <strong>Data efficiency:</strong> Success rate vs. number of demonstrations
+- <strong>Parameter efficiency:</strong> Success rate vs. total parameter count
+- <strong>Consistency score:</strong> Average performance retention across all pool tasks</p>
+<h2 id="ablation-questions">Ablation Questions</h2>
+<h3 id="ablation-1-merging-threshold">Ablation 1: Merging Threshold τ</h3>
+<p><strong>Research Question:</strong><br>
+How does merging threshold <span class="arithmatex">\( \tau \)</span> affect task capacity and consistency?</p>
+<p><strong>Experimental Design:</strong></p>
+<ul>
+<li><strong>Parameter:</strong> Merging threshold <span class="arithmatex">\( \tau \in [0.0, 0.1, 0.3, 0.5, 0.7, 1.0] \)</span></li>
+<li><strong>Hypothesis:</strong> Low <span class="arithmatex">\( \tau \)</span> → include more residuals → higher capacity but potential interference; High <span class="arithmatex">\( \tau \)</span> → fewer residuals → lower capacity but better consistency</li>
+<li><strong>Measurement:</strong> </li>
+<li>Task success rate vs. <span class="arithmatex">\( \tau \)</span></li>
+<li>Number of active residuals (weights <span class="arithmatex">\( w_i &gt; \tau \)</span>) vs. <span class="arithmatex">\( \tau \)</span></li>
+<li>Consistency score vs. <span class="arithmatex">\( \tau \)</span></li>
+</ul>
+<p><strong>Expected Observation:</strong><br>
+Optimal <span class="arithmatex">\( \tau^* \)</span> balances capacity and consistency; too low causes interference, too high limits knowledge reuse.</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/figures/resmerge_ablation_tau.png" data-desc-position="bottom"><img alt="Ablation: Merging Threshold" src="../assets/figures/resmerge_ablation_tau.png"></a><br>
+<em>Figure 3: Success rate and consistency score vs. merging threshold τ</em></p>
+<h3 id="ablation-2-residual-pool-size-k">Ablation 2: Residual Pool Size k</h3>
+<p><strong>Research Question:</strong><br>
+How many residual policies can be effectively merged before performance degrades?</p>
+<p><strong>Experimental Design:</strong></p>
+<ul>
+<li><strong>Parameter:</strong> Pool size <span class="arithmatex">\( k \in [2, 4, 8, 16, 32] \)</span></li>
+<li><strong>Hypothesis:</strong> Performance plateaus or degrades beyond critical <span class="arithmatex">\( k_{\max} \)</span> due to interference or merging complexity</li>
+<li><strong>Measurement:</strong></li>
+<li>Average success rate across all pool tasks vs. <span class="arithmatex">\( k \)</span></li>
+<li>Per-task consistency (worst-case degradation) vs. <span class="arithmatex">\( k \)</span></li>
+<li>Merging weight entropy (how selective is merge module) vs. <span class="arithmatex">\( k \)</span></li>
+</ul>
+<p><strong>Expected Observation:</strong><br>
+Capacity scales with <span class="arithmatex">\( k \)</span> up to <span class="arithmatex">\( k_{\max} \sim \)</span> {{MAX_POOL_SIZE}}, then plateaus or degrades.</p>
+<h3 id="ablation-3-residual-correction-field-properties">Ablation 3: Residual Correction Field Properties</h3>
+<p><strong>Research Question:</strong><br>
+What properties of learned residuals enable successful merging?</p>
+<p><strong>Analysis:</strong></p>
+<ol>
+<li><strong>Direction Alignment:</strong></li>
+<li>Compute pairwise cosine similarity between residuals</li>
+<li>Measure: <span class="arithmatex">\( \text{sim}(\Delta_i, \Delta_j) = \frac{\Delta_i \cdot \Delta_j}{||\Delta_i|| \cdot ||\Delta_j||} \)</span></li>
+<li>
+<p>Hypothesis: Similar tasks have aligned residuals; dissimilar tasks have orthogonal residuals</p>
+</li>
+<li>
+<p><strong>Magnitude Distribution:</strong></p>
+</li>
+<li>Measure residual norm <span class="arithmatex">\( ||\Delta_i|| \)</span> across tasks</li>
+<li>
+<p>Check if magnitude correlates with task difficulty or base policy performance gap</p>
+</li>
+<li>
+<p><strong>Action Dimension Sparsity:</strong></p>
+</li>
+<li>Analyze which action dimensions each residual modifies</li>
+<li>Check if residuals specialize (e.g., one for gripper, one for arm motion)</li>
+</ol>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/figures/resmerge_residual_field_consistency.png" data-desc-position="bottom"><img alt="Residual Field Consistency" src="../assets/figures/resmerge_residual_field_consistency.png"></a><br>
+<em>Figure 4: Visualization of residual correction field directions and magnitudes across pool</em></p>
+<p><strong>My Contribution to This Ablation:</strong><br>
+Assisted with running consistency analysis experiments; helped verify that residual norms and directions remain stable after merging.</p>
+<h2 id="lessons-learned">Lessons Learned</h2>
+<h3 id="about-continual-learning">About Continual Learning</h3>
+<ol>
+<li>
+<p><strong>Knowledge Transfer is Subtle:</strong><br>
+   Pretrained base policies don't automatically transfer well to all new tasks. Careful selection of source tasks for pretraining significantly impacts residual learning efficiency.</p>
+</li>
+<li>
+<p><strong>Interference is Real:</strong><br>
+   Even with orthogonality constraints, residual merging can cause unexpected failures. Systematic consistency validation is essential, not optional.</p>
+</li>
+<li>
+<p><strong>Data Efficiency Requires Architecture:</strong><br>
+   Simply using LoRA doesn't guarantee data efficiency. The residual merging mechanism (dynamic weights, consistency constraints) is critical for low-shot learning.</p>
+</li>
+</ol>
+<h3 id="about-experimental-rigor">About Experimental Rigor</h3>
+<ol>
+<li>
+<p><strong>Ablations Reveal Mechanism:</strong><br>
+   Sweeping merging threshold <span class="arithmatex">\( \tau \)</span> and pool size <span class="arithmatex">\( k \)</span> reveals system behavior boundaries. These curves communicate design trade-offs more effectively than single performance numbers.</p>
+</li>
+<li>
+<p><strong>Figures Tell Stories:</strong><br>
+   Method pipeline diagrams must show data flow clearly. Teaser figures must contrast approaches visually (curves, scaling plots) not just textual descriptions.</p>
+</li>
+<li>
+<p><strong>Reproducibility Infrastructure Matters:</strong><br>
+   Config management and experiment organization aren't afterthoughts. Modular code structure enables rapid iteration on ablations and debugging.</p>
+</li>
+</ol>
+<h3 id="technical-insights">Technical Insights</h3>
+<ol>
+<li>
+<p><strong>LoRA Rank Trade-off:</strong><br>
+   Higher rank residuals (32 vs. 8) may individually perform better but are harder to merge (more degrees of freedom → more interference). Optimal rank depends on merging mechanism.</p>
+</li>
+<li>
+<p><strong>Validation Before Merging:</strong><br>
+   Always validate individual residual performance before adding to pool. A single poorly-learned residual can degrade entire merged policy.</p>
+</li>
+<li>
+<p><strong>Context-Aware Merging is Critical:</strong><br>
+   Static merging weights (e.g., uniform average) perform poorly. Dynamic weights conditioned on task context (language, state distribution) significantly improve merged policy quality.</p>
+</li>
+</ol>
+<h2 id="how-this-transfers-to-new-labs">How This Transfers to New Labs</h2>
+<p><strong>Value Proposition for PIs:</strong></p>
+<p>This project experience demonstrates skills directly applicable to robotics research labs:</p>
+<h3 id="1-method-communication-figure-creation">1. Method Communication (Figure Creation)</h3>
+<p><strong>What I Bring:</strong>
+- Ability to translate complex technical ideas (residual merging, dynamic weighting) into clear visual diagrams
+- Experience creating publication-quality figures for ML/robotics papers
+- Understanding of what reviewers and PIs need to see: data flow, system components, performance comparisons</p>
+<p><strong>Immediate Lab Contribution:</strong><br>
+Can create method figures for papers, grant proposals, and technical presentations.</p>
+<h3 id="2-rigorous-experimentation">2. Rigorous Experimentation</h3>
+<p><strong>What I Bring:</strong>
+- Systematic ablation study design (sweep hyperparameters, measure trade-offs)
+- Consistency validation protocols (verify no catastrophic forgetting)
+- Performance profiling and bottleneck analysis</p>
+<p><strong>Immediate Lab Contribution:</strong><br>
+Can design and execute ablation studies; identify failure modes; validate research hypotheses with proper experimental controls.</p>
+<h3 id="3-reproducibility-infrastructure">3. Reproducibility Infrastructure</h3>
+<p><strong>What I Bring:</strong>
+- Config-driven experiment management (no hard-coded hyperparameters)
+- Modular code organization for extensibility
+- Documentation of experimental protocols</p>
+<p><strong>Immediate Lab Contribution:</strong><br>
+Can establish reproducibility standards for research projects; organize codebases for multi-person collaboration; document procedures for future lab members.</p>
+<h3 id="4-continual-learning-domain-knowledge">4. Continual Learning Domain Knowledge</h3>
+<p><strong>What I Bring:</strong>
+- Understanding of catastrophic forgetting and mitigation strategies
+- Experience with parameter-efficient fine-tuning (LoRA, adapters)
+- Knowledge of multi-task learning evaluation protocols</p>
+<p><strong>Immediate Lab Contribution:</strong><br>
+Can contribute to projects involving:
+- Foundation model adaptation to multiple downstream tasks
+- Lifelong learning in robot manipulation
+- Knowledge transfer and compositional generalization studies</p>
+<h2 id="reproducibility-notes">Reproducibility Notes</h2>
+<p><strong>Configuration Structure:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># resmerge_config.yaml (conceptual structure)</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nt">base_policy</span><span class="p">:</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="nt">checkpoint</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{{</span><span class="nv">BASE_POLICY_PATH</span><span class="p p-Indicator">}}</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span><span class="nt">freeze</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">  </span><span class="c1"># or partial freeze</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="nt">residual_learning</span><span class="p">:</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">  </span><span class="nt">method</span><span class="p">:</span><span class="w"> </span><span class="s">"lora"</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">  </span><span class="nt">rank</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{{</span><span class="nv">LORA_RANK</span><span class="p p-Indicator">}}</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">  </span><span class="nt">target_modules</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{{</span><span class="nv">TARGET_MODULES</span><span class="p p-Indicator">}}</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">  </span><span class="nt">learning_rate</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{{</span><span class="nv">RESIDUAL_LR</span><span class="p p-Indicator">}}</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">  </span><span class="nt">demos_per_task</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{{</span><span class="nv">DEMOS_PER_TASK</span><span class="p p-Indicator">}}</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="nt">merging</span><span class="p">:</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">  </span><span class="nt">method</span><span class="p">:</span><span class="w"> </span><span class="s">"dynamic"</span><span class="w">  </span><span class="c1"># or "static_average", "learned_weights"</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">  </span><span class="nt">threshold</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{{</span><span class="nv">MERGE_THRESHOLD</span><span class="p p-Indicator">}}</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">  </span><span class="nt">consistency_constraint</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="nt">evaluation</span><span class="p">:</span>
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="w">  </span><span class="nt">benchmark</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{{</span><span class="nv">BENCHMARKS</span><span class="p p-Indicator">}}</span>
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="w">  </span><span class="nt">num_trials</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{{</span><span class="nv">NUM_TRIALS</span><span class="p p-Indicator">}}</span>
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="w">  </span><span class="nt">consistency_epsilon</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{{</span><span class="nv">EPSILON</span><span class="p p-Indicator">}}</span>
+</code></pre></div>
+<p><strong>Experiment Commands (Safe Skeletons):</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Train residual for new task</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>python<span class="w"> </span>train_residual.py<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span>--base_policy<span class="w"> </span><span class="o">{{</span>BASE_POLICY_PATH<span class="o">}}</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span>--task<span class="w"> </span><span class="o">{{</span>TASK_NAME<span class="o">}}</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span>--config<span class="w"> </span>configs/residual_config.yaml<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span>--output_dir<span class="w"> </span>experiments/residual_<span class="o">{{</span>TASK_NAME<span class="o">}}</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="c1"># Evaluate merged policy</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>python<span class="w"> </span>evaluate_merged.py<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">    </span>--base_policy<span class="w"> </span><span class="o">{{</span>BASE_POLICY_PATH<span class="o">}}</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">    </span>--residual_pool<span class="w"> </span><span class="o">{{</span>RESIDUAL_POOL_DIR<span class="o">}}</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">    </span>--tasks<span class="w"> </span><span class="o">{{</span>TASK_LIST<span class="o">}}</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">    </span>--config<span class="w"> </span>configs/merge_config.yaml
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="c1"># Run ablation: sweep merging threshold</span>
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>bash<span class="w"> </span>ablations/sweep_tau.sh<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="w">    </span>--tau_values<span class="w"> </span><span class="s2">"0.0,0.1,0.3,0.5,0.7,1.0"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="w">    </span>--output_dir<span class="w"> </span>ablations/tau_sweep
+</code></pre></div>
+<p><strong>Dependency Management:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Create environment</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>resmerge<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.10
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>conda<span class="w"> </span>activate<span class="w"> </span>resmerge
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="c1"># Install dependencies</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>pip<span class="w"> </span>install<span class="w"> </span><span class="nv">torch</span><span class="o">=={{</span>PYTORCH_VERSION<span class="o">}}</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>pip<span class="w"> </span>install<span class="w"> </span><span class="nv">peft</span><span class="o">=={{</span>PEFT_VERSION<span class="o">}}</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>pip<span class="w"> </span>install<span class="w"> </span><span class="o">{{</span>BENCHMARK_PACKAGE<span class="o">}}=={{</span>BENCHMARK_VERSION<span class="o">}}</span>
+</code></pre></div>
+<h2 id="placeholder-checklist">Placeholder Checklist</h2>
+<p>Below are placeholders used in this document that should be filled with actual values when paper is published or additional details become available:</p>
+<table>
+<thead>
+<tr>
+<th>Placeholder</th>
+<th>Description</th>
+<th>How to Obtain</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>{{PAPER_TITLE}}</code></td>
+<td>Full paper title</td>
+<td>From accepted paper</td>
+</tr>
+<tr>
+<td><code>{{BENCHMARKS}}</code></td>
+<td>Evaluation benchmarks used</td>
+<td>Paper methods section</td>
+</tr>
+<tr>
+<td><code>{{SOURCE_TASKS}}</code></td>
+<td>Tasks for base policy pretraining</td>
+<td>Paper experimental setup</td>
+</tr>
+<tr>
+<td><code>{{LORA_RANK}}</code></td>
+<td>LoRA rank used for residuals</td>
+<td>Paper hyperparameters table</td>
+</tr>
+<tr>
+<td><code>{{DEMOS_PER_TASK}}</code></td>
+<td>Demonstrations per new task</td>
+<td>Paper data efficiency section</td>
+</tr>
+<tr>
+<td><code>{{BASE_POLICY_SUCCESS}}</code></td>
+<td>Base policy success rate</td>
+<td>Paper baseline results</td>
+</tr>
+<tr>
+<td><code>{{RESIDUAL_SUCCESS}}</code></td>
+<td>Individual residual success</td>
+<td>Paper results section</td>
+</tr>
+<tr>
+<td><code>{{MERGED_SUCCESS_i}}</code></td>
+<td>Merged policy success on task i</td>
+<td>Paper main results table</td>
+</tr>
+<tr>
+<td><code>{{INDIVIDUAL_SUCCESS_i}}</code></td>
+<td>Individual residual success on task i</td>
+<td>Paper comparison table</td>
+</tr>
+<tr>
+<td><code>{{CONSISTENCY_THRESHOLD}}</code></td>
+<td>Minimum acceptable success</td>
+<td>Paper methods (e.g., 95%)</td>
+</tr>
+<tr>
+<td><code>{{MAX_POOL_SIZE}}</code></td>
+<td>Maximum effective pool size</td>
+<td>Paper ablation results</td>
+</tr>
+<tr>
+<td><code>{{MERGE_THRESHOLD}}</code></td>
+<td>Optimal merging threshold τ*</td>
+<td>Paper ablation results</td>
+</tr>
+<tr>
+<td><code>{{RESMERGE_SUCCESS}}</code></td>
+<td>ResMerge final performance</td>
+<td>Paper main results</td>
+</tr>
+<tr>
+<td><code>{{BASELINE_SUCCESS}}</code></td>
+<td>Baseline method performance</td>
+<td>Paper comparison table</td>
+</tr>
+<tr>
+<td><code>{{DATA_FRACTION}}</code></td>
+<td>Data reduction factor</td>
+<td>Paper data efficiency claim</td>
+</tr>
+<tr>
+<td><code>{{TARGET_MODULES}}</code></td>
+<td>LoRA target modules</td>
+<td>Paper implementation details</td>
+</tr>
+<tr>
+<td><code>{{RESIDUAL_LR}}</code></td>
+<td>Residual learning rate</td>
+<td>Paper hyperparameters</td>
+</tr>
+<tr>
+<td><code>{{NUM_TRIALS}}</code></td>
+<td>Evaluation trials per task</td>
+<td>Paper evaluation protocol</td>
+</tr>
+<tr>
+<td><code>{{EPSILON}}</code></td>
+<td>Consistency tolerance</td>
+<td>Paper methods (e.g., 5%)</td>
+</tr>
+<tr>
+<td><code>{{PYTORCH_VERSION}}</code></td>
+<td>PyTorch version</td>
+<td>Paper reproducibility section</td>
+</tr>
+<tr>
+<td><code>{{PEFT_VERSION}}</code></td>
+<td>peft library version</td>
+<td>Paper reproducibility section</td>
+</tr>
+<tr>
+<td><code>{{BENCHMARK_PACKAGE}}</code></td>
+<td>Benchmark package name</td>
+<td>Depends on benchmark used</td>
+</tr>
+<tr>
+<td><code>{{BENCHMARK_VERSION}}</code></td>
+<td>Benchmark version</td>
+<td>Paper reproducibility section</td>
+</tr>
+<tr>
+<td><code>{{BASE_POLICY_PATH}}</code></td>
+<td>Path to base policy checkpoint</td>
+<td>User config</td>
+</tr>
+<tr>
+<td><code>{{TASK_NAME}}</code></td>
+<td>New task identifier</td>
+<td>User input</td>
+</tr>
+<tr>
+<td><code>{{RESIDUAL_POOL_DIR}}</code></td>
+<td>Directory containing residual pool</td>
+<td>Experiment output</td>
+</tr>
+<tr>
+<td><code>{{TASK_LIST}}</code></td>
+<td>Tasks to evaluate</td>
+<td>User config</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Visual Asset Placeholders:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Figure</th>
+<th>Description</th>
+<th>Priority</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>resmerge_pipeline.png</code></td>
+<td>Method pipeline diagram (digitized version of method.pdf)</td>
+<td>High</td>
+</tr>
+<tr>
+<td><code>resmerge_teaser.png</code></td>
+<td>Data/parameter efficiency comparison (digitized teaser_csq.pdf)</td>
+<td>High</td>
+</tr>
+<tr>
+<td><code>resmerge_ablation_tau.png</code></td>
+<td>Performance vs. merging threshold τ curves</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td><code>resmerge_residual_field_consistency.png</code></td>
+<td>Residual direction/magnitude analysis visualization</td>
+<td>Medium</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Note on Figures:</strong><br>
+Original figures created as <code>method.pdf</code> and <code>teaser_csq.pdf</code> for paper. For portfolio, convert to PNG format and place in assets folder.</p>
+<hr>
+<p><strong>References:</strong></p>
+<ul>
+<li><a href="https://arxiv.org/abs/2106.09685">LoRA: Low-Rank Adaptation</a></li>
+<li><a href="https://arxiv.org/abs/1909.08383">Continual Learning Survey</a></li>
+<li><a href="https://arxiv.org/abs/2203.05482">Parameter-Efficient Transfer Learning</a></li>
+<li><a href="https://lifelong-robot-learning.github.io/LIBERO/">LIBERO Benchmark</a></li>
+</ul>
+<p><strong>Related Projects:</strong></p>
+<ul>
+<li><a href="../rdt-libero/">RDT SFT on LIBERO</a> - RDT as base policy candidate for ResMerge; LoRA integration experience</li>
+<li><a href="../groot-libero-reproduction/">GR00T-N1.6 on LIBERO</a> - Alternative base policy candidate achieving 97.8% success</li>
+<li><a href="../rlinf-rdt-integration/">RLinf × RDT Integration</a> - RL framework integration experience applicable to ResMerge RL fine-tuning</li>
+</ul>
+<p><strong>Publication Status:</strong><br>
+{{PAPER_STATUS}} (e.g., "Submitted to ICML 2025", "Under Review", "Accepted")</p>
+<p><strong>Note:</strong> This page describes my contributions to the project (figures, experiments, reproducibility). Full method details, results, and claims will be available in the published paper.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright © 2024-2026 Tingjia Chen
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/chentingjia" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="mailto:{{YOUR_EMAIL}}" target="_blank" rel="noopener" title="" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M536.4-26.3c9.8-3.5 20.6-1 28 6.3s9.8 18.2 6.3 28l-178 496.9c-5 13.9-18.1 23.1-32.8 23.1-14.2 0-27-8.6-32.3-21.7l-64.2-158c-4.5-11-2.5-23.6 5.2-32.6l94.5-112.4c5.1-6.1 4.7-15-.9-20.6s-14.6-6-20.6-.9l-112.4 94.3c-9.1 7.6-21.6 9.6-32.6 5.2L38.1 216.8c-13.1-5.3-21.7-18.1-21.7-32.3 0-14.7 9.2-27.8 23.1-32.8z"></path></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>

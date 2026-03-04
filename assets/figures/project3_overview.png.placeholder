@@ -1,0 +1,51 @@
+PLACEHOLDER: project3_overview.png
+
+Create a comprehensive system diagram showing GR00T-N1.6 architecture + LIBERO interaction:
+
+**Top Section: GR00T Model Architecture**
+
+Left to right flow:
+1. **Inputs (3 streams):**
+   - Multi-view Images: cam_high + wrist camera (RGB)
+   - Language Instruction: "Pick up the red block and place it in the drawer"
+   - Robot State: 7-DoF joint positions + gripper state
+
+2. **Encoding Layer:**
+   - Visual Encoder (ViT) - marked FROZEN in gray
+   - Language Model (LLM) - marked FROZEN in gray
+   - State Encoder
+
+3. **Fusion Layer:**
+   - Projector - marked TRAINABLE in green
+   - Transformer Backbone (multimodal fusion)
+
+4. **Generation Layer:**
+   - Diffusion Decoder - marked TRAINABLE in green
+   - Eagle Decoder (action generator)
+
+5. **Output:**
+   - Action Sequence: 8 steps × (7-DoF + gripper)
+
+**Bottom Section: LIBERO Environment Loop**
+
+Circular flow:
+1. GR00T outputs actions → LIBERO environment
+2. Environment executes actions → updates state
+3. Environment renders observations → feed back to GR00T
+4. Check task success → log results
+
+**Annotations:**
+- Color coding: Gray boxes = FROZEN (1.6B params), Green boxes = TRAINABLE (1.6B params)
+- Arrow labels: "Multi-view RGB 224×224", "Text embedding", "Action tensor [8, 8]"
+- Data flow: Solid arrows for forward pass, dashed for training gradients
+
+**Style:**
+- Professional boxes and arrows layout
+- Clear visual hierarchy: inputs left → processing center → outputs right
+- Color scheme: Blues/grays for frozen, green for trainable, orange for environment
+- Font: Sans-serif, readable labels
+
+**Tools:** draw.io, Lucidchart, or Figma  
+**Resolution:** 1600px width × 1000px height, PNG format  
+**File size:** <500KB (optimize with TinyPNG)
+

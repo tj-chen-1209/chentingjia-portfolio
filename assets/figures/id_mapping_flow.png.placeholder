@@ -1,0 +1,14 @@
+PLACEHOLDER: id_mapping_flow.png
+
+Create a flowchart showing the ID↔Name mapping workflow:
+1. Node start
+2. Call GetDataDescriptionList()
+3. Parse 7 asset types (RigidBody, Skeleton, ForcePlate, Device, Asset, MarkerSet, Camera)
+4. Build assetNameToAssetID map
+5. Build assetIDToAssetName map
+6. User parameter 'rigid_name' → lookup ID
+7. Incoming frame with ID → lookup Name → verify → publish
+
+Style: Flowchart with decision diamonds and process boxes
+Tools: draw.io or Mermaid
+Resolution: 1200px width, PNG format
